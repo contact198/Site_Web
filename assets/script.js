@@ -90,5 +90,20 @@ if (form && status) {
       });
     }
   });
+/* === Custom English validation messages === */
+document.querySelectorAll('input[required], textarea[required]').forEach(input => {
+  input.addEventListener('invalid', () => {
+    if (input.validity.valueMissing) {
+      input.setCustomValidity('Please fill out this field.');
+    } else if (input.validity.typeMismatch && input.type === 'email') {
+      input.setCustomValidity('Please enter a valid email address.');
+    } else if (input.validity.tooShort) {
+      input.setCustomValidity(`Please enter at least ${input.minLength} characters.`);
+    } else {
+      input.setCustomValidity('');
+    }
+  });
+  input.addEventListener('input', () => input.setCustomValidity(''));
+});
 
 });
