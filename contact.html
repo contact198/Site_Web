@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Power Link</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script defer src="assets/script.js"></script>
+</head>
+<body>
+  
+  <header class="site-header">
+    <a class="logo" href="index.html">WWW<span>Powerlink</span></a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="presentation.html">About</a>
+      <a href="missions.html">Missions</a>
+      <a href="personnel.html">Team</a>
+      <a href="contact.html"><a href="contact.html" class="active">Contact</a></a>
+    </nav>
+  </header>
+
+  <main class="narrow">
+    <h1>Contact us</h1>
+    <p>Email: <a href="mailto:contact@wwwpowerlink.com">contact@wwwpowerlink.com</a></p>
+    <p>Phone: <a href="tel:+262000000">+262 00 00 00 00</a> <!-- replace with your real number --></p>
+    <p>Address: [[Add your full postal address here]]</p>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks! This is a static demo.');">
+      <label>Name <input required type="text" name="name" placeholder="Your name" /></label>
+      <label>Email <input required type="email" name="email" placeholder="you@example.com" /></label>
+      <label>Message <textarea required name="message" rows="5" placeholder="Your message…"></textarea></label>
+      <button type="submit" class="btn">Send</button>
+    </form>
+    <p class="note">For a live form, we can integrate Formspree, Netlify Forms, or a serverless function while keeping GitHub Pages hosting.</p>
+  </main>
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Power Link — All rights reserved.</p>
+  </footer>
+</body>
+</html>
