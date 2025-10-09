@@ -75,21 +75,31 @@ if (form && status) {
 }
 
 
-  /* === Transition entre les pages (effet Apple) === */
-  const links = document.querySelectorAll('a[href]');
-  links.forEach(link => {
-    const url = link.getAttribute('href');
-    // on ignore les liens externes ou ancres (#)
-    if (!url.startsWith('#') && !url.startsWith('http')) {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        document.body.classList.add('fade-out');
-        setTimeout(() => {
-          window.location.href = url;
-        }, 300); // durée du fondu avant changement de page
-      });
-    }
+ /* === Transition entre les pages (effet Apple) — version sûre === */
+const links = document.querySelectorAll('a[href]');
+links.forEach(link => {
+  const href = link.getAttribute('href') || '';
+
+  // On ignore : ancres, liens absolus, mailto, tel, fichiers à télécharger, nouvelles fenêtres, liens externes
+  const isAnchor   = href.startsWith('#');
+  const isAbsolute = /^https?:\/\//i.test(href);
+  const isMailTel  = /^(mailto:|tel:)/i.test(href);
+  const isDownload = link.hasAttribute('download');
+  const newWindow  = link.target === '_blank';
+  const isExternal = /\bexternal\b/i.test(link.rel);
+  const noFx       = link.dataset.noTransition === 'true'; // option: data-no-transition="true"
+
+  if (isAnchor || isAbsolute || isMailTel || isDownload || newWindow || isExternal || noFx) {
+    return;
+  }
+
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document.body.classList.add('fade-out');
+    setTimeout(() => { window.location.href = href; }, 300);
   });
+});
+
 /* === Custom English validation messages === */
 document.querySelectorAll('input[required], textarea[required]').forEach(input => {
   input.addEventListener('invalid', () => {
