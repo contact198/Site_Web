@@ -1,0 +1,62 @@
+/* Header Power Link centré + logo corrigé */
+.white-header{
+  height:100px;
+  padding:0 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#ffffff;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+.white-header .logo{
+  display:flex;
+  align-items:center;
+  height:100%;
+}
+.white-header .logo img{
+  height:90px;
+  width:auto;
+  display:block;
+  margin:0;
+  object-fit:contain;
+}
+.white-header .site-nav{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  height:100%;
+}
+.white-header .site-nav a{
+  color:#1D5336;
+  font-weight:600;
+  text-transform:uppercase;
+  font-size:15px;
+  position:relative;
+  transition:color .2s ease;
+}
+.white-header .site-nav a:hover,
+.white-header .site-nav a.active{ color:#69B779; }
+.white-header .site-nav a::after{
+  content:"";
+  position:absolute;
+  bottom:-6px;
+  left:0;
+  width:0;
+  height:2px;
+  background:#69B779;
+  transition:width .3s ease;
+}
+.white-header .site-nav a:hover::after,
+.white-header .site-nav a.active::after{ width:100%; }
+
+@media (max-width:980px){
+  .white-header{ height:85px; padding:0 16px; }
+  .white-header .logo img{ height:70px; }
+}
+@media (min-width:981px){
+  body{ background:#0F2A1F url('bg-texture.jpg') center/cover fixed no-repeat; }
+}
+@media (max-width:980px){
+  body{ background:#0F2A1F url('assets/mobile-bg.jpg') center/cover fixed no-repeat; }
+}
