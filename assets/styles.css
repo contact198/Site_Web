@@ -157,7 +157,7 @@ textarea{min-height:120px; resize:vertical}
   padding:10px 18px; border-bottom:1px solid rgba(0,0,0,.08);
   box-shadow:0 3px 8px rgba(0,0,0,.05);
 }
-.white-header .logo img{height:120px; width:auto; display:block}
+.white-header .logo img{height:1200px; width:auto; display:block}
 .white-header .site-nav{display:flex; gap:28px; align-items:center}
 .white-header .site-nav a{
   color:#1D5336; font-weight:600; letter-spacing:.5px; text-transform:uppercase; font-size:15px;
