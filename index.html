@@ -1,12 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Mon premier site</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WWW Powerlink — Accueil</title>
+  <meta name="description" content="Solutions web modernes et sur-mesure." />
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <h1>Bienvenue sur mon site 🌍</h1>
-  <p>Ce site est hébergé gratuitement sur GitHub Pages.</p>
-</body>
+  <header class="site-header">
+    <a class="logo" href="index.html">WWW<span>Powerlink</span></a>
+    <nav class="site-nav">
+      <a href="index.html" class="active">Accueil</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
+  <main>
+    <section class="hero">
+      <h1>Un site <em>unique</em>, sans template tout fait.</h1>
+      <p>Design épuré, performance et contrôle total — propulsé par GitHub Pages.</p>
+      <a class="btn" href="contact.html">Nous contacter</a>
+    </section>
+
+    <section class="features">
+      <article>
+        <h3>Rapide ⚡</h3>
+        <p>Site statique ultra-performant avec HTTPS gratuit.</p>
+      </article>
+      <article>
+        <h3>Flexible 🧩</h3>
+        <p>HTML/CSS/JS sur-mesure — aucune limite de design.</p>
+      </article>
+      <article>
+        <h3>Évolutif 🚀</h3>
+        <p>Ajoutez des pages/sections quand vous voulez.</p>
+      </article>
+    </section>
+
+    <section class="cta">
+      <h2>Parlons de votre projet</h2>
+      <p>Un besoin précis ? Une refonte ? Écrivons-nous.</p>
+      <a class="btn" href="mailto:contact@wwwpowerlink.com">contact@wwwpowerlink.com</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> WWW Powerlink — Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    // année auto dans le footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
