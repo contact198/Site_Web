@@ -69,11 +69,11 @@ a:hover { color:#E9FFB3; }
 
 /* ✅ LOGO agrandi sans changer la hauteur de la barre */
 .white-header .logo img {
-  height:80px;           /* taille réelle du logo */
+  height:100px;          /* taille réelle du logo */
   width:auto;
   display:block;
   position:relative;
-  top:-12px;             /* remonte légèrement pour équilibrer */
+  top:-20px;             /* le fait remonter pour garder la bande fine */
 }
 
 .white-header .site-nav {
@@ -282,8 +282,8 @@ a:hover { color:#E9FFB3; }
   .white-header .site-nav { display:none; }
   .menu-toggle { display:flex; }
   .white-header .logo img {
-    height:60px;    /* un peu plus petit sur mobile */
-    top:-8px;
+    height:75px;    /* un peu plus petit sur mobile */
+    top:-12px;
   }
   .features { grid-template-columns:1fr; }
 }
