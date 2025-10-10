@@ -1,55 +1,64 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Contact — Power Link</title>
-<link href="assets/styles.css" rel="stylesheet"/>
-<script defer="" src="assets/script.js"></script>
-<link href="assets/i18n.css" rel="stylesheet"/><script defer="True" src="assets/i18n.js"></script></head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Power Link</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script defer src="assets/script.js"></script>
+</head>
 <body>
-<header class="site-header white-header">
-<a class="logo" href="index.html">
-<img alt="Power Link" src="assets/LOGO.jpg"/>
-</a>
-<nav class="site-nav">
-<div class="lang-switch"><button aria-label="Switch to English" data-lang="en" onclick='setLanguage("en")'><img alt="English" src="assets/flags/gb.svg"/></button><button aria-label="التبديل للعربية" data-lang="ar" onclick='setLanguage("ar")'><img alt="العربية" src="assets/flags/sa.svg"/></button></div><a data-i18n="nav.home" href="index.html">HOME</a>
-<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
-<a data-i18n="nav.services" href="missions.html">SERVICES</a>
-<a data-i18n="nav.team" href="personnel.html">TEAM</a>
-<a class="active" data-i18n="nav.contact" href="contact.html">CONTACT</a>
-</nav>
-<button aria-label="Open menu" class="menu-toggle"><span></span></button>
-</header>
-<!-- Mobile Drawer -->
-<div aria-hidden="true" class="drawer" data-i18n="t.main_menu_homeabout_usservicesteamcontact">
-<div class="overlay"></div>
-<div class="panel" data-i18n="t.main_menu_homeabout_usservicesteamcontact">
-<h3 data-i18n="t.main_menu">MAIN MENU <button aria-label="Close" class="close-btn" data-i18n="t.9899bf33">✕</button></h3><div class="lang-switch"><button aria-label="Switch to English" data-lang="en" onclick='setLanguage("en")'><img alt="English" src="assets/flags/gb.svg"/></button><button aria-label="التبديل للعربية" data-lang="ar" onclick='setLanguage("ar")'><img alt="العربية" src="assets/flags/sa.svg"/></button></div>
-<a data-i18n="nav.home" href="index.html">HOME</a>
-<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
-<a data-i18n="nav.services" href="missions.html">SERVICES</a>
-<a data-i18n="nav.team" href="personnel.html">TEAM</a>
-<a data-i18n="nav.contact" href="contact.html">CONTACT</a>
-</div>
-</div>
-<main class="container section">
-<h1 data-i18n="contact.title">Contact us</h1>
-<p data-i18n="t.use_the_form_below_and_our_team_will_get_back_to_you_as_soon">Use the form below and our team will get back to you as soon as possible.</p>
-<form action="https://formspree.io/f/mblzaevw" id="contact-form" method="POST">
-<label><span class="i18n-label-text" data-i18n="contact.name">Name</span><input minlength="2" name="name" placeholder="Your name" required="" type="text"/>
-</label>
-<label><span class="i18n-label-text" data-i18n="contact.email">Email</span><input autocomplete="email" inputmode="email" name="email" placeholder="you@example.com" required="" type="email"/>
-</label>
-<label><span class="i18n-label-text" data-i18n="contact.subject">Subject</span><input minlength="2" name="subject" placeholder="Subject" required="" type="text"/>
-</label>
-<label><span class="i18n-label-text" data-i18n="contact.message">Message</span><textarea minlength="10" name="message" placeholder="How can we help?" required=""></textarea>
-</label>
-<button class="btn" data-i18n="contact.send" id="contact-submit" type="submit">Send message</button>
-<div class="note" id="form-status" style="display:none;margin-top:12px"></div>
+  <header class="site-header white-header">
+    <a class="logo" href="index.html">
+      <img src="assets/LOGO.jpg" alt="Power Link">
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">HOME</a>
+      <a href="presentation.html">ABOUT US</a>
+      <a href="missions.html">SERVICES</a>
+      <a href="personnel.html">TEAM</a>
+      <a href="contact.html" class="active">CONTACT</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Open menu"><span></span></button>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="panel">
+      <h3>MAIN MENU <button class="close-btn" aria-label="Close">✕</button></h3>
+      <a href="index.html">HOME</a>
+      <a href="presentation.html">ABOUT US</a>
+      <a href="missions.html">SERVICES</a>
+      <a href="personnel.html">TEAM</a>
+      <a href="contact.html">CONTACT</a>
+    </div>
+  </div>
+
+  <main class="container section">
+    <h1>Contact us</h1>
+    <p>Use the form below and our team will get back to you as soon as possible.</p>
+
+   <form id="contact-form" action="https://formspree.io/f/mblzaevw" method="POST">
+  <label>Name
+    <input type="text" name="name" required minlength="2" placeholder="Your name">
+  </label>
+  <label>Email
+    <input type="email" name="email" required placeholder="you@example.com" inputmode="email" autocomplete="email">
+  </label>
+  <label>Subject
+    <input type="text" name="subject" required minlength="2" placeholder="Subject">
+  </label>
+  <label>Message
+    <textarea name="message" required minlength="10" placeholder="How can we help?"></textarea>
+  </label>
+  <button class="btn" type="submit" id="contact-submit">Send message</button>
+  <div id="form-status" class="note" style="display:none;margin-top:12px"></div>
 </form>
-</main>
-<footer class="site-footer"><span data-i18n="footer.copyright_symbol">©</span> <span id="year"></span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span></footer>
+  </main>
+
+  <footer class="site-footer">
+    © <span id="year"></span> Power Link — All rights reserved.
+  </footer>
 </body>
 </html>
