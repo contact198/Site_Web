@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Contact — Power Link</title>
+<link href="assets/styles.css" rel="stylesheet"/>
+<script defer="" src="assets/script.js"></script>
+<link href="assets/i18n/i18n.css" rel="stylesheet"/><script defer="True" src="assets/i18n/i18n.js"></script></head>
+<body>
+<header class="site-header white-header">
+<a class="logo" href="index.html">
+<img alt="Power Link" src="assets/LOGO.jpg"/>
+</a>
+<nav class="site-nav">
+<a data-i18n="nav.home" href="index.html">HOME</a>
+<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
+<a data-i18n="nav.services" href="missions.html">SERVICES</a>
+<a data-i18n="nav.team" href="personnel.html">TEAM</a>
+<a class="active" data-i18n="nav.contact" href="contact.html">CONTACT</a>
+</nav>
+<button aria-label="Open menu" class="menu-toggle"><span></span></button>
+</header>
+<!-- Mobile Drawer -->
+<div aria-hidden="true" class="drawer">
+<div class="overlay"></div>
+<div class="panel">
+<h3>MAIN MENU <button aria-label="Close" class="close-btn">✕</button></h3>
+<a data-i18n="nav.home" href="index.html">HOME</a>
+<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
+<a data-i18n="nav.services" href="missions.html">SERVICES</a>
+<a data-i18n="nav.team" href="personnel.html">TEAM</a>
+<a data-i18n="nav.contact" href="contact.html">CONTACT</a>
+</div>
+</div>
+<main class="container section">
+<h1 data-i18n="contact.title">Contact us</h1>
+<p data-i18n="contact.lead">Use the form below and our team will get back to you as soon as possible.</p>
+<form action="https://formspree.io/f/mblzaevw" id="contact-form" method="POST">
+<label><span class="i18n-label-text" data-i18n="contact.name">Name</span><input data-i18n="contact.placeholder_name" minlength="2" name="name" placeholder="Your name" required="" type="text"/>
+</label>
+<label><span class="i18n-label-text" data-i18n="contact.email">Email</span><input autocomplete="email" data-i18n="contact.placeholder_email" inputmode="email" name="email" placeholder="you@example.com" required="" type="email"/>
+</label>
+<label><span class="i18n-label-text" data-i18n="contact.subject">Subject</span><input data-i18n="contact.subject" minlength="2" name="subject" placeholder="Subject" required="" type="text"/>
+</label>
+<label><span class="i18n-label-text" data-i18n="contact.message">Message</span><textarea data-i18n="contact.placeholder_message" minlength="10" name="message" placeholder="How can we help?" required=""></textarea>
+</label>
+<button class="btn" data-i18n="contact.send" id="contact-submit" type="submit">Send message</button>
+<div class="note" id="form-status" style="display:none;margin-top:12px"></div>
+</form>
+</main>
+<footer class="site-footer">
+    © <span id="year"></span><span data-i18n="footer.rights">Power Link — All rights reserved.</span></footer>
+</body>
+</html>
