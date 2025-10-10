@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Contact — Power Link</title>
+<link href="assets/styles.css" rel="stylesheet"/>
+<script defer="" src="assets/script.js"></script>
+<link href="assets/css/i18n.css" rel="stylesheet"/><script defer="True" src="assets/js/i18n.js"></script></head>
+<body>
+<header class="site-header white-header">
+<a class="logo" href="index.html">
+<img alt="Power Link" src="assets/LOGO.jpg"/>
+</a>
+<nav class="site-nav">
+<a data-i18n="nav.home" href="index.html">HOME</a>
+<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
+<a data-i18n="nav.services" href="missions.html">SERVICES</a>
+<a href="personnel.html">TEAM</a>
+<a class="active" data-i18n="nav.contact" href="contact.html">CONTACT</a>
+</nav><div class="lang-switch"><button aria-label="Switch to English" data-lang="en" onclick='setLanguage("en")'><img alt="English" src="assets/img/flags/gb.svg"/></button><button aria-label="التبديل للعربية" data-lang="ar" onclick='setLanguage("ar")'><img alt="العربية" src="assets/img/flags/sa.svg"/></button></div>
+<button aria-label="Open menu" class="menu-toggle"><span></span></button>
+</header>
+<!-- Mobile Drawer -->
+<div aria-hidden="true" class="drawer">
+<div class="overlay"></div>
+<div class="panel">
+<h3>MAIN MENU <button aria-label="Close" class="close-btn">✕</button></h3>
+<a data-i18n="nav.home" href="index.html">HOME</a>
+<a data-i18n="nav.about" href="presentation.html">ABOUT US</a>
+<a data-i18n="nav.services" href="missions.html">SERVICES</a>
+<a href="personnel.html">TEAM</a>
+<a data-i18n="nav.contact" href="contact.html">CONTACT</a>
+</div>
+</div>
+<main class="container section">
+<h1>Contact us</h1>
+<p>Use the form below and our team will get back to you as soon as possible.</p>
+<form action="https://formspree.io/f/mblzaevw" id="contact-form" method="POST">
+<label>Name
+    <input minlength="2" name="name" placeholder="Your name" required="" type="text"/>
+</label>
+<label>Email
+    <input autocomplete="email" inputmode="email" name="email" placeholder="you@example.com" required="" type="email"/>
+</label>
+<label>Subject
+    <input minlength="2" name="subject" placeholder="Subject" required="" type="text"/>
+</label>
+<label>Message
+    <textarea minlength="10" name="message" placeholder="How can we help?" required=""></textarea>
+</label>
+<button class="btn" id="contact-submit" type="submit">Send message</button>
+<div class="note" id="form-status" style="display:none;margin-top:12px"></div>
+</form>
+</main>
+<footer class="site-footer">
+    © <span id="year"></span> Power Link — All rights reserved.
+  </footer>
+</body>
+</html>
