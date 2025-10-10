@@ -105,6 +105,9 @@
     "contact.placeholder_subject": "الموضوع",
     "contact.placeholder_message": "كيف يمكننا المساعدة؟",
     "contact.send": "إرسال الرسالة",
-    "footer.rights": "باور لينك — جميع الحقوق محفوظة."
+    "footer.rights": "باور لينك — جميع الحقوق محفوظة.",
+     "contact.thanks": "شكرًا لك! تم إرسال رسالتك. سيتواصل فريقنا معك في أقرب وقت ممكن.",
+"contact.error": "عذرًا، حدث خطأ. حاول مرة أخرى أو تواصل معنا مباشرة."
+
   }
 }
