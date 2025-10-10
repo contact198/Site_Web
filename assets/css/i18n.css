@@ -1,0 +1,8 @@
+
+.lang-switch{display:flex;gap:.5rem;align-items:center}
+.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;overflow:hidden;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.lang-switch button.active{outline:2px solid #0ea5e9; outline-offset:2px}
+.lang-switch img{width:24px;height:24px;display:block}
+@media (max-width: 768px){
+  .lang-switch{margin-left:.5rem}
+}
