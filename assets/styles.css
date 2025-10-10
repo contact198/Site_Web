@@ -329,3 +329,19 @@ body.fade-out { opacity:0; }
 .lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
   display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .lang-switch img{width:24px;height:24px;display:block}
+
+/* === FORCE FLAG VISIBILITY === */
+.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
+.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
+.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Drawer (mobile) */
+.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
+.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
+.site-nav img{display:inline-block}
+
+/* Si un overflow coupe la zone à gauche du HOME */
+.site-nav{overflow:visible}
+
