@@ -4,3 +4,7 @@
 .lang-switch button.active{outline:2px solid #0ea5e9; outline-offset:2px}
 .lang-switch img{width:24px;height:24px;display:block}
 .site-nav{display:flex;gap:1rem;align-items:center}
+@media (max-width: 768px){
+  .site-header .site-nav > .lang-switch{display:none;}
+  .drawer .lang-switch{display:flex;margin:12px 0 8px;gap:.6rem}
+}

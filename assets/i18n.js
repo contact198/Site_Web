@@ -15,17 +15,31 @@
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', pack.dir || 'ltr');
       localStorage.setItem('lang', lang);
+
       document.querySelectorAll('[data-i18n]').forEach(el=>{
         const key = el.getAttribute('data-i18n');
         const t = (pack.translations||{})[key];
-        if(typeof t === 'string'){
-          if(el.matches('input,textarea')){
-            el.placeholder = t;
-          } else {
-            el.textContent = t;
+        if(typeof t !== 'string') return;
+
+        if(el.matches('input,textarea')){ el.placeholder = t; return; }
+
+        if(el.matches('label') && el.querySelector('input,textarea,select')){
+          let span = el.querySelector('.i18n-label-text');
+          if(!span){
+            span = document.createElement('span');
+            span.className = 'i18n-label-text';
+            el.insertBefore(span, el.firstChild);
           }
+          span.textContent = t;
+          return;
         }
+
+        const span = el.querySelector(':scope > .i18n-text');
+        if(span){ span.textContent = t; return; }
+
+        el.textContent = t;
       });
+
       document.querySelectorAll('.lang-switch button').forEach(btn=>{
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
