@@ -309,3 +309,23 @@ a:hover { color:#E9FFB3; }
 body { opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out { opacity:0; }
 
+/* Position flags dans la nav desktop */
+.site-header .site-nav > .lang-switch{
+  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
+}
+
+/* Drawer : flags alignés à droite de MAIN MENU */
+.drawer .panel .header-row{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.drawer .panel .header-row .lang-switch{
+  display:inline-flex; gap:.5rem;
+}
+
+/* Mobile : on cache les flags de la nav du haut, on utilise ceux du drawer */
+@media (max-width:768px){
+  .site-header .site-nav > .lang-switch{ display:none; }
+}
+.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.lang-switch img{width:24px;height:24px;display:block}
