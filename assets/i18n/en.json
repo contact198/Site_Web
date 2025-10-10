@@ -105,6 +105,9 @@
     "contact.placeholder_subject": "Subject",
     "contact.placeholder_message": "How can we help?",
     "contact.send": "Send message",
-    "footer.rights": "Power Link — All rights reserved."
+    "footer.rights": "Power Link — All rights reserved.",
+    "contact.thanks": "Thank you! Your message has been sent. Our team will get back to you as soon as possible.",
+"contact.error": "Sorry, something went wrong. Please try again or contact us directly."
+
   }
 }
