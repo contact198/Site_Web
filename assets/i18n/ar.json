@@ -1,0 +1,16 @@
+{
+  "langName": "العربية",
+  "dir": "rtl",
+  "translations": {
+    "nav.home": "الصفحة الرئيسية",
+    "nav.about": "من نحن",
+    "nav.services": "الخدمات",
+    "nav.products": "المنتجات",
+    "nav.projects": "المشاريع",
+    "nav.pricing": "الأسعار",
+    "nav.contact": "اتصل بنا",
+    "nav.blog": "المدونة",
+    "cta.contact_us": "تواصل معنا",
+    "footer.rights": "جميع الحقوق محفوظة."
+  }
+}
