@@ -1,40 +1,112 @@
-
 /* ===== POWER LINK — SCRIPT ===== */
 document.addEventListener('DOMContentLoaded', () => {
-  /* === Year in footer === */
+  /* === Année automatique dans le footer === */
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 
-  /* === Drawer (mobile menu) === */
+  /* === Drawer menu (mobile) === */
   const toggle = document.querySelector('.menu-toggle');
   const drawer = document.querySelector('.drawer');
-  const overlay = drawer ? drawer.querySelector('.overlay') : null;
-  const closeBtn = drawer ? drawer.querySelector('.close-btn') : null;
+  if (toggle && drawer) {
+    const open = () => drawer.classList.add('open');
+    const close = () => drawer.classList.remove('open');
+    toggle.addEventListener('click', open);
+    drawer.querySelector('.overlay')?.addEventListener('click', close);
+    drawer.querySelector('.close-btn')?.addEventListener('click', close);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  }
 
-  const openDrawer = () => {
-    if (!drawer) return;
-    drawer.classList.add('open');
-    drawer.setAttribute('aria-hidden', 'false');
-    document.documentElement.style.overflow = 'hidden';
-  };
-  const closeDrawer = () => {
-    if (!drawer) return;
-    drawer.classList.remove('open');
-    drawer.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-  };
+  /* === Formulaire de contact (Formspree) — validation stricte === */
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('contact-submit');
 
-  if (toggle) toggle.addEventListener('click', openDrawer);
-  if (overlay) overlay.addEventListener('click', closeDrawer);
-  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (form && status) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  // Close on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDrawer();
+      // Trim des champs
+      const fd = new FormData(form);
+      ['name','email','subject','message'].forEach(k => {
+        const v = (fd.get(k) || '').toString().trim();
+        fd.set(k, v);
+      });
+      for (const [k,v] of fd.entries()) {
+        const el = form.querySelector(`[name="${k}"]`);
+        if (el && typeof el.value === 'string') el.value = v;
+      }
+
+      // Validation native
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Envoi
+      status.style.display = 'block';
+      status.textContent = 'Sending...';
+      submitBtn?.setAttribute('disabled','disabled');
+
+      try {
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (resp.ok) {
+          status.textContent = '✅ Thank you! Your message has been sent. Our team will get back to you as soon as possible.';
+          form.reset();
+        } else {
+          let msg = '⚠️ Something went wrong. Please try again later.';
+          try {
+            const j = await resp.json();
+            if (j && j.errors) msg = j.errors.map(e => e.message).join(', ');
+          } catch {}
+          status.textContent = msg;
+        }
+      } catch {
+        status.textContent = '⚠️ Network error. Please try again.';
+      } finally {
+        submitBtn?.removeAttribute('disabled');
+      }
+    });
+  }
+
+  /* === Transition entre les pages (effet Apple) — version sûre === */
+  const links = document.querySelectorAll('a[href]');
+  links.forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const isAnchor   = href.startsWith('#');
+    const isAbsolute = /^https?:\/\//i.test(href);
+    const isMailTel  = /^(mailto:|tel:)/i.test(href);
+    const isDownload = link.hasAttribute('download');
+    const newWindow  = link.target === '_blank';
+    const isExternal = /\bexternal\b/i.test(link.rel);
+    const noFx       = link.dataset.noTransition === 'true';
+
+    if (isAnchor || isAbsolute || isMailTel || isDownload || newWindow || isExternal || noFx) return;
+
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
   });
 
-  // Close when a link in the panel is clicked
-  if (drawer) {
-    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
-  }
+  /* === Custom English validation messages === */
+  document.querySelectorAll('input[required], textarea[required]').forEach(input => {
+    input.addEventListener('invalid', () => {
+      if (input.validity.valueMissing) {
+        input.setCustomValidity('Please fill out this field.');
+      } else if (input.validity.typeMismatch && input.type === 'email') {
+        input.setCustomValidity('Please enter a valid email address.');
+      } else if (input.validity.tooShort) {
+        input.setCustomValidity(`Please enter at least ${input.minLength} characters.`);
+      } else {
+        input.setCustomValidity('');
+      }
+    });
+    input.addEventListener('input', () => input.setCustomValidity(''));
+  });
 });
