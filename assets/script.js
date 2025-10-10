@@ -1,4 +1,4 @@
-/* ===== POWER LINK — SCRIPT ===== */
+/* ===== POWER LINK — SCRIPT (multilingue) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   /* === Année automatique dans le footer === */
   const y = document.getElementById('year');
@@ -16,7 +16,38 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
-  /* === Formulaire de contact (Formspree) — validation stricte === */
+  /* ====== i18n helpers (utilise window.i18n si dispo) ====== */
+  const getLang = () => (window.i18n?.lang?.() || localStorage.getItem('lang') || 'en');
+
+  const MESSAGES = {
+    en: {
+      sending: 'Sending…',
+      thanks: '✅ Thank you! Your message has been sent. Our team will get back to you as soon as possible.',
+      error_generic: '⚠️ Something went wrong. Please try again later.',
+      network: '⚠️ Network error. Please try again.',
+      v_required: 'Please fill out this field.',
+      v_email: 'Please enter a valid email address.',
+      v_min: (n) => `Please enter at least ${n} characters.`
+    },
+    ar: {
+      sending: 'جارٍ الإرسال…',
+      thanks: '✅ شكرًا لك! تم إرسال رسالتك. سيتواصل فريقنا معك في أقرب وقت ممكن.',
+      error_generic: '⚠️ حدث خطأ ما. يُرجى المحاولة لاحقًا.',
+      network: '⚠️ خطأ في الشبكة. يُرجى المحاولة مرة أخرى.',
+      v_required: 'يُرجى تعبئة هذه الخانة.',
+      v_email: 'يُرجى إدخال بريد إلكتروني صالح.',
+      v_min: (n) => `يُرجى إدخال ${n} أحرف على الأقل.`
+    }
+  };
+
+  const tMsg = (key, ...args) => {
+    const lang = getLang();
+    const pack = MESSAGES[lang] || MESSAGES.en;
+    const val = pack[key];
+    return (typeof val === 'function') ? val(...args) : (val || key);
+  };
+
+  /* === Formulaire de contact (Formspree) — envoi + messages traduits === */
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   const submitBtn = document.getElementById('contact-submit');
@@ -36,15 +67,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el && typeof el.value === 'string') el.value = v;
       }
 
-      // Validation native
-      if (!form.checkValidity()) {
+      // Validation native avec messages localisés
+      const inputs = form.querySelectorAll('input[required], textarea[required]');
+      inputs.forEach(input => input.setCustomValidity('')); // reset avant check
+      let invalidFound = false;
+      inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          if (input.validity.valueMissing) {
+            input.setCustomValidity(tMsg('v_required'));
+          } else if (input.validity.typeMismatch && input.type === 'email') {
+            input.setCustomValidity(tMsg('v_email'));
+          } else if (input.validity.tooShort) {
+            input.setCustomValidity(tMsg('v_min', input.minLength || 2));
+          }
+          invalidFound = true;
+        }
+      });
+      if (invalidFound) {
         form.reportValidity();
         return;
       }
 
       // Envoi
       status.style.display = 'block';
-      status.textContent = 'Sending...';
+      status.textContent = tMsg('sending');
       submitBtn?.setAttribute('disabled','disabled');
 
       try {
@@ -55,18 +101,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (resp.ok) {
-          status.textContent = '✅ Thank you! Your message has been sent. Our team will get back to you as soon as possible.';
+          status.textContent = tMsg('thanks');
           form.reset();
         } else {
-          let msg = '⚠️ Something went wrong. Please try again later.';
+          let msg = tMsg('error_generic');
           try {
             const j = await resp.json();
-            if (j && j.errors) msg = j.errors.map(e => e.message).join(', ');
+            if (j && j.errors) {
+              // Si Formspree renvoie des messages anglais, on garde notre message générique localisé
+              msg = tMsg('error_generic');
+            }
           } catch {}
           status.textContent = msg;
         }
       } catch {
-        status.textContent = '⚠️ Network error. Please try again.';
+        status.textContent = tMsg('network');
       } finally {
         submitBtn?.removeAttribute('disabled');
       }
@@ -94,15 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* === Custom English validation messages === */
+  /* === Messages de validation (runtime) si le navigateur ré-évalue après input === */
   document.querySelectorAll('input[required], textarea[required]').forEach(input => {
     input.addEventListener('invalid', () => {
       if (input.validity.valueMissing) {
-        input.setCustomValidity('Please fill out this field.');
+        input.setCustomValidity(tMsg('v_required'));
       } else if (input.validity.typeMismatch && input.type === 'email') {
-        input.setCustomValidity('Please enter a valid email address.');
+        input.setCustomValidity(tMsg('v_email'));
       } else if (input.validity.tooShort) {
-        input.setCustomValidity(`Please enter at least ${input.minLength} characters.`);
+        input.setCustomValidity(tMsg('v_min', input.minLength || 2));
       } else {
         input.setCustomValidity('');
       }
