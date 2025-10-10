@@ -53,4 +53,14 @@
     I18N.apply(I18N.current);
     const y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear();
   });
+  // Petit helper global pour traduire dans d'autres scripts
+window.i18n = {
+  lang: () => localStorage.getItem('lang') || 'en',
+  t: (key) => {
+    const lang = localStorage.getItem('lang') || 'en';
+    const pack = (I18N.data && I18N.data[lang]) ? I18N.data[lang] : null;
+    return (pack && pack.translations && pack.translations[key]) || key;
+  }
+};
+
 })();
