@@ -1,362 +1,327 @@
-/* ========= POWER LINK — FINAL PRO UI ========= */
+/* =========================================================
+   POWER LINK — STYLES PRINCIPAUX + TRANSITIONS PREMIUM
+   ========================================================= */
 
-/* --- Palette --- */
-:root {
-  --green-900:#0F2A1F;
-  --green-800:#123223;
-  --green-700:#16402B;
-  --green-600:#1D5336;
-  --green-500:#2A6B45;
-  --green-300:#69B779;
-  --green-200:#BDEBC7;
-  --white:#ffffff;
-  --muted:#C8D6CE;
-  --radius:16px;
-  --shadow:0 10px 30px rgba(0,0,0,.35);
+/* === RESET DE BASE === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* --- Reset + Base --- */
-* { box-sizing:border-box; }
-html, body {
-  margin:0;
-  padding:0;
-  background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
-  color:var(--white);
-  font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  scroll-behavior:smooth;
-}
-a { color:var(--green-200); text-decoration:none; transition:color .2s ease; }
-a:hover { color:#E9FFB3; }
-
-/* --- Buttons --- */
-.btn {
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:14px;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--green-300),#E8FFC7);
-  color:#0f2a1f;
-  border:none;
-  box-shadow:var(--shadow);
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.btn:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.4); }
-.btn.secondary {
-  background:rgba(255,255,255,.08);
-  color:var(--white);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:none;
+html {
+  scroll-behavior: smooth;
 }
 
-/* --- Layout --- */
-.container { max-width:1180px; margin:0 auto; padding:0 22px; }
-.section { padding:52px 0; }
-
-/* --- Header : White Professional --- */
-.white-header {
-  background:#ffffff;
-  border-bottom:1px solid rgba(0,0,0,0.08);
-  box-shadow:0 3px 8px rgba(0,0,0,0.05);
-  color:#16402B;
-  position:sticky;
-  top:0;
-  z-index:200;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 18px;
-  height:90px;
+body {
+  font-family: "Poppins", Arial, sans-serif;
+  color: #222;
+  background-color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* ✅ Logo centré et bien visible */
-.white-header .logo img {
-  height:60px;  /* environ 2/3 du bandeau */
-  width:auto;
-  display:block;
-  object-fit:contain;
-  margin-top:2px;
+/* === TYPO === */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: #111;
 }
 
-.white-header .site-nav {
-  display:flex;
-  gap:28px;
-  align-items:center;
-}
-.white-header .site-nav a {
-  color:#1D5336;
-  font-weight:600;
-  letter-spacing:0.5px;
-  text-transform:uppercase;
-  font-size:15px;
-  position:relative;
-  transition:color .2s ease;
-}
-.white-header .site-nav a:hover,
-.white-header .site-nav a.active { color:#69B779; }
-.white-header .site-nav a::after {
-  content:"";
-  position:absolute;
-  bottom:-6px;
-  left:0;
-  width:0%;
-  height:2px;
-  background:#69B779;
-  transition:width 0.3s ease;
-}
-.white-header .site-nav a:hover::after,
-.white-header .site-nav a.active::after { width:100%; }
-
-/* --- Hamburger --- */
-.menu-toggle {
-  display:none;
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  border:1px solid rgba(0,0,0,.08);
-  background:#fff;
-  justify-content:center;
-  align-items:center;
-}
-.menu-toggle span,
-.menu-toggle span::before,
-.menu-toggle span::after {
-  display:block;
-  width:22px;
-  height:2px;
-  background:#1D5336;
-  content:"";
-  position:relative;
-}
-.menu-toggle span::before {
-  position:absolute;
-  transform:translateY(-6px);
-  width:22px;
-  height:2px;
-  background:#1D5336;
-}
-.menu-toggle span::after {
-  position:absolute;
-  transform:translateY(6px);
-  width:22px;
-  height:2px;
-  background:#1D5336;
+p {
+  margin-bottom: 1rem;
 }
 
-/* --- Drawer Mobile Menu --- */
+a {
+  color: #0078ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #005fcc;
+}
+
+/* === LAYOUT === */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === HEADER === */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 100;
+  background: #fff;
+  transition: background 0.3s ease;
+}
+
+.site-header.white-header {
+  background: #fff;
+}
+
+.site-header .logo img {
+  height: 45px;
+  width: auto;
+}
+
+.site-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  font-weight: 500;
+  color: #333;
+}
+
+.site-nav a:hover {
+  color: #0078ff;
+}
+
+/* === LANG SWITCH (Drapeaux) === */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.lang-switch button:hover {
+  transform: scale(1.1);
+}
+
+.lang-switch img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* === FOOTER === */
+footer {
+  background: #0a0f1c;
+  color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #fff;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* === FORMULAIRE DE CONTACT === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input, textarea, button {
+  font-family: inherit;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #0078ff;
+  outline: none;
+}
+
+button {
+  background: #0078ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #005fcc;
+}
+
+/* === DRAWER MENU (Mobile) === */
 .drawer {
-  position:fixed;
-  inset:0;
-  z-index:300;
-  pointer-events:none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
 }
+
+.drawer.open {
+  transform: translateX(0);
+}
+
 .drawer .overlay {
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  opacity:0;
-  transition:opacity .25s ease;
-}
-.drawer .panel {
-  position:absolute;
-  top:0;
-  right:-80%;
-  width:78%;
-  max-width:380px;
-  height:100%;
-  background:#fff;
-  box-shadow:-10px 0 30px rgba(0,0,0,.25);
-  display:flex;
-  flex-direction:column;
-  padding:18px;
-  gap:8px;
-  transition:right .25s ease;
-}
-.drawer.open { pointer-events:auto; }
-.drawer.open .overlay { opacity:1; }
-.drawer.open .panel { right:0; }
-
-.drawer .panel h3 {
-  margin:4px 0 8px;
-  color:#1D5336;
-  font-size:16px;
-  letter-spacing:.3px;
-  font-weight:700;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.drawer .panel a {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  text-decoration:none;
-  color:#374151;
-  padding:14px 10px;
-  border-top:1px solid #eee;
-  text-transform:uppercase;
-  letter-spacing:.3px;
-  font-weight:600;
-  font-size:15px;
-}
-.drawer .panel a:first-of-type { border-top:none; }
-
-/* --- Sections / Content --- */
-.hero { text-align:center; padding:84px 20px 40px; }
-.hero h1 {
-  font-size:clamp(30px,5vw,56px);
-  margin:0 0 12px;
-  line-height:1.2;
-  filter:drop-shadow(0 6px 22px rgba(0,0,0,.28));
-}
-.hero p { color:var(--muted); max-width:880px; margin:0 auto; }
-
-.card {
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:var(--radius);
-  padding:20px;
-  box-shadow:var(--shadow);
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.card:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.45); }
-
-.features {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-.features article {
-  padding:18px;
-  border-radius:14px;
-  background:rgba(255,255,255,.06);
-  transition:transform .18s ease;
-}
-.features article:hover { transform:translateY(-2px); }
-
-.table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:14px; }
-.table th,.table td {
-  padding:12px 14px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  text-align:left;
-}
-.table th { color:var(--muted); font-weight:700; }
-
-.note {
-  background:rgba(255,255,255,.05);
-  border:1px dashed rgba(255,255,255,.14);
-  padding:14px;
-  border-radius:12px;
-  color:var(--muted);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
 }
 
-/* --- Footer --- */
-.site-footer {
-  padding:40px 20px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid rgba(255,255,255,.08);
-  margin-top:44px;
+.drawer .content {
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
 }
 
-/* --- Cookie consent --- */
-#cookie-consent {
-  position:fixed;
-  left:14px; right:14px; bottom:14px;
-  z-index:9999;
-  background:linear-gradient(180deg,rgba(10,20,15,.92),rgba(10,20,15,.86));
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(8px);
-  border-radius:16px;
-  box-shadow:0 10px 26px rgba(0,0,0,.45);
-  color:#fff;
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
 }
-#cookie-consent .cc-inner {
-  display:flex; gap:12px;
-  align-items:center; justify-content:space-between;
-  padding:12px;
-}
-#cookie-consent p { margin:0; color:var(--muted); }
-#cookie-consent .cc-actions { display:flex; gap:8px; flex-wrap:wrap; }
 
-/* --- Responsive --- */
-@media (max-width:980px){
-  .white-header .site-nav { display:none; }
-  .menu-toggle { display:flex; }
-  .white-header .logo img {
-    height:45px;
-    margin-top:1px;
+@media (max-width: 768px) {
+  .site-nav ul {
+    display: none;
   }
-  .features { grid-template-columns:1fr; }
-}
-
-/* ===== Fond différent selon l'appareil ===== */
-
-/* 💻 Ordinateur : fond papier froissé */
-@media (min-width: 981px) {
-  body {
-    background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
+  .menu-toggle {
+    display: block;
   }
 }
 
-/* 📱 Mobile : fond vert lisse */
-@media (max-width: 980px) {
-  body {
-    background: #0F2A1F url('assets/mobile-bg.jpg') center/cover fixed no-repeat;
-  }
+/* =========================================================
+   PREMIUM PAGE OVERLAY — EFFET LUXE
+   ========================================================= */
+
+/* Couleur principale de l'overlay (modifie ici pour un ton personnalisé) */
+:root {
+  --overlay-bg: #ffffff;
 }
 
-/* ===== Page transition effet Apple ===== */
-body { opacity:1; transition:opacity .5s ease-in-out; }
-body.fade-out { opacity:0; }
-
-/* Position flags dans la nav desktop */
-.site-header .site-nav > .lang-switch{
-  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
+/* Overlay plein écran */
+.page-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  z-index: 9999;
+  pointer-events: none;
+  transform: translateY(0);
 }
 
-/* Drawer : flags alignés à droite de MAIN MENU */
-.drawer .panel .header-row{
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
-}
-.drawer .panel .header-row .lang-switch{
-  display:inline-flex; gap:.5rem;
+/* Dévoilement (sort vers le bas à l'ouverture) */
+@keyframes overlay-exit-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
 }
 
-/* Mobile : on cache les flags de la nav du haut, on utilise ceux du drawer */
-@media (max-width:768px){
-  .site-header .site-nav > .lang-switch{ display:none; }
-}
-.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
-  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
-.lang-switch img{width:24px;height:24px;display:block}
-
-/* === FORCE FLAG VISIBILITY === */
-.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
-.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
-.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
-
-/* Drawer (mobile) */
-.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
-.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
-
-/* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
-.site-nav img{display:inline-block}
-
-/* Si un overflow coupe la zone à gauche du HOME */
-.site-nav{overflow:visible}
-.slide-in {
-  animation: slideDown 0.9s ease-out;
+/* Couverture (entre pages) */
+@keyframes overlay-cover-down {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0); }
 }
 
-@keyframes slideDown {
+/* Apparition de la page */
+.body-ready .page-overlay {
+  animation: overlay-exit-down 0.7s cubic-bezier(.22,.9,.24,1) forwards;
+}
+
+/* Disparition avant navigation */
+.body-cover .page-overlay {
+  animation: overlay-cover-down 0.4s ease forwards;
+}
+
+/* Contenu qui glisse */
+@keyframes slideDownIn {
   from {
     opacity: 0;
     transform: translateY(-80px);
+    filter: blur(2px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
+.slide-in {
+  animation: slideDownIn 0.9s cubic-bezier(.22,.9,.24,1) both;
+}
 
+/* Optimisation du rendu */
+body {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  overflow-x: hidden;
+}
+
+/* Accessibilité : animations réduites */
+@media (prefers-reduced-motion: reduce) {
+  .page-overlay { transform: translateY(100%) !important; }
+  .body-ready .page-overlay,
+  .body-cover .page-overlay { animation: none !important; }
+  .slide-in { animation: none !important; }
+}
+
+/* =========================================================
+   DIVERS — SECTIONS GÉNÉRALES
+   ========================================================= */
+
+section {
+  padding: 5rem 0;
+}
+
+section.dark {
+  background: #0a0f1c;
+  color: #fff;
+}
+
+section.dark a {
+  color: #fff;
+}
+
+section.dark a:hover {
+  text-decoration: underline;
+}
+
+/* Boutons secondaires */
+.btn-outline {
+  background: transparent;
+  color: #0078ff;
+  border: 2px solid #0078ff;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: #0078ff;
+  color: #fff;
+}
