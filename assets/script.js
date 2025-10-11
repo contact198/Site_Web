@@ -1,4 +1,4 @@
-/* ===== POWER LINK — SCRIPT (multilingue) ===== */
+/* ===== POWER LINK — SCRIPT (multilingue + transitions) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   /* === Année automatique dans le footer === */
   const y = document.getElementById('year');
@@ -107,10 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let msg = tMsg('error_generic');
           try {
             const j = await resp.json();
-            if (j && j.errors) {
-              // Si Formspree renvoie des messages anglais, on garde notre message générique localisé
-              msg = tMsg('error_generic');
-            }
+            if (j && j.errors) msg = tMsg('error_generic');
           } catch {}
           status.textContent = msg;
         }
@@ -122,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* === Transition entre les pages (effet Apple) — version sûre === */
+  /* === Transition entre les pages (effet Apple) === */
   const links = document.querySelectorAll('a[href]');
   links.forEach(link => {
     const href = link.getAttribute('href') || '';
@@ -143,7 +140,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* === Messages de validation (runtime) si le navigateur ré-évalue après input === */
+  /* === Animation d’entrée de la page === */
+  const isHome = document.body?.dataset?.route === 'home' || document.body?.id === 'home';
+  if (isHome) {
+    requestAnimationFrame(() => {
+      document.body.classList.add('slide-in');
+    });
+  } else {
+    // Si tu veux l'effet sur toutes les pages, commente le if et laisse uniquement :
+    // requestAnimationFrame(() => document.body.classList.add('slide-in'));
+  }
+
+  /* === Gestion du retour historique (pageshow) === */
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      document.body.classList.remove('fade-out');
+      document.body.classList.remove('slide-in');
+    }
+  });
+
+  /* === Messages de validation dynamiques === */
   document.querySelectorAll('input[required], textarea[required]').forEach(input => {
     input.addEventListener('invalid', () => {
       if (input.validity.valueMissing) {
@@ -158,9 +174,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     input.addEventListener('input', () => input.setCustomValidity(''));
   });
-  document.addEventListener('DOMContentLoaded', () => {
-  const page = document.body;
-  page.classList.add('slide-in');
-});
-
 });
