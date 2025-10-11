@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
-  /* ====== i18n helpers (utilise window.i18n si dispo) ====== */
+  /* === Multilingue (i18n helpers) === */
   const getLang = () => (window.i18n?.lang?.() || localStorage.getItem('lang') || 'en');
 
   const MESSAGES = {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return (typeof val === 'function') ? val(...args) : (val || key);
   };
 
-  /* === Formulaire de contact (Formspree) — envoi + messages traduits === */
+  /* === Formulaire de contact === */
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   const submitBtn = document.getElementById('contact-submit');
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.prepend(overlay);
   }
 
-  // Dévoilement à l'arrivée
+  // Dévoilement initial
   requestAnimationFrame(() => {
     document.body.classList.add('body-ready');
   });
@@ -146,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     link.addEventListener('click', (e) => {
       e.preventDefault();
-
       document.body.classList.remove('body-ready');
       document.body.classList.add('body-cover');
 
@@ -162,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Retour historique (BFCache)
+  // Retour historique
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) {
       document.body.classList.remove('body-cover');
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Animation du contenu à l'ouverture
+  // Slide-in pour la home
   const isHome = document.body?.dataset?.route === 'home' || document.body?.id === 'home';
   if (isHome) {
     requestAnimationFrame(() => { document.body.classList.add('slide-in'); });
