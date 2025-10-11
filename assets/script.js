@@ -1,4 +1,4 @@
-/* ===== POWER LINK — SCRIPT (multilingue + transitions) ===== */
+/* ===== POWER LINK — SCRIPT (multilingue + premium transitions) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   /* === Année automatique dans le footer === */
   const y = document.getElementById('year');
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Trim des champs
       const fd = new FormData(form);
       ['name','email','subject','message'].forEach(k => {
         const v = (fd.get(k) || '').toString().trim();
@@ -67,9 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el && typeof el.value === 'string') el.value = v;
       }
 
-      // Validation native avec messages localisés
       const inputs = form.querySelectorAll('input[required], textarea[required]');
-      inputs.forEach(input => input.setCustomValidity('')); // reset avant check
+      inputs.forEach(input => input.setCustomValidity(''));
       let invalidFound = false;
       inputs.forEach(input => {
         if (!input.checkValidity()) {
@@ -88,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Envoi
       status.style.display = 'block';
       status.textContent = tMsg('sending');
       submitBtn?.setAttribute('disabled','disabled');
@@ -119,9 +116,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* === Transition entre les pages (effet Apple) === */
-  const links = document.querySelectorAll('a[href]');
-  links.forEach(link => {
+  /* === PREMIUM Overlay Transitions === */
+  let overlay = document.querySelector('.page-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'page-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.prepend(overlay);
+  }
+
+  // Dévoilement à l'arrivée
+  requestAnimationFrame(() => {
+    document.body.classList.add('body-ready');
+  });
+
+  // Navigation interne
+  const navLinks = document.querySelectorAll('a[href]');
+  navLinks.forEach(link => {
     const href = link.getAttribute('href') || '';
     const isAnchor   = href.startsWith('#');
     const isAbsolute = /^https?:\/\//i.test(href);
@@ -133,33 +144,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isAnchor || isAbsolute || isMailTel || isDownload || newWindow || isExternal || noFx) return;
 
-    link.addEventListener('click', e => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      document.body.classList.add('fade-out');
-      setTimeout(() => { window.location.href = href; }, 300);
+
+      document.body.classList.remove('body-ready');
+      document.body.classList.add('body-cover');
+
+      const go = () => { window.location.href = href; };
+      const onEnd = (evt) => {
+        if (evt.target === overlay) {
+          overlay.removeEventListener('animationend', onEnd);
+          go();
+        }
+      };
+      overlay.addEventListener('animationend', onEnd);
+      setTimeout(go, 450);
     });
   });
 
-  /* === Animation d’entrée de la page === */
-  const isHome = document.body?.dataset?.route === 'home' || document.body?.id === 'home';
-  if (isHome) {
-    requestAnimationFrame(() => {
-      document.body.classList.add('slide-in');
-    });
-  } else {
-    // Si tu veux l'effet sur toutes les pages, commente le if et laisse uniquement :
-    // requestAnimationFrame(() => document.body.classList.add('slide-in'));
-  }
-
-  /* === Gestion du retour historique (pageshow) === */
+  // Retour historique (BFCache)
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) {
-      document.body.classList.remove('fade-out');
-      document.body.classList.remove('slide-in');
+      document.body.classList.remove('body-cover');
+      document.body.classList.add('body-ready');
     }
   });
 
-  /* === Messages de validation dynamiques === */
+  // Animation du contenu à l'ouverture
+  const isHome = document.body?.dataset?.route === 'home' || document.body?.id === 'home';
+  if (isHome) {
+    requestAnimationFrame(() => { document.body.classList.add('slide-in'); });
+  }
+
+  /* === Validation dynamique === */
   document.querySelectorAll('input[required], textarea[required]').forEach(input => {
     input.addEventListener('invalid', () => {
       if (input.validity.valueMissing) {
