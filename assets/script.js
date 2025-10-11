@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.setCustomValidity('');
       }
     });
-    input.addEventListener('input', () => input.setCustomValidity('');
+    input.addEventListener('input', () => input.setCustomValidity(''));
   });
 
   /* === Animation d’entrée de la page (ajout) === */
