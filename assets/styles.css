@@ -1,327 +1,252 @@
 /* =========================================================
-   POWER LINK — STYLES PRINCIPAUX + TRANSITIONS PREMIUM
+   POWER LINK — STYLES COMPLETS (base légère + transitions premium)
+   Objectif : conserver ton esthétique existante, éviter les overrides agressifs.
+   ---------------------------------------------------------
+   - Ne force ni police ni couleurs globales (hérite de ton thème existant)
+   - Fournit le layout courant (header/nav/drawer/form/footer)
+   - Intègre l’overlay premium + slide-in contenu
    ========================================================= */
 
-/* === RESET DE BASE === */
+/* =============== Variables (couleurs/espaces) =============== */
+:root{
+  --pl-primary: #0078ff;
+  --pl-primary-hover:#005fcc;
+  --pl-dark:#0a0f1c;
+  --pl-muted:#666;
+  --pl-border:#ddd;
+  --pl-radius:12px;
+  --pl-space: min(4vw, 24px);
+
+  /* overlay color — change ici si tu veux un rideau coloré */
+  --overlay-bg:#ffffff;
+}
+
+/* =============== Base soft (non destructive) =============== */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  line-height:1.6;
+  overflow-x:hidden;             /* anti-scroll horizontal */
+  backface-visibility:hidden;    /* perf */
+  will-change:transform,opacity; /* perf */
 }
 
-html {
-  scroll-behavior: smooth;
+/* Liens : conserve ta couleur si déjà définie */
+a{ text-decoration:none; transition:color .25s ease; }
+a:hover{ color:var(--pl-primary); }
+
+/* Contrainte de largeur */
+.container{ width:90%; max-width:1200px; margin:0 auto; }
+
+/* =============== Header / Navigation =============== */
+.site-header{
+  position:relative;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: clamp(12px, 2vw, 20px) var(--pl-space);
+  background:inherit; /* laisse la couleur existante */
 }
 
-body {
-  font-family: "Poppins", Arial, sans-serif;
-  color: #222;
-  background-color: #fff;
-  line-height: 1.6;
-  overflow-x: hidden;
+.site-header .logo img{
+  height: clamp(36px, 4vw, 48px);
+  width:auto;
 }
 
-/* === TYPO === */
-h1, h2, h3, h4 {
-  font-weight: 600;
-  color: #111;
+.site-nav ul{
+  display:flex;
+  gap: clamp(12px, 2vw, 24px);
+  list-style:none;
+  align-items:center;
 }
 
-p {
-  margin-bottom: 1rem;
+.site-nav a{
+  font-weight:500;
+  color:inherit; /* n’écrase pas ta couleur de texte */
+  opacity:.9;
+}
+.site-nav a:hover{ opacity:1; color:var(--pl-primary); }
+
+/* =============== Sélecteur de langue (drapeaux) =============== */
+.lang-switch{ display:flex; align-items:center; gap:10px; }
+.lang-switch button{
+  background:none; border:none; cursor:pointer;
+  display:grid; place-items:center;
+  width:36px; height:36px; border-radius:999px;
+  outline-offset:2px; transition:transform .15s ease, box-shadow .2s ease;
+  box-shadow:0 0 0 2px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.08);
+}
+.lang-switch button:hover{ transform:translateY(-1px); }
+.lang-switch img{ width:24px; height:24px; border-radius:999px; object-fit:cover; }
+
+/* =============== Drawer (mobile) =============== */
+.menu-toggle{ display:none; background:none; border:none; }
+@media (max-width: 960px){
+  .site-nav ul{ display:none; }
+  .menu-toggle{ display:inline-flex; align-items:center; gap:8px; }
 }
 
-a {
-  color: #0078ff;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.drawer{
+  position:fixed; inset:0; z-index:1000;
+  transform:translateX(-100%); transition:transform .3s ease;
 }
+.drawer.open{ transform:translateX(0); }
 
-a:hover {
-  color: #005fcc;
+.drawer .overlay{
+  position:absolute; inset:0; background:rgba(0,0,0,.4);
 }
+.drawer .panel{
+  position:absolute; top:0; left:0; height:100%; width:min(80%, 360px);
+  background:#fff; padding:24px;
+  box-shadow: 8px 0 24px rgba(0,0,0,.15);
+}
+.drawer .close-btn{ background:none; border:none; font-size:20px; }
 
-/* === LAYOUT === */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+/* =============== Sections / Utilitaires =============== */
+section{ padding: clamp(48px, 8vw, 96px) 0; }
+.section-tight{ padding: clamp(32px, 6vw, 64px) 0; }
+.section-dark{ background:var(--pl-dark); color:#fff; }
+.section-dark a{ color:#fff; text-decoration:underline; }
 
-/* === HEADER === */
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  position: relative;
-  z-index: 100;
-  background: #fff;
-  transition: background 0.3s ease;
+/* =============== Boutons =============== */
+button, .btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.5rem; cursor:pointer; user-select:none;
+  padding:.8rem 1.2rem; border:none; border-radius:var(--pl-radius);
+  background:var(--pl-primary); color:#fff; font:inherit;
+  transition:background .25s ease, transform .06s ease;
 }
+button:hover, .btn:hover{ background:var(--pl-primary-hover); }
+button:active, .btn:active{ transform:translateY(1px); }
 
-.site-header.white-header {
-  background: #fff;
+/* Variant outline */
+.btn-outline{
+  background:transparent; color:var(--pl-primary);
+  border:2px solid var(--pl-primary);
 }
+.btn-outline:hover{ background:var(--pl-primary); color:#fff; }
 
-.site-header .logo img {
-  height: 45px;
-  width: auto;
+/* =============== Formulaires =============== */
+form{ display:grid; gap:14px; }
+input, textarea, select{
+  font:inherit; color:inherit; background:#fff;
+  width:100%; padding:.8rem 1rem; border-radius:10px;
+  border:1px solid var(--pl-border); transition:border-color .2s ease, box-shadow .2s ease;
 }
+input:focus, textarea:focus, select:focus{
+  outline:none; border-color:var(--pl-primary);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--pl-primary) 25%, transparent);
+}
+textarea{ min-height:140px; resize:vertical; }
+#form-status{ display:none; margin-top:.25rem; font-size:.95rem; color:inherit; }
 
-.site-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
+/* =============== Footer =============== */
+footer{
+  background:var(--pl-dark);
+  color:#fff;
+  padding: clamp(32px, 6vw, 64px) var(--pl-space);
+  text-align:center;
+  font-size:.95rem;
 }
-
-.site-nav a {
-  font-weight: 500;
-  color: #333;
-}
-
-.site-nav a:hover {
-  color: #0078ff;
-}
-
-/* === LANG SWITCH (Drapeaux) === */
-.lang-switch {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.lang-switch button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.lang-switch button:hover {
-  transform: scale(1.1);
-}
-
-.lang-switch img {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* === FOOTER === */
-footer {
-  background: #0a0f1c;
-  color: #fff;
-  padding: 3rem 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-footer a {
-  color: #fff;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-/* === FORMULAIRE DE CONTACT === */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-input, textarea, button {
-  font-family: inherit;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border 0.2s ease;
-}
-
-input:focus, textarea:focus {
-  border-color: #0078ff;
-  outline: none;
-}
-
-button {
-  background: #0078ff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.9rem 1.2rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background: #005fcc;
-}
-
-/* === DRAWER MENU (Mobile) === */
-.drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 1000;
-}
-
-.drawer.open {
-  transform: translateX(0);
-}
-
-.drawer .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.4);
-}
-
-.drawer .content {
-  position: relative;
-  z-index: 10;
-  padding: 2rem;
-}
-
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-}
-
-@media (max-width: 768px) {
-  .site-nav ul {
-    display: none;
-  }
-  .menu-toggle {
-    display: block;
-  }
-}
+footer a{ color:#fff; text-decoration:underline; }
 
 /* =========================================================
-   PREMIUM PAGE OVERLAY — EFFET LUXE
+   PREMIUM PAGE TRANSITIONS (Overlay + Slide-in)
+   — minimal, scoped, safe —
    ========================================================= */
 
-/* Couleur principale de l'overlay (modifie ici pour un ton personnalisé) */
-:root {
-  --overlay-bg: #ffffff;
+/* Rideau plein écran (créé par le JS si absent dans le HTML) */
+.page-overlay{
+  position:fixed; inset:0; background:var(--overlay-bg);
+  z-index:9999; pointer-events:none; transform:translateY(0);
 }
 
-/* Overlay plein écran */
-.page-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--overlay-bg);
-  z-index: 9999;
-  pointer-events: none;
-  transform: translateY(0);
+/* Dévoilement au chargement (le rideau “descend” vers le bas) */
+@keyframes overlay-exit-down{
+  from{ transform:translateY(0); }
+  to  { transform:translateY(100%); }
 }
 
-/* Dévoilement (sort vers le bas à l'ouverture) */
-@keyframes overlay-exit-down {
-  from { transform: translateY(0); }
-  to   { transform: translateY(100%); }
+/* Couverture avant navigation (le rideau arrive par le haut) */
+@keyframes overlay-cover-down{
+  from{ transform:translateY(-100%); }
+  to  { transform:translateY(0); }
 }
 
-/* Couverture (entre pages) */
-@keyframes overlay-cover-down {
-  from { transform: translateY(-100%); }
-  to   { transform: translateY(0); }
+/* Le JS ajoute .body-ready une fois prêt ⇒ on dévoile */
+.body-ready .page-overlay{
+  animation: overlay-exit-down .7s cubic-bezier(.22,.9,.24,1) forwards;
 }
 
-/* Apparition de la page */
-.body-ready .page-overlay {
-  animation: overlay-exit-down 0.7s cubic-bezier(.22,.9,.24,1) forwards;
+/* Avant de quitter la page, le JS ajoute .body-cover ⇒ on couvre */
+.body-cover .page-overlay{
+  animation: overlay-cover-down .4s ease forwards;
 }
 
-/* Disparition avant navigation */
-.body-cover .page-overlay {
-  animation: overlay-cover-down 0.4s ease forwards;
+/* Animation douce du contenu (utilisée sur la Home) */
+@keyframes slideDownIn{
+  from{ opacity:0; transform:translateY(-80px); filter:blur(2px); }
+  to  { opacity:1; transform:translateY(0);     filter:blur(0); }
+}
+.slide-in{
+  animation: slideDownIn .9s cubic-bezier(.22,.9,.24,1) both;
 }
 
-/* Contenu qui glisse */
-@keyframes slideDownIn {
-  from {
-    opacity: 0;
-    transform: translateY(-80px);
-    filter: blur(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-.slide-in {
-  animation: slideDownIn 0.9s cubic-bezier(.22,.9,.24,1) both;
-}
-
-/* Optimisation du rendu */
-body {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  overflow-x: hidden;
-}
-
-/* Accessibilité : animations réduites */
-@media (prefers-reduced-motion: reduce) {
-  .page-overlay { transform: translateY(100%) !important; }
+/* Accessibilité : réduire le mouvement si demandé par l’utilisateur */
+@media (prefers-reduced-motion: reduce){
+  .page-overlay{ transform:translateY(100%) !important; }
   .body-ready .page-overlay,
-  .body-cover .page-overlay { animation: none !important; }
-  .slide-in { animation: none !important; }
+  .body-cover .page-overlay{ animation:none !important; }
+  .slide-in{ animation:none !important; }
 }
 
 /* =========================================================
-   DIVERS — SECTIONS GÉNÉRALES
+   Grille utilitaire (optionnel, pour cartes/services)
    ========================================================= */
-
-section {
-  padding: 5rem 0;
+.grid{
+  display:grid; gap: clamp(16px, 2.5vw, 28px);
+  grid-template-columns: repeat(12, 1fr);
+}
+.col-12{ grid-column: span 12; }
+.col-6 { grid-column: span 6; }
+.col-4 { grid-column: span 4; }
+.col-3 { grid-column: span 3; }
+@media (max-width: 1024px){
+  .col-lg-12{ grid-column: span 12; }
+  .col-lg-6 { grid-column: span 6; }
+}
+@media (max-width: 768px){
+  .col-md-12{ grid-column: span 12; }
+  .col-md-6 { grid-column: span 6; }
+  .grid{ grid-template-columns: repeat(6, 1fr); }
 }
 
-section.dark {
-  background: #0a0f1c;
-  color: #fff;
+/* =========================================================
+   Cartes (cards) — look propre, respecte couleurs existantes
+   ========================================================= */
+.card{
+  background:#fff; color:inherit; border:1px solid var(--pl-border);
+  border-radius:16px; padding: clamp(16px, 3vw, 24px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  transition: transform .18s ease, box-shadow .18s ease;
 }
+.card:hover{ transform:translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
+.card h3{ margin-bottom:.35rem; }
 
-section.dark a {
-  color: #fff;
+/* =========================================================
+   Hero spacing helpers (si ton hero est large)
+   ========================================================= */
+.hero{
+  padding-top: clamp(64px, 12vw, 140px);
+  padding-bottom: clamp(48px, 10vw, 120px);
 }
+.hero .actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 1rem; }
 
-section.dark a:hover {
-  text-decoration: underline;
-}
-
-/* Boutons secondaires */
-.btn-outline {
-  background: transparent;
-  color: #0078ff;
-  border: 2px solid #0078ff;
-  border-radius: 8px;
-  padding: 0.8rem 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-outline:hover {
-  background: #0078ff;
-  color: #fff;
-}
+/* =========================================================
+   Fin du fichier
+   ========================================================= */
