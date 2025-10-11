@@ -158,4 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     input.addEventListener('input', () => input.setCustomValidity(''));
   });
+  document.addEventListener('DOMContentLoaded', () => {
+  const page = document.body;
+  page.classList.add('slide-in');
+});
+
 });
