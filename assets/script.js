@@ -1,4 +1,5 @@
-/* ===== POWER LINK — SCRIPT (multilingue) ===== */
+<script>
+/* ===== POWER LINK — SCRIPT (multilingue + transitions premium) ===== */
 document.addEventListener('DOMContentLoaded', () => {
   /* === Année automatique dans le footer === */
   const y = document.getElementById('year');
@@ -8,12 +9,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const drawer = document.querySelector('.drawer');
   if (toggle && drawer) {
+    const overlay  = drawer.querySelector('.overlay');
+    const closeBtn = drawer.querySelector('.close-btn');
+
     const open = () => drawer.classList.add('open');
     const close = () => drawer.classList.remove('open');
+
     toggle.addEventListener('click', open);
-    drawer.querySelector('.overlay')?.addEventListener('click', close);
-    drawer.querySelector('.close-btn')?.addEventListener('click', close);
+    overlay?.addEventListener('click', close);
+    closeBtn?.addEventListener('click', close);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    // Verrouille le scroll de l’arrière-plan quand le drawer est ouvert (notamment iOS)
+    const lockScroll = (lock) => {
+      document.documentElement.style.overflow = lock ? 'hidden' : '';
+      document.body.style.overflow = lock ? 'hidden' : '';
+      document.body.style.touchAction = lock ? 'none' : '';
+    };
+    const mo = new MutationObserver(() => lockScroll(drawer.classList.contains('open')));
+    mo.observe(drawer, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* ====== i18n helpers (utilise window.i18n si dispo) ====== */
@@ -107,10 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let msg = tMsg('error_generic');
           try {
             const j = await resp.json();
-            if (j && j.errors) {
-              // Si Formspree renvoie des messages anglais, on garde notre message générique localisé
-              msg = tMsg('error_generic');
-            }
+            if (j && j.errors) msg = tMsg('error_generic');
           } catch {}
           status.textContent = msg;
         }
@@ -122,7 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* === Transition entre les pages (effet Apple) — version sûre === */
+  /* === Transitions entre pages (effet Apple — version sûre) === */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const links = document.querySelectorAll('a[href]');
   links.forEach(link => {
     const href = link.getAttribute('href') || '';
@@ -137,13 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isAnchor || isAbsolute || isMailTel || isDownload || newWindow || isExternal || noFx) return;
 
     link.addEventListener('click', e => {
+      if (reduceMotion) return; // respect accessibilité
       e.preventDefault();
       document.body.classList.add('fade-out');
-      setTimeout(() => { window.location.href = href; }, 300);
+      setTimeout(() => { window.location.href = href; }, 250);
     });
   });
 
-  /* === Messages de validation (runtime) si le navigateur ré-évalue après input === */
+  /* === Messages de validation (runtime) === */
   document.querySelectorAll('input[required], textarea[required]').forEach(input => {
     input.addEventListener('invalid', () => {
       if (input.validity.valueMissing) {
@@ -159,8 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', () => input.setCustomValidity(''));
   });
 
-  /* === Animation d’entrée de la page (ajout) === */
+  /* === Animation d’entrée de la page === */
   requestAnimationFrame(() => {
     document.body.classList.add('slide-in');
   });
+
+  /* === Retour via l’historique (bfcache) — évite le flash === */
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      document.body.classList.remove('fade-out');
+      document.body.classList.add('slide-in');
+    }
+  });
 });
+</script>
