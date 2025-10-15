@@ -225,3 +225,50 @@ body.fade-out{opacity:0}
 }
 .slide-in{animation:slideDownIn .72s cubic-bezier(.22,.9,.24,1) both}
 @media (prefers-reduced-motion:reduce){.slide-in{animation:none}body{transition:none}}
+
+/* === Drawer: flags collés à la croix (LTR & RTL) === */
+
+/* Par défaut (LTR) : flags + X à droite, côte à côte */
+.drawer .panel .header-row{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;   /* tout pousse à droite */
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Les drapeaux ne sont plus en position absolue */
+.drawer .panel .lang-switch{
+  position: static;            /* quitte le mode absolute précédent */
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-inline-end: 6px;      /* petit espace avant la croix */
+}
+
+/* Taille des pastilles (un peu plus compact) */
+.drawer .panel .lang-switch button{
+  width: 32px;
+  height: 32px;
+}
+
+/* La croix n'est plus poussée par un margin auto */
+.drawer .panel .close-btn{
+  margin: 0;
+}
+
+/* RTL : tout passe à gauche, flags juste à côté de la croix */
+html[dir="rtl"] .drawer .panel .header-row{
+  justify-content: flex-start;   /* on colle à gauche */
+}
+
+html[dir="rtl"] .drawer .panel .close-btn{
+  order: 1;                      /* la croix en premier */
+}
+
+html[dir="rtl"] .drawer .panel .lang-switch{
+  order: 2;                      /* les drapeaux juste après la croix */
+  margin-inline-start: 6px;      /* petit espace après la croix */
+  margin-inline-end: 0;
+}
