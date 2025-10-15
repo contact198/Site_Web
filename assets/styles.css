@@ -1,4 +1,4 @@
-/* ========= POWER LINK — FINAL PRO UI (premium flags + fond propre) ========= */
+/* ========= POWER LINK — FINAL PRO UI ========= */
 
 /* --- Palette --- */
 :root {
@@ -16,36 +16,15 @@
 }
 
 /* --- Reset + Base --- */
-* { box-sizing:border-box; margin:0; padding:0; }
-
+* { box-sizing:border-box; }
 html, body {
+  margin:0;
+  padding:0;
+  background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
   color:var(--white);
   font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   scroll-behavior:smooth;
-  min-height:100%;
-  position:relative;
 }
-
-/* === Fond papier froissé — tuile répétée === */
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background-color: var(--green-900);
-  background-image: url('assets/bg-texture.jpg');
-  background-repeat: repeat;
-  background-position: top left;
-  background-size: auto; /* pas de zoom */
-}
-
-/* === Mobile : fond vert lisse === */
-@media (max-width: 980px) {
-  body::before {
-    background: #0F2A1F url('assets/mobile-bg.jpg') center/cover no-repeat;
-  }
-}
-
 a { color:var(--green-200); text-decoration:none; transition:color .2s ease; }
 a:hover { color:#E9FFB3; }
 
@@ -89,16 +68,15 @@ a:hover { color:#E9FFB3; }
   height:90px;
 }
 
-/* ✅ Logo */
+/* ✅ Logo centré et bien visible */
 .white-header .logo img {
-  height:60px;
+  height:60px;  /* environ 2/3 du bandeau */
   width:auto;
   display:block;
   object-fit:contain;
   margin-top:2px;
 }
 
-/* === Navigation === */
 .white-header .site-nav {
   display:flex;
   gap:28px;
@@ -149,8 +127,20 @@ a:hover { color:#E9FFB3; }
   content:"";
   position:relative;
 }
-.menu-toggle span::before { position:absolute; transform:translateY(-6px); }
-.menu-toggle span::after { position:absolute; transform:translateY(6px); }
+.menu-toggle span::before {
+  position:absolute;
+  transform:translateY(-6px);
+  width:22px;
+  height:2px;
+  background:#1D5336;
+}
+.menu-toggle span::after {
+  position:absolute;
+  transform:translateY(6px);
+  width:22px;
+  height:2px;
+  background:#1D5336;
+}
 
 /* --- Drawer Mobile Menu --- */
 .drawer {
@@ -184,6 +174,31 @@ a:hover { color:#E9FFB3; }
 .drawer.open { pointer-events:auto; }
 .drawer.open .overlay { opacity:1; }
 .drawer.open .panel { right:0; }
+
+.drawer .panel h3 {
+  margin:4px 0 8px;
+  color:#1D5336;
+  font-size:16px;
+  letter-spacing:.3px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.drawer .panel a {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-decoration:none;
+  color:#374151;
+  padding:14px 10px;
+  border-top:1px solid #eee;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+  font-weight:600;
+  font-size:15px;
+}
+.drawer .panel a:first-of-type { border-top:none; }
 
 /* --- Sections / Content --- */
 .hero { text-align:center; padding:84px 20px 40px; }
@@ -243,55 +258,104 @@ a:hover { color:#E9FFB3; }
   margin-top:44px;
 }
 
+/* --- Cookie consent --- */
+#cookie-consent {
+  position:fixed;
+  left:14px; right:14px; bottom:14px;
+  z-index:9999;
+  background:linear-gradient(180deg,rgba(10,20,15,.92),rgba(10,20,15,.86));
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(8px);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+  color:#fff;
+}
+#cookie-consent .cc-inner {
+  display:flex; gap:12px;
+  align-items:center; justify-content:space-between;
+  padding:12px;
+}
+#cookie-consent p { margin:0; color:var(--muted); }
+#cookie-consent .cc-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
 /* --- Responsive --- */
 @media (max-width:980px){
   .white-header .site-nav { display:none; }
   .menu-toggle { display:flex; }
-  .white-header .logo img { height:45px; margin-top:1px; }
+  .white-header .logo img {
+    height:45px;
+    margin-top:1px;
+  }
   .features { grid-template-columns:1fr; }
+}
+
+/* ===== Fond différent selon l'appareil ===== */
+
+/* 💻 Ordinateur : fond papier froissé */
+@media (min-width: 981px) {
+  body {
+    background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
+  }
+}
+
+/* 📱 Mobile : fond vert lisse */
+@media (max-width: 980px) {
+  body {
+    background: #0F2A1F url('assets/mobile-bg.jpg') center/cover fixed no-repeat;
+  }
 }
 
 /* ===== Page transition effet Apple ===== */
 body { opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out { opacity:0; }
 
-/* ======== LANG SWITCH (drapeaux ronds premium) ======== */
-.lang-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Position flags dans la nav desktop */
+.site-header .site-nav > .lang-switch{
+  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
 }
 
-.lang-switch button {
-  background: #fff;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  width: 40px;         /* taille raffinée */
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+/* Drawer : flags alignés à droite de MAIN MENU */
+.drawer .panel .header-row{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.drawer .panel .header-row .lang-switch{
+  display:inline-flex; gap:.5rem;
 }
 
-.lang-switch button:hover {
-  transform: scale(1.05);
-  border-color: #69B779;
-  box-shadow: 0 0 6px rgba(105,183,121,0.4);
+/* Mobile : on cache les flags de la nav du haut, on utilise ceux du drawer */
+@media (max-width:768px){
+  .site-header .site-nav > .lang-switch{ display:none; }
 }
+.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.lang-switch img{width:24px;height:24px;display:block}
 
-.lang-switch img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+/* === FORCE FLAG VISIBILITY === */
+.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
+.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
+.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
 
 /* Drawer (mobile) */
-.drawer .header-row .lang-switch {
-  display:inline-flex !important; 
-  gap:.5rem;
+.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
+.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
+.site-nav img{display:inline-block}
+
+/* Si un overflow coupe la zone à gauche du HOME */
+.site-nav{overflow:visible}
+
+
+/* === Animation d’entrée depuis le haut (ajout) === */
+@keyframes slideDownIn {
+  from { opacity: 0; transform: translateY(-80px); filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+.slide-in {
+  animation: slideDownIn 0.9s cubic-bezier(.22,.9,.24,1) both;
+}
+
+/* Accessibilité : réduit les animations si demandé */
+@media (prefers-reduced-motion: reduce) {
+  .slide-in { animation: none; }
 }
