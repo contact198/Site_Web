@@ -215,3 +215,55 @@ body.fade-out { opacity: 0; }
 
 /* --- Scroll lock --- */
 body.drawer-open { overflow: hidden; }
+
+/* ======= FIX: alignement drapeaux + bouton de fermeture ======= */
+
+/* Conteneur de la rangée dans le drawer */
+.drawer .panel .header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Drapeaux dans le drawer */
+.drawer .panel .lang-switch {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Bouton de fermeture (X) */
+.drawer .close-btn {
+  background: rgba(240,240,240,0.8);
+  border: none;
+  color: #1D5336;
+  font-weight: 700;
+  font-size: 18px;
+  border-radius: 100px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s ease;
+  margin-left: 12px;
+}
+.drawer .close-btn:hover {
+  background: #69B779;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Ajustement mobile : un peu plus d’air en haut */
+@media (max-width: 768px) {
+  .drawer .panel {
+    padding-top: 28px;
+  }
+  .drawer .panel .header-row {
+    margin-bottom: 24px;
+  }
+}
+
