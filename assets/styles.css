@@ -70,7 +70,7 @@ a:hover { color:#E9FFB3; }
 
 /* ✅ Logo centré et bien visible */
 .white-header .logo img {
-  height:60px;
+  height:60px;  /* environ 2/3 du bandeau */
   width:auto;
   display:block;
   object-fit:contain;
@@ -249,4 +249,113 @@ a:hover { color:#E9FFB3; }
   color:var(--muted);
 }
 
-/* --- F*
+/* --- Footer --- */
+.site-footer {
+  padding:40px 20px;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid rgba(255,255,255,.08);
+  margin-top:44px;
+}
+
+/* --- Cookie consent --- */
+#cookie-consent {
+  position:fixed;
+  left:14px; right:14px; bottom:14px;
+  z-index:9999;
+  background:linear-gradient(180deg,rgba(10,20,15,.92),rgba(10,20,15,.86));
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(8px);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+  color:#fff;
+}
+#cookie-consent .cc-inner {
+  display:flex; gap:12px;
+  align-items:center; justify-content:space-between;
+  padding:12px;
+}
+#cookie-consent p { margin:0; color:var(--muted); }
+#cookie-consent .cc-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* --- Responsive --- */
+@media (max-width:980px){
+  .white-header .site-nav { display:none; }
+  .menu-toggle { display:flex; }
+  .white-header .logo img {
+    height:45px;
+    margin-top:1px;
+  }
+  .features { grid-template-columns:1fr; }
+}
+
+/* ===== Fond différent selon l'appareil ===== */
+
+/* 💻 Ordinateur : fond papier froissé */
+@media (min-width: 981px) {
+  body {
+    background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
+  }
+}
+
+/* 📱 Mobile : fond vert lisse */
+@media (max-width: 980px) {
+  body {
+    background: #0F2A1F url('assets/mobile-bg.jpg') center/cover fixed no-repeat;
+  }
+}
+
+/* ===== Page transition effet Apple ===== */
+body { opacity:1; transition:opacity .5s ease-in-out; }
+body.fade-out { opacity:0; }
+
+/* Position flags dans la nav desktop */
+.site-header .site-nav > .lang-switch{
+  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
+}
+
+/* Drawer : flags alignés à droite de MAIN MENU */
+.drawer .panel .header-row{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.drawer .panel .header-row .lang-switch{
+  display:inline-flex; gap:.5rem;
+}
+
+/* Mobile : on cache les flags de la nav du haut, on utilise ceux du drawer */
+@media (max-width:768px){
+  .site-header .site-nav > .lang-switch{ display:none; }
+}
+.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.lang-switch img{width:24px;height:24px;display:block}
+
+/* === FORCE FLAG VISIBILITY === */
+.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
+.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
+.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Drawer (mobile) */
+.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
+.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
+.site-nav img{display:inline-block}
+
+/* Si un overflow coupe la zone à gauche du HOME */
+.site-nav{overflow:visible}
+
+
+/* === Animation d’entrée depuis le haut (ajout) === */
+@keyframes slideDownIn {
+  from { opacity: 0; transform: translateY(-80px); filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+.slide-in {
+  animation: slideDownIn 0.9s cubic-bezier(.22,.9,.24,1) both;
+}
+
+/* Accessibilité : réduit les animations si demandé */
+@media (prefers-reduced-motion: reduce) {
+  .slide-in { animation: none; }
+}
