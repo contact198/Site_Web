@@ -326,18 +326,6 @@ body.fade-out { opacity:0; }
 @media (max-width:768px){
   .site-header .site-nav > .lang-switch{ display:none; }
 }
-.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
-  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
-.lang-switch img{width:24px;height:24px;display:block}
-
-/* === FORCE FLAG VISIBILITY === */
-.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
-.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
-.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
-
-/* Drawer (mobile) */
-.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
-.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
 
 /* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
 .site-nav img{display:inline-block}
@@ -358,4 +346,51 @@ body.fade-out { opacity:0; }
 /* Accessibilité : réduit les animations si demandé */
 @media (prefers-reduced-motion: reduce) {
   .slide-in { animation: none; }
+}
+
+
+/* ===== FLAGS — taille parfaitement identique visuellement ===== */
+:root { 
+  --flag-size: 50px; /* ajuste ici pour la taille globale (ex: 44, 50, 56) */
+}
+
+.site-header .site-nav .lang-switch > *,
+.drawer .panel .header-row .lang-switch > * {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:var(--flag-size) !important;
+  height:var(--flag-size) !important;
+  border-radius:12px !important;       /* rectangle à coins arrondis */
+  padding:0 !important;
+  margin:0 !important;
+  background:#fff !important;
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.12) !important;
+  overflow:hidden !important;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+/* On zoome légèrement l'image (utile pour 🇬🇧 qui est 2:1) pour un rendu identique */
+.site-header .site-nav .lang-switch > * img,
+.drawer .panel .header-row .lang-switch > * img {
+  width:115% !important;               /* compense le ratio horizontal du UK */
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  display:block !important;
+}
+
+/* Hover + langue active (optionnels) */
+.site-header .site-nav .lang-switch > *:hover,
+.drawer .panel .header-row .lang-switch > *:hover {
+  transform:scale(1.07);
+  box-shadow:0 0 0 2px rgba(25,167,255,.45) !important;
+}
+.lang-switch > .is-active {
+  box-shadow:0 0 0 2px #19a7ff !important;
+}
+
+/* Un peu plus compact sur mobile */
+@media (max-width: 768px){
+  :root{ --flag-size: 44px; }
 }
