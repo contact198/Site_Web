@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
-  /* ====== i18n helpers (utilise window.i18n si dispo) ====== */
+  /* ====== i18n helpers ====== */
   const getLang = () => (window.i18n?.lang?.() || localStorage.getItem('lang') || 'en');
 
   const MESSAGES = {
     en: {
       sending: 'Sending…',
-      thanks: '✅ Thank you! Your message has been sent. Our team will get back to you as soon as possible.',
+      thanks: '✅ Thank you! Your message has been sent.',
       error_generic: '⚠️ Something went wrong. Please try again later.',
       network: '⚠️ Network error. Please try again.',
       v_required: 'Please fill out this field.',
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     ar: {
       sending: 'جارٍ الإرسال…',
-      thanks: '✅ شكرًا لك! تم إرسال رسالتك. سيتواصل فريقنا معك في أقرب وقت ممكن.',
+      thanks: '✅ شكرًا لك! تم إرسال رسالتك.',
       error_generic: '⚠️ حدث خطأ ما. يُرجى المحاولة لاحقًا.',
       network: '⚠️ خطأ في الشبكة. يُرجى المحاولة مرة أخرى.',
       v_required: 'يُرجى تعبئة هذه الخانة.',
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return (typeof val === 'function') ? val(...args) : (val || key);
   };
 
-  /* === Formulaire de contact (Formspree) === */
+  /* === Formulaire de contact === */
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   const submitBtn = document.getElementById('contact-submit');
@@ -63,25 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
         fd.set(k, v);
       });
 
-      const inputs = form.querySelectorAll('input[required], textarea[required]');
-      inputs.forEach(input => input.setCustomValidity(''));
-      let invalidFound = false;
-      inputs.forEach(input => {
-        if (!input.checkValidity()) {
-          if (input.validity.valueMissing) input.setCustomValidity(tMsg('v_required'));
-          else if (input.validity.typeMismatch && input.type === 'email') input.setCustomValidity(tMsg('v_email'));
-          else if (input.validity.tooShort) input.setCustomValidity(tMsg('v_min', input.minLength || 2));
-          invalidFound = true;
-        }
-      });
-      if (invalidFound) return form.reportValidity();
-
       status.style.display = 'block';
       status.textContent = tMsg('sending');
       submitBtn?.setAttribute('disabled','disabled');
 
       try {
-        const resp = await fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: fd,
+          headers: { 'Accept': 'application/json' }
+        });
+
         if (resp.ok) {
           status.textContent = tMsg('thanks');
           form.reset();
@@ -96,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* === Transitions de pages uniformisées (vers le haut) === */
+  /* === Transition entre les pages (effet Apple) — uniformisé === */
   const links = document.querySelectorAll('a[href]');
   links.forEach(link => {
     const href = link.getAttribute('href') || '';
