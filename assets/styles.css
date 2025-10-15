@@ -1,4 +1,4 @@
-/* ========= POWER LINK — FINAL PRO UI (fond optimisé sans redimensionnement) ========= */
+/* ========= POWER LINK — FINAL PRO UI (premium flags + fond propre) ========= */
 
 /* --- Palette --- */
 :root {
@@ -26,7 +26,7 @@ html, body {
   position:relative;
 }
 
-/* === Fond papier froissé — non redimensionné === */
+/* === Fond papier froissé — tuile répétée === */
 body::before {
   content:"";
   position:fixed;
@@ -36,10 +36,10 @@ body::before {
   background-image: url('assets/bg-texture.jpg');
   background-repeat: repeat;
   background-position: top left;
-  background-size: auto; /* ✅ pas de zoom ni resize */
+  background-size: auto; /* pas de zoom */
 }
 
-/* Mobile : fond vert lisse */
+/* === Mobile : fond vert lisse === */
 @media (max-width: 980px) {
   body::before {
     background: #0F2A1F url('assets/mobile-bg.jpg') center/cover no-repeat;
@@ -149,14 +149,8 @@ a:hover { color:#E9FFB3; }
   content:"";
   position:relative;
 }
-.menu-toggle span::before {
-  position:absolute;
-  transform:translateY(-6px);
-}
-.menu-toggle span::after {
-  position:absolute;
-  transform:translateY(6px);
-}
+.menu-toggle span::before { position:absolute; transform:translateY(-6px); }
+.menu-toggle span::after { position:absolute; transform:translateY(6px); }
 
 /* --- Drawer Mobile Menu --- */
 .drawer {
@@ -261,33 +255,43 @@ a:hover { color:#E9FFB3; }
 body { opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out { opacity:0; }
 
-/* ===== Drapeaux ===== */
+/* ======== LANG SWITCH (drapeaux ronds premium) ======== */
 .lang-switch {
-  display:inline-flex; align-items:center; gap:.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
 .lang-switch button {
-  background:none;
-  border:none;
-  padding:0;
-  margin:0;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:38px;
-  height:26px;
-  border-radius:8px;
-  overflow:hidden;
-  transition:transform .2s ease, box-shadow .2s ease;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 40px;         /* taille raffinée */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
 }
+
 .lang-switch button:hover {
-  transform:scale(1.05);
-  box-shadow:0 0 0 2px #69B779 inset;
+  transform: scale(1.05);
+  border-color: #69B779;
+  box-shadow: 0 0 6px rgba(105,183,121,0.4);
 }
+
 .lang-switch img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  border-radius:6px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Drawer (mobile) */
+.drawer .header-row .lang-switch {
+  display:inline-flex !important; 
+  gap:.5rem;
 }
