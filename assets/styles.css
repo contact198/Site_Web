@@ -20,7 +20,7 @@
 html, body {
   margin:0;
   padding:0;
-  background: var(--green-900) url('assets/bg-texture.jpg') center/cover fixed no-repeat;
+  background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
   color:var(--white);
   font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   scroll-behavior:smooth;
@@ -70,7 +70,7 @@ a:hover { color:#E9FFB3; }
 
 /* ✅ Logo centré et bien visible */
 .white-header .logo img {
-  height:60px;
+  height:60px;  /* environ 2/3 du bandeau */
   width:auto;
   display:block;
   object-fit:contain;
@@ -130,11 +130,15 @@ a:hover { color:#E9FFB3; }
 .menu-toggle span::before {
   position:absolute;
   transform:translateY(-6px);
+  width:22px;
+  height:2px;
   background:#1D5336;
 }
 .menu-toggle span::after {
   position:absolute;
   transform:translateY(6px);
+  width:22px;
+  height:2px;
   background:#1D5336;
 }
 
@@ -175,6 +179,7 @@ a:hover { color:#E9FFB3; }
   margin:4px 0 8px;
   color:#1D5336;
   font-size:16px;
+  letter-spacing:.3px;
   font-weight:700;
   display:flex;
   align-items:center;
@@ -189,6 +194,7 @@ a:hover { color:#E9FFB3; }
   padding:14px 10px;
   border-top:1px solid #eee;
   text-transform:uppercase;
+  letter-spacing:.3px;
   font-weight:600;
   font-size:15px;
 }
@@ -288,7 +294,7 @@ a:hover { color:#E9FFB3; }
 /* 💻 Ordinateur : fond papier froissé */
 @media (min-width: 981px) {
   body {
-    background: var(--green-900) url('assets/bg-texture.jpg') center/cover fixed no-repeat;
+    background: var(--green-900) url('bg-texture.jpg') center/cover fixed no-repeat;
   }
 }
 
@@ -303,7 +309,44 @@ a:hover { color:#E9FFB3; }
 body { opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out { opacity:0; }
 
-/* === Animation d’entrée depuis le haut === */
+/* Position flags dans la nav desktop */
+.site-header .site-nav > .lang-switch{
+  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
+}
+
+/* Drawer : flags alignés à droite de MAIN MENU */
+.drawer .panel .header-row{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.drawer .panel .header-row .lang-switch{
+  display:inline-flex; gap:.5rem;
+}
+
+/* Mobile : on cache les flags de la nav du haut, on utilise ceux du drawer */
+@media (max-width:768px){
+  .site-header .site-nav > .lang-switch{ display:none; }
+}
+.lang-switch button{border:none;background:#fff;cursor:pointer;border-radius:999px;width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.lang-switch img{width:24px;height:24px;display:block}
+
+/* === FORCE FLAG VISIBILITY === */
+.site-nav .lang-switch{display:inline-flex !important; gap:.5rem; align-items:center; margin-right:.5rem}
+.site-nav .lang-switch button{background:transparent; border:0; width:auto; height:auto; box-shadow:none}
+.site-nav .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Drawer (mobile) */
+.drawer .header-row .lang-switch{display:inline-flex !important; gap:.5rem}
+.drawer .header-row .lang-switch img{display:block !important; width:22px; height:22px}
+
+/* Parfois un “reset” masque toutes les images du menu : neutraliser ça */
+.site-nav img{display:inline-block}
+
+/* Si un overflow coupe la zone à gauche du HOME */
+.site-nav{overflow:visible}
+
+
+/* === Animation d’entrée depuis le haut (ajout) === */
 @keyframes slideDownIn {
   from { opacity: 0; transform: translateY(-80px); filter: blur(2px); }
   to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
@@ -316,52 +359,3 @@ body.fade-out { opacity:0; }
 @media (prefers-reduced-motion: reduce) {
   .slide-in { animation: none; }
 }
-
-/* === Uniformisation parfaite des drapeaux === */
-.lang-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.lang-switch button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-.lang-switch button:hover { transform: scale(1.08); }
-.lang-switch img {
-  height: 100%;
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
-
-/* Position flags dans la nav desktop */
-.site-header .site-nav > .lang-switch {
-  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
-}
-
-/* Drawer : flags alignés à droite du MAIN MENU */
-.drawer .panel .header-row {
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
-}
-.drawer .panel .header-row .lang-switch { display:inline-flex; gap:.5rem; }
-
-/* Mobile : cacher les flags du header */
-@media (max-width:768px){
-  .site-header .site-nav > .lang-switch{ display:none; }
-}
-
-/* Sécurité : drapeaux toujours visibles */
-.site-nav img{display:inline-block;}
-.site-nav{overflow:visible;}
