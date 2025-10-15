@@ -358,4 +358,38 @@ body.fade-out { opacity:0; }
 /* Accessibilité : réduit les animations si demandé */
 @media (prefers-reduced-motion: reduce) {
   .slide-in { animation: none; }
+  /* === Uniformisation parfaite des drapeaux === */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;   /* cadre uniforme */
+  height: 24px;  /* même hauteur visuelle */
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.lang-switch button:hover {
+  transform: scale(1.08);
+}
+
+.lang-switch img {
+  height: 100%;
+  width: auto; /* garde le ratio original */
+  display: block;
+  object-fit: contain;
+}
+
 }
