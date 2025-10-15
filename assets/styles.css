@@ -1,4 +1,4 @@
-/* ========= POWER LINK — FINAL PRO UI ========= */
+/* ========= POWER LINK — FINAL PRO UI (UNIFORM BACKGROUND + PERFECT FLAGS) ========= */
 
 /* --- Palette --- */
 :root {
@@ -13,31 +13,32 @@
   --muted:#C8D6CE;
   --radius:16px;
   --shadow:0 10px 30px rgba(0,0,0,.35);
+  --flag-size:50px;
 }
 
 /* --- Reset + Base --- */
-* { box-sizing:border-box; }
+* { box-sizing:border-box; margin:0; padding:0; }
 html, body {
-  margin:0;
-  padding:0;
   color:var(--white);
   font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   scroll-behavior:smooth;
+  background:#0F2A1F;
 }
 
-/* ✅ Fond global (corrigé : fonctionne sur toutes les pages) */
-html, body {
-  background:#0F2A1F; /* couleur de secours */
-}
-body::before {
+/* === Fond texture uniforme (pas de zoom) === */
+body::before{
   content:"";
   position:fixed;
   inset:0;
   z-index:-1;
-  background:#0F2A1F url("/assets/bg-texture.jpg") center/cover no-repeat;
+  background-color:#0F2A1F;
+  background-image:url("/assets/bg-texture.jpg");
+  background-position:50% 0;
+  background-repeat:repeat;
+  background-size:1200px auto; /* échelle fixe pour éviter le zoom */
 }
 @media (max-width:980px){
-  body::before {
+  body::before{
     background:#0F2A1F url("/assets/mobile-bg.jpg") center/cover no-repeat;
   }
 }
@@ -46,7 +47,7 @@ body::before {
 a { color:var(--green-200); text-decoration:none; transition:color .2s ease; }
 a:hover { color:#E9FFB3; }
 
-/* --- Buttons --- */
+/* --- Boutons --- */
 .btn {
   display:inline-block;
   padding:12px 18px;
@@ -70,7 +71,7 @@ a:hover { color:#E9FFB3; }
 .container { max-width:1180px; margin:0 auto; padding:0 22px; }
 .section { padding:52px 0; }
 
-/* --- Header : White Professional --- */
+/* --- Header --- */
 .white-header {
   background:#ffffff;
   border-bottom:1px solid rgba(0,0,0,0.08);
@@ -85,7 +86,6 @@ a:hover { color:#E9FFB3; }
   padding:0 18px;
   height:90px;
 }
-
 .white-header .logo img {
   height:60px;
   width:auto;
@@ -93,7 +93,6 @@ a:hover { color:#E9FFB3; }
   object-fit:contain;
   margin-top:2px;
 }
-
 .white-header .site-nav {
   display:flex;
   gap:28px;
@@ -144,22 +143,10 @@ a:hover { color:#E9FFB3; }
   content:"";
   position:relative;
 }
-.menu-toggle span::before {
-  position:absolute;
-  transform:translateY(-6px);
-  width:22px;
-  height:2px;
-  background:#1D5336;
-}
-.menu-toggle span::after {
-  position:absolute;
-  transform:translateY(6px);
-  width:22px;
-  height:2px;
-  background:#1D5336;
-}
+.menu-toggle span::before { position:absolute; transform:translateY(-6px); }
+.menu-toggle span::after { position:absolute; transform:translateY(6px); }
 
-/* --- Drawer Mobile Menu --- */
+/* --- Drawer Mobile --- */
 .drawer {
   position:fixed;
   inset:0;
@@ -192,6 +179,7 @@ a:hover { color:#E9FFB3; }
 .drawer.open .overlay { opacity:1; }
 .drawer.open .panel { right:0; }
 
+/* --- Drawer Content --- */
 .drawer .panel h3 {
   margin:4px 0 8px;
   color:#1D5336;
@@ -217,7 +205,7 @@ a:hover { color:#E9FFB3; }
 }
 .drawer .panel a:first-of-type { border-top:none; }
 
-/* --- Sections / Content --- */
+/* --- Hero --- */
 .hero { text-align:center; padding:84px 20px 40px; }
 .hero h1 {
   font-size:clamp(30px,5vw,56px);
@@ -243,27 +231,19 @@ a:hover { color:#E9FFB3; }
   .white-header .logo img { height:45px; margin-top:1px; }
 }
 
-/* ===== Page transition effet Apple ===== */
+/* --- Transition page --- */
 body { opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out { opacity:0; }
 
-/* === Animation d’entrée depuis le haut === */
+/* --- Animation entrée --- */
 @keyframes slideDownIn {
-  from { opacity: 0; transform: translateY(-80px); filter: blur(2px); }
-  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+  from { opacity:0; transform:translateY(-80px); filter:blur(2px); }
+  to   { opacity:1; transform:translateY(0); filter:blur(0); }
 }
-.slide-in {
-  animation: slideDownIn 0.9s cubic-bezier(.22,.9,.24,1) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .slide-in { animation: none; }
-}
+.slide-in { animation:slideDownIn .9s cubic-bezier(.22,.9,.24,1) both; }
+@media (prefers-reduced-motion: reduce){ .slide-in{ animation:none; } }
 
-/* ===== FLAGS — taille parfaitement identique visuellement ===== */
-:root { 
-  --flag-size: 50px;
-}
-
+/* ===== LANG SWITCH / FLAGS ===== */
 .site-header .site-nav .lang-switch > *,
 .drawer .panel .header-row .lang-switch > * {
   display:inline-flex !important;
@@ -279,16 +259,14 @@ body.fade-out { opacity:0; }
   overflow:hidden !important;
   transition:transform .18s ease, box-shadow .18s ease;
 }
-
 .site-header .site-nav .lang-switch > * img,
 .drawer .panel .header-row .lang-switch > * img {
-  width:115% !important;   /* compense le ratio horizontal UK */
+  width:115% !important;  /* ratio ajusté UK */
   height:100% !important;
   object-fit:cover !important;
   object-position:center !important;
   display:block !important;
 }
-
 .site-header .site-nav .lang-switch > *:hover,
 .drawer .panel .header-row .lang-switch > *:hover {
   transform:scale(1.07);
@@ -297,7 +275,6 @@ body.fade-out { opacity:0; }
 .lang-switch > .is-active {
   box-shadow:0 0 0 2px #19a7ff !important;
 }
-
 @media (max-width:768px){
-  :root{ --flag-size: 44px; }
+  :root{ --flag-size:44px; }
 }
