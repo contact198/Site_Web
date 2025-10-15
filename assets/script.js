@@ -1,11 +1,11 @@
-/* ===== POWER LINK — SCRIPT (multilingue + transitions uniformes) ===== */
+/* ===== POWER LINK — SCRIPT propre & stable ===== */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* === Année automatique dans le footer === */
+  /* Footer year */
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 
-  /* === Drawer menu (mobile) === */
+  /* Drawer mobile */
   const toggle = document.querySelector('.menu-toggle');
   const drawer = document.querySelector('.drawer');
   if (toggle && drawer) {
@@ -17,38 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
-  /* ====== i18n helpers ====== */
+  /* i18n helper */
   const getLang = () => (window.i18n?.lang?.() || localStorage.getItem('lang') || 'en');
-
   const MESSAGES = {
-    en: {
-      sending: 'Sending…',
-      thanks: '✅ Thank you! Your message has been sent.',
-      error_generic: '⚠️ Something went wrong. Please try again later.',
-      network: '⚠️ Network error. Please try again.',
-      v_required: 'Please fill out this field.',
-      v_email: 'Please enter a valid email address.',
-      v_min: (n) => `Please enter at least ${n} characters.`
-    },
-    ar: {
-      sending: 'جارٍ الإرسال…',
-      thanks: '✅ شكرًا لك! تم إرسال رسالتك.',
-      error_generic: '⚠️ حدث خطأ ما. يُرجى المحاولة لاحقًا.',
-      network: '⚠️ خطأ في الشبكة. يُرجى المحاولة مرة أخرى.',
-      v_required: 'يُرجى تعبئة هذه الخانة.',
-      v_email: 'يُرجى إدخال بريد إلكتروني صالح.',
-      v_min: (n) => `يُرجى إدخال ${n} أحرف على الأقل.`
-    }
+    en:{sending:'Sending…',thanks:'✅ Thank you! Your message has been sent.',
+        error_generic:'⚠️ Something went wrong. Please try again later.',
+        network:'⚠️ Network error. Please try again.',
+        v_required:'Please fill out this field.', v_email:'Please enter a valid email address.',
+        v_min:n=>`Please enter at least ${n} characters.`},
+    ar:{sending:'جارٍ الإرسال…',thanks:'✅ شكرًا لك! تم إرسال رسالتك.',
+        error_generic:'⚠️ حدث خطأ ما. يُرجى المحاولة لاحقًا.',
+        network:'⚠️ خطأ في الشبكة. يُرجى المحاولة مرة أخرى.',
+        v_required:'يُرجى تعبئة هذه الخانة.', v_email:'يُرجى إدخال بريد إلكتروني صالح.',
+        v_min:n=>`يُرجى إدخال ${n} أحرف على الأقل.`}
   };
+  const tMsg = (key,...args)=>{const p=MESSAGES[getLang()]||MESSAGES.en; const v=p[key]; return typeof v==='function'?v(...args):v||key;};
 
-  const tMsg = (key, ...args) => {
-    const lang = getLang();
-    const pack = MESSAGES[lang] || MESSAGES.en;
-    const val = pack[key];
-    return (typeof val === 'function') ? val(...args) : (val || key);
-  };
-
-  /* === Formulaire de contact === */
+  /* Contact form (Formspree) */
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   const submitBtn = document.getElementById('contact-submit');
@@ -56,60 +41,38 @@ document.addEventListener('DOMContentLoaded', () => {
   if (form && status) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const fd = new FormData(form);
-      ['name','email','subject','message'].forEach(k => {
-        const v = (fd.get(k) || '').toString().trim();
-        fd.set(k, v);
-      });
+      ['name','email','subject','message'].forEach(k => fd.set(k, (fd.get(k)||'').toString().trim()));
 
-      status.style.display = 'block';
-      status.textContent = tMsg('sending');
+      status.style.display='block';
+      status.textContent=tMsg('sending');
       submitBtn?.setAttribute('disabled','disabled');
 
-      try {
-        const resp = await fetch(form.action, {
-          method: 'POST',
-          body: fd,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (resp.ok) {
-          status.textContent = tMsg('thanks');
-          form.reset();
-        } else {
-          status.textContent = tMsg('error_generic');
-        }
-      } catch {
-        status.textContent = tMsg('network');
-      } finally {
+      try{
+        const resp = await fetch(form.action, {method:'POST', body:fd, headers:{Accept:'application/json'}});
+        status.textContent = resp.ok ? tMsg('thanks') : tMsg('error_generic');
+        if (resp.ok) form.reset();
+      }catch{
+        status.textContent=tMsg('network');
+      }finally{
         submitBtn?.removeAttribute('disabled');
       }
     });
   }
 
-  /* === Transition entre les pages (effet Apple) — uniformisé === */
-  const links = document.querySelectorAll('a[href]');
-  links.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    const isAnchor   = href.startsWith('#');
-    const isAbsolute = /^https?:\/\//i.test(href);
-    const isMailTel  = /^(mailto:|tel:)/i.test(href);
-    const isDownload = link.hasAttribute('download');
-    const newWindow  = link.target === '_blank';
-    const isExternal = /\bexternal\b/i.test(link.rel);
-    const noFx       = link.dataset.noTransition === 'true';
-    if (isAnchor || isAbsolute || isMailTel || isDownload || newWindow || isExternal || noFx) return;
-
-    link.addEventListener('click', e => {
+  /* Transitions entre pages (uniforme) */
+  document.querySelectorAll('a[href]').forEach(link=>{
+    const href=link.getAttribute('href')||'';
+    const external=/^https?:\/\//i.test(href) || /^(mailto:|tel:)/i.test(href) || link.target==='_blank' || link.hasAttribute('download');
+    const anchor=href.startsWith('#');
+    if (external || anchor || /\bexternal\b/i.test(link.rel) || link.dataset.noTransition==='true') return;
+    link.addEventListener('click',e=>{
       e.preventDefault();
       document.body.classList.add('fade-out');
-      setTimeout(() => { window.location.href = href; }, 280);
+      setTimeout(()=>{window.location.href=href;},280);
     });
   });
 
-  /* === Animation d’entrée uniforme (depuis le haut) === */
-  requestAnimationFrame(() => {
-    document.body.classList.add('slide-in');
-  });
+  /* Animation d’entrée (depuis le haut) */
+  requestAnimationFrame(()=>document.body.classList.add('slide-in'));
 });
