@@ -272,3 +272,38 @@ html[dir="rtl"] .drawer .panel .lang-switch{
   margin-inline-start: 6px;      /* petit espace après la croix */
   margin-inline-end: 0;
 }
+/* === Ajustement final drawer header === */
+
+/* LTR : "MAIN MENU" aligné comme les autres liens */
+.drawer .panel h2 {
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #1D5336;
+  letter-spacing: 0.4px;
+  margin: 10px 0 6px 0;       /* même marge que les liens */
+  text-align: left;
+  padding-left: 0;            /* aligné avec HOME */
+}
+
+/* RTL : croix totalement à gauche */
+html[dir="rtl"] .drawer .panel .header-row {
+  justify-content: flex-start; /* tout à gauche */
+  gap: 10px;
+}
+
+/* On force la croix à vraiment coller le bord gauche */
+html[dir="rtl"] .drawer .panel .close-btn {
+  margin: 0;
+  order: 1;
+  align-self: flex-start;
+  position: relative;
+  left: 0;
+}
+
+/* Les drapeaux restent juste à droite de la croix */
+html[dir="rtl"] .drawer .panel .lang-switch {
+  order: 2;
+  margin-inline-start: 6px;
+}
+
