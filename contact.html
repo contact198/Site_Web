@@ -7,9 +7,12 @@
   <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
+
   <header class="site-header">
     <div class="container inner">
-      <div class="brand"><div class="logo"></div><span>Power Link</span></div>
+      <a class="brand" href="index.html">
+        <img src="assets/LOGO.jpg" alt="Power Link"/>
+      </a>
       <nav class="nav">
         <a data-i18n="home" data-i18n-href="index.html" href="#">Home</a>
         <a data-i18n="about" data-i18n-href="presentation.html" href="#">About</a>
@@ -17,8 +20,8 @@
         <a data-i18n="team" data-i18n-href="personnel.html" href="#">Team</a>
         <a data-i18n="contact" data-i18n-href="contact.html" href="#">Contact</a>
         <div class="lang-switch" aria-label="Language switcher">
-          <button class="active" data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
-          <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button class="active" data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
           <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="Arabic"/></button>
         </div>
       </nav>
@@ -32,8 +35,8 @@
       <div class="head">
         <h3 data-i18n="menu">Main Menu</h3>
         <div class="lang-switch">
-          <button class="active" data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
-          <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button class="active" data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
           <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="Arabic"/></button>
         </div>
         <button class="close" aria-label="Close">✕</button>
@@ -48,19 +51,41 @@
     </div>
   </div>
 
-  
-<section class="page">
+
+<main class="contact">
   <div class="container">
-    <h1 data-i18n="contact_title">Contact us</h1>
-    <p class="lead" data-i18n="contact_lead">Use the form below and our team will get back to you.</p>
-    <div class="card">[Contact form here]</div>
+    <div class="contact-shell">
+      <div class="contact-head">
+        <h1 data-i18n="contact_title">Contact us</h1>
+        <p class="lead" data-i18n="contact_lead">Use the form below and our team will get back to you as soon as possible.</p>
+      </div>
+      <form id="contact-form" class="contact-form" action="https://formspree.io/f/mblzaevw" method="POST">
+        <div class="field">
+          <label for="name" data-i18n="name">Name</label>
+          <input id="name" type="text" name="name" required minlength="2" placeholder="John Doe" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="email">Email</label>
+          <input id="email" type="email" name="email" required placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="subject" data-i18n="subject">Subject</label>
+          <input id="subject" type="text" name="subject" required minlength="2" placeholder="Subject">
+        </div>
+        <div class="field">
+          <label for="message" data-i18n="message">Message</label>
+          <textarea id="message" name="message" required minlength="10" placeholder="How can we help?"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn" type="submit" data-i18n="send">Send message</button>
+          <div id="form-status" class="form-status" style="display:none"></div>
+        </div>
+      </form>
+    </div>
   </div>
-</section>
+</main>
 
-
-  <footer class="site-footer">
-    © 2025 Power Link
-  </footer>
+  <footer class="site-footer">© 2025 Power Link</footer>
   <script src="js/main.js"></script>
   <script src="js/i18n.js"></script>
 </body>
