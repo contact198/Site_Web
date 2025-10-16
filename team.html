@@ -1,64 +1,50 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Équipe · Power Link</title>
-<link rel="stylesheet" href="styles.css"/>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power Link</title><link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <header class="site-header">
-  <div class="container">
-    <a class="brand" href="index.html"><img src="assets/logo.jpg" alt="Power Link"/></a>
+  <div class="header-inner">
+    <a class="logo" href="/index.html"><img src="/assets/logo.svg" alt="Power Link"></a>
     <nav class="nav">
-      <a href="index.html" data-i18n="home">Accueil</a>
-      <a href="about.html" data-i18n="about">À propos</a>
-      <a href="services.html" data-i18n="services">Services</a>
-      <a href="team.html" data-i18n="team">Équipe</a>
-      <a href="contact.html" data-i18n="contact">Contact</a>
-      <div class="lang">
-        <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="FR"></button>
-        <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="EN"></button>
-        <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="AR"></button>
+      <a href="/index.html" data-i18n="nav.home">Home</a>
+      <a href="/about.html" data-i18n="nav.about">About Us</a>
+      <a href="/services.html" data-i18n="nav.services">Services</a>
+      <a href="/team.html" data-i18n="nav.team">Team</a>
+      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
       </div>
     </nav>
-    <button class="burger" aria-label="Open menu"><span></span></button>
+    <button class="hamburger" aria-label="Open menu"><span></span></button>
   </div>
 </header>
-
-<!-- Drawer -->
-<div class="drawer" role="dialog" aria-modal="true">
+<aside class="drawer" aria-hidden="true">
   <div class="overlay"></div>
   <div class="panel">
-    <header>
-      <h3 id="drawer-title">MAIN MENU</h3>
-      <div class="lang">
-        <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="FR"></button>
-        <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="EN"></button>
-        <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="AR"></button>
+    <div class="drawer-header">
+      <h3 class="drawer-title" data-i18n="nav.home">Main Menu</h3>
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
       </div>
-      <button class="close" aria-label="Close">×</button>
-    </header>
-    <nav>
-      <a href="index.html" data-i18n="home">Home</a>
-      <a href="about.html" data-i18n="about">About us</a>
-      <a href="services.html" data-i18n="services">Services</a>
-      <a href="team.html" data-i18n="team">Team</a>
-      <a href="contact.html" data-i18n="contact">Contact</a>
+      <button class="drawer-close" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="drawer-list">
+      <a href="/index.html" data-i18n="nav.home">Home</a>
+      <a href="/about.html" data-i18n="nav.about">About Us</a>
+      <a href="/services.html" data-i18n="nav.services">Services</a>
+      <a href="/team.html" data-i18n="nav.team">Team</a>
+      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
     </nav>
   </div>
-</div>
-
-<main>
-<section class="container hero">
-  <h1>Équipe</h1>
-  <p>Une équipe expérimentée au service de projets fiables et durables.</p>
-</section>
-</main>
-
-<footer class="site-footer">
-  © 2025 Power Link
-</footer>
-<script src="script.js"></script>
-</body>
-</html>
+</aside>
+<section class="hero"><h1 data-i18n="nav.team">Team</h1><p>...</p></section>
+<footer class="site-footer">© 2025 Power Link</footer>
+<script src="/js/i18n.js"></script>
+</body></html>

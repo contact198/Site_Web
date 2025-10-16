@@ -1,68 +1,50 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Accueil · Power Link</title>
-<link rel="stylesheet" href="styles.css"/>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power Link</title><link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <header class="site-header">
-  <div class="container">
-    <a class="brand" href="index.html"><img src="assets/logo.jpg" alt="Power Link"/></a>
+  <div class="header-inner">
+    <a class="logo" href="/index.html"><img src="/assets/logo.svg" alt="Power Link"></a>
     <nav class="nav">
-      <a href="index.html" data-i18n="home" class="active">Accueil</a>
-      <a href="about.html" data-i18n="about">À propos</a>
-      <a href="services.html" data-i18n="services">Services</a>
-      <a href="team.html" data-i18n="team">Équipe</a>
-      <a href="contact.html" data-i18n="contact">Contact</a>
-      <div class="lang">
-        <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="FR"></button>
-        <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="EN"></button>
-        <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="AR"></button>
+      <a href="/index.html" data-i18n="nav.home">Home</a>
+      <a href="/about.html" data-i18n="nav.about">About Us</a>
+      <a href="/services.html" data-i18n="nav.services">Services</a>
+      <a href="/team.html" data-i18n="nav.team">Team</a>
+      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
       </div>
     </nav>
-    <button class="burger" aria-label="Open menu"><span></span></button>
+    <button class="hamburger" aria-label="Open menu"><span></span></button>
   </div>
 </header>
-
-<!-- Drawer -->
-<div class="drawer" role="dialog" aria-modal="true">
+<aside class="drawer" aria-hidden="true">
   <div class="overlay"></div>
   <div class="panel">
-    <header>
-      <h3 id="drawer-title">MAIN MENU</h3>
-      <div class="lang">
-        <button data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="FR"></button>
-        <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="EN"></button>
-        <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="AR"></button>
+    <div class="drawer-header">
+      <h3 class="drawer-title" data-i18n="nav.home">Main Menu</h3>
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
       </div>
-      <button class="close" aria-label="Close">×</button>
-    </header>
-    <nav>
-      <a href="index.html" data-i18n="home">Home</a>
-      <a href="about.html" data-i18n="about">About us</a>
-      <a href="services.html" data-i18n="services">Services</a>
-      <a href="team.html" data-i18n="team">Team</a>
-      <a href="contact.html" data-i18n="contact">Contact</a>
+      <button class="drawer-close" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="drawer-list">
+      <a href="/index.html" data-i18n="nav.home">Home</a>
+      <a href="/about.html" data-i18n="nav.about">About Us</a>
+      <a href="/services.html" data-i18n="nav.services">Services</a>
+      <a href="/team.html" data-i18n="nav.team">Team</a>
+      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
     </nav>
   </div>
-</div>
-
-<main>
-<section class="hero container">
-  <h1 id="hero-h1">Power Link — une énergie propre élégante et très performante.</h1>
-  <p id="hero-p">Systèmes photovoltaïques et bornes de recharge intelligentes. Du conseil et design à l'installation et la maintenance longue durée.</p>
-  <div class="cta">
-    <a id="cta1" href="about.html" class="btn">Découvrir Power Link</a>
-    <a id="cta2" href="contact.html" class="btn" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2)">Obtenir un devis</a>
-  </div>
-</section>
-</main>
-
-<footer class="site-footer">
-  © 2025 Power Link
-</footer>
-<script src="script.js"></script>
-</body>
-</html>
+</aside>
+<section class="hero"><h1 data-i18n="hero.title">Power Link — clean energy that looks good and performs even better.</h1><p data-i18n="hero.lead">Photovoltaic systems and smart EV charging...</p><p><a class="btn" data-i18n="cta.discover" href="/about.html">Discover Power Link</a> <a class="btn" style="margin-left:10px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2)" data-i18n="cta.quote" href="/contact.html">Get a quote</a></p></section>
+<footer class="site-footer">© 2025 Power Link</footer>
+<script src="/js/i18n.js"></script>
+</body></html>
