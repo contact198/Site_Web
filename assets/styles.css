@@ -359,3 +359,40 @@ body.fade-out { opacity:0; }
 @media (prefers-reduced-motion: reduce) {
   .slide-in { animation: none; }
 }
+/* ===== FLAGS — uniformisation taille et alignement ===== */
+
+/* Taille fixe pour tous les drapeaux */
+.lang-switch img {
+  width: 26px !important;
+  height: 18px !important;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px; /* optionnel : rend les bords nets */
+}
+
+/* Ajuste les boutons autour (même taille de zone cliquable) */
+.lang-switch button {
+  width: 32px !important;
+  height: 22px !important;
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dans la nav desktop */
+.site-header .site-nav > .lang-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-right: 0.6rem;
+}
+
+/* Dans le drawer mobile */
+.drawer .header-row .lang-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
