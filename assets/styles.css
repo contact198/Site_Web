@@ -2,7 +2,9 @@
    - Accessibilité: focus-visible, réduction des motions
    - I18N: support [dir="rtl"] (arabe)
    - Layout: largeur unifiée, header sticky, drawer mobile
+   - Fond: luxe (image)
    - Contact: panneau premium + champs XL
+   - Flags: plats + halo bleu sur actif
 =========================================================== */
 
 /* --- Design tokens --- */
@@ -23,7 +25,7 @@
   --shadow:0 10px 30px rgba(0,0,0,.35);
   --header-h:90px;
   --container-w:1180px;
-  --page-max:960px;   /* largeur contenu unifiée */
+  --page-max:960px;  /* largeur contenu unifiée */
   --gutter:22px;
 
   /* Typo */
@@ -48,7 +50,7 @@ html, body {
 /* Fond “luxe” (pour tout le site) */
 body{
   background:#0F2A1F url('assets/bg-luxury.jpg') center/cover no-repeat;
-  background-attachment:scroll; /* évite l'effet de zoom/flou de fixed */
+  background-attachment:scroll;
 }
 
 /* Améliore l’ancrage avec header sticky */
@@ -61,14 +63,9 @@ a:focus-visible { outline:none; box-shadow:var(--ring); border-radius:8px; }
 
 /* --- Buttons --- */
 .btn{
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:14px;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--green-300),#E8FFC7);
-  color:#0f2a1f;
-  border:none;
-  box-shadow:var(--shadow);
+  display:inline-block; padding:12px 18px; border-radius:14px; font-weight:700;
+  background:linear-gradient(135deg,var(--green-300),#E8FFC7); color:#0f2a1f;
+  border:none; box-shadow:var(--shadow);
   transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
 }
 @media (hover:hover) and (pointer:fine){
@@ -77,21 +74,16 @@ a:focus-visible { outline:none; box-shadow:var(--ring); border-radius:8px; }
 .btn:active{ transform:translateY(0); filter:saturate(.98); }
 .btn:focus-visible{ outline:none; box-shadow:var(--ring), var(--shadow); }
 .btn.secondary{
-  background:rgba(255,255,255,.08);
-  color:var(--white);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:none;
+  background:rgba(255,255,255,.08); color:var(--white);
+  border:1px solid rgba(255,255,255,.12); box-shadow:none;
 }
 
 /* --- Layout --- */
 .container{ max-width:var(--container-w); margin:0 auto; padding:0 var(--gutter); }
 .section{ padding:52px 0; }
 .card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:var(--radius);
-  padding:20px;
-  box-shadow:var(--shadow);
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);
   transition:transform .18s ease, box-shadow .18s ease;
 }
 @media (hover:hover) and (pointer:fine){
@@ -101,38 +93,28 @@ a:focus-visible { outline:none; box-shadow:var(--ring); border-radius:8px; }
 /* ===== Gabarit commun pour toutes les pages ===== */
 .page{
   min-height: calc(100vh - var(--header-h) - 120px); /* viewport - header - footer approx */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:60px 0;
+  display:flex; align-items:center; justify-content:center; padding:60px 0;
 }
-.page .container{
-  max-width: var(--page-max);
-  width:100%;
-  padding:0 24px;
-}
+.page .container{ max-width: var(--page-max); width:100%; padding:0 24px; }
 
 /* --- Header : White Professional --- */
 .white-header{
-  background:#ffffff;
-  border-bottom:1px solid rgba(0,0,0,0.08);
-  box-shadow:0 3px 8px rgba(0,0,0,0.05);
-  color:#16402B;
-  position:sticky; top:0; z-index:200;
+  background:#ffffff; border-bottom:1px solid rgba(0,0,0,0.08); box-shadow:0 3px 8px rgba(0,0,0,0.05);
+  color:#16402B; position:sticky; top:0; z-index:200;
   display:flex; justify-content:space-between; align-items:center;
   padding:0 18px; height:var(--header-h);
 }
-.white-header .logo img{
-  height:60px; width:auto; display:block; object-fit:contain; margin-top:2px;
-}
+.white-header .logo img{ height:60px; width:auto; display:block; object-fit:contain; margin-top:2px; }
 .white-header .site-nav{ display:flex; gap:28px; align-items:center; overflow:visible; }
 .white-header .site-nav a{
-  color:#1D5336; font-weight:600; letter-spacing:.5px; text-transform:uppercase; font-size:15px; position:relative; transition:color .2s ease;
+  color:#1D5336; font-weight:600; letter-spacing:.5px; text-transform:uppercase;
+  font-size:15px; position:relative; transition:color .2s ease;
 }
 .white-header .site-nav a:hover,
 .white-header .site-nav a.active{ color:#69B779; }
 .white-header .site-nav a::after{
-  content:""; position:absolute; bottom:-6px; left:0; width:0%; height:2px; background:#69B779; transition:width .3s ease;
+  content:""; position:absolute; bottom:-6px; left:0; width:0%; height:2px;
+  background:#69B779; transition:width .3s ease;
 }
 .white-header .site-nav a:hover::after,
 .white-header .site-nav a.active::after{ width:100%; }
@@ -209,30 +191,39 @@ a:focus-visible { outline:none; box-shadow:var(--ring); border-radius:8px; }
 body{ opacity:1; transition:opacity .5s ease-in-out; }
 body.fade-out{ opacity:0; }
 
-/* --- Lang switch (desktop + mobile) --- */
-.site-header .site-nav > .lang-switch{
-  display:inline-flex; gap:.5rem; vertical-align:middle; margin-right:.5rem;
+/* === FLAGS — version épurée avec halo bleu sur actif (desktop + mobile) === */
+.site-header .site-nav > .lang-switch,
+.drawer .header-row .lang-switch{
+  display:inline-flex !important; align-items:center; justify-content:center; gap:.4rem;
 }
-.drawer .panel .header-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.drawer .panel .header-row .lang-switch{ display:inline-flex; gap:.5rem; }
 
-/* Zone cliquable uniforme */
+/* Zone cliquable */
 .lang-switch button{
-  width:34px !important; height:24px !important;
-  padding:0; border:none; background:transparent;
-  display:inline-flex; align-items:center; justify-content:center;
+  width:34px !important; height:24px !important; padding:0; border:none; background:transparent;
+  display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+  transition: transform .15s ease, box-shadow .2s ease;
 }
 
-/* ===== FLAGS — uniformisation taille et alignement ===== */
+/* Image du drapeau */
 .lang-switch img{
-  width:28px !important; height:20px !important;
-  object-fit:cover; display:block; border-radius:2px;
-  background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.08);
+  width:28px !important; height:20px !important; object-fit:cover; display:block;
+  border-radius:2px; box-shadow:0 0 0 1px rgba(0,0,0,.12);
+  transition: box-shadow .25s ease, transform .15s ease;
 }
-/* Supprime l’effet de bord du SVG GB */
-.lang-switch button img[src*="gb"]{
-  background:#fff; border-radius:2px;
+
+/* Hover (desktop) */
+@media (hover:hover) and (pointer:fine){
+  .lang-switch button:hover img{ transform: translateY(-1px); box-shadow:0 0 0 2px rgba(105,183,121,.5); }
 }
+
+/* Actif (langue sélectionnée) */
+.lang-switch button.active img{
+  box-shadow:0 0 0 3px #2A9FFF;
+  transform: scale(1.05);
+}
+
+/* Corrige le bord du SVG GB si présent */
+.lang-switch button img[src*="gb"]{ background:#fff; border-radius:2px; }
 
 /* Parfois un reset masque les images */
 .site-nav img{ display:inline-block; }
@@ -271,12 +262,9 @@ body.fade-out{ opacity:0; }
 .contact{ padding-top:64px; padding-bottom:72px; }
 .contact-shell{
   max-width: var(--page-max);
-  margin:0 auto;
-  padding:40px 32px;
-  border-radius:var(--radius);
+  margin:0 auto; padding:40px 32px; border-radius:var(--radius);
   background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.12); box-shadow:var(--shadow);
   backdrop-filter: blur(8px) saturate(110%);
 }
 .contact-head{ text-align:center; margin-bottom:36px; }
@@ -330,8 +318,8 @@ body.fade-out{ opacity:0; }
   .contact-shell{ padding:22px 16px; }
 }
 
-/* --- Utilitaires divers --- */
-.visually-hidden {
+/* --- Utilitaires --- */
+.visually-hidden{
   position:absolute !important; width:1px; height:1px; overflow:hidden;
   clip:rect(0 0 0 0); white-space:nowrap; clip-path:inset(50%);
 }
