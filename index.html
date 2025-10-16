@@ -1,62 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Power Link</title>
-  <link rel="stylesheet" href="assets/styles.css" />
-  <script defer src="assets/script.js"></script>
-  <script defer src="assets/i18n/i18n.js"></script>
+  <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
-  <header class="site-header white-header">
-    <a class="logo" href="index.html"><img src="assets/LOGO.jpg" alt="Power Link" /></a>
-    <nav class="site-nav">
-      <div class="lang-switch">
-        <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
-        <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
-        <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
-      </div>
-      <a href="index.html" data-i18n="nav.home">HOME</a>
-      <a href="presentation.html" data-i18n="nav.about">ABOUT US</a>
-      <a href="missions.html" data-i18n="nav.services">SERVICES</a>
-      <a href="personnel.html" data-i18n="nav.team">TEAM</a>
-      <a href="contact.html" data-i18n="nav.contact">CONTACT</a>
-    </nav>
-    <button class="menu-toggle" aria-label="Open menu"><span></span></button>
+  <header class="site-header">
+    <div class="container inner">
+      <div class="brand"><div class="logo"></div><span>Power Link</span></div>
+      <nav class="nav">
+        <a data-i18n="home" data-i18n-href="index.html" href="#">Home</a>
+        <a data-i18n="about" data-i18n-href="presentation.html" href="#">About</a>
+        <a data-i18n="services" data-i18n-href="missions.html" href="#">Services</a>
+        <a data-i18n="team" data-i18n-href="personnel.html" href="#">Team</a>
+        <a data-i18n="contact" data-i18n-href="contact.html" href="#">Contact</a>
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="active" data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
+          <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="Arabic"/></button>
+        </div>
+      </nav>
+      <button class="menu-toggle" aria-label="Open menu"><span></span></button>
+    </div>
   </header>
 
-  <div class="drawer" aria-hidden="true">
+  <div class="drawer" role="dialog" aria-modal="true">
     <div class="overlay"></div>
     <div class="panel">
-      <div class="header-row">
-        <h3 data-i18n="nav.drawer">MAIN MENU</h3>
+      <div class="head">
+        <h3 data-i18n="menu">Main Menu</h3>
         <div class="lang-switch">
-          <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
-          <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
-          <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
+          <button class="active" data-lang="fr" aria-label="Français"><img src="assets/flags/fr.svg" alt="Français"/></button>
+          <button data-lang="en" aria-label="English"><img src="assets/flags/gb.svg" alt="English"/></button>
+          <button data-lang="ar" aria-label="العربية"><img src="assets/flags/sa.svg" alt="Arabic"/></button>
         </div>
-        <button class="close-btn" aria-label="Close">×</button>
+        <button class="close" aria-label="Close">✕</button>
       </div>
-      <a href="index.html" data-i18n="nav.home">HOME</a>
-      <a href="presentation.html" data-i18n="nav.about">ABOUT US</a>
-      <a href="missions.html" data-i18n="nav.services">SERVICES</a>
-      <a href="personnel.html" data-i18n="nav.team">TEAM</a>
-      <a href="contact.html" data-i18n="nav.contact">CONTACT</a>
+      <nav class="menu">
+        <a data-i18n="home" data-i18n-href="index.html" href="#">Home</a>
+        <a data-i18n="about" data-i18n-href="presentation.html" href="#">About</a>
+        <a data-i18n="services" data-i18n-href="missions.html" href="#">Services</a>
+        <a data-i18n="team" data-i18n-href="personnel.html" href="#">Team</a>
+        <a data-i18n="contact" data-i18n-href="contact.html" href="#">Contact</a>
+      </nav>
     </div>
   </div>
 
-  <main class="page">
-    <div class="container">
-      <section class="hero slide-in">
-        <h1 data-i18n="pages.home.title">Power Link</h1>
-        <p class="lead" data-i18n="pages.home.lead">Premium energy consulting & services.</p>
-      </section>
-    </div>
-  </main>
+  
+<section class="page">
+  <div class="container">
+    <h1 data-i18n="hero_title">Power Link — clean energy that looks good and performs even better.</h1>
+    <p class="lead" data-i18n="hero_lead">Lead</p>
+    <p>
+      <a href="#" class="btn" data-i18n="cta_primary">Discover Power Link</a>
+      <a href="#" class="btn secondary" data-i18n="cta_secondary">Get a quote</a>
+    </p>
+  </div>
+</section>
+
 
   <footer class="site-footer">
-    © <span id="year">2025</span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
+    © 2025 Power Link
   </footer>
+  <script src="js/main.js"></script>
+  <script src="js/i18n.js"></script>
 </body>
 </html>
