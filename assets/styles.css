@@ -418,3 +418,104 @@ a:focus-visible { outline:none; box-shadow:var(--ring); border-radius:8px; }
 [dir="rtl"] .drawer .panel { left:-80%; right:auto; }
 [dir="rtl"] .drawer.open .panel { left:0; }
 [dir="rtl"] .table th, [dir="rtl"] .table td { text-align:right; }
+
+/* === PATCH — Premium flags desktop + mobile, RTL close push === */
+
+/* 0) Variables d’échelle (facile à ajuster) */
+:root{
+  --flag-w-desktop: 24px;
+  --flag-h-desktop: 16px;
+  --flag-w-mobile:  26px;
+  --flag-h-mobile:  18px;
+  --flag-radius:    3px;
+  --flag-gap:       .5rem;
+}
+
+/* 1) Groupe de drapeaux — premium, discret */
+.site-header .site-nav > .lang-switch,
+.drawer .header-row .lang-switch{
+  display:inline-flex !important;
+  align-items:center;
+  gap: var(--flag-gap);
+  /* espace “air” côté nav */
+  margin-inline-end: .75rem;
+}
+
+/* 2) Bouton = cadre exact du drapeau (overflow masque les marges internes des SVG) */
+.lang-switch button{
+  width: var(--flag-w-desktop);
+  height: var(--flag-h-desktop);
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--flag-radius);
+  overflow: hidden;               /* ❤ force l’image à ne PAS dépasser / corrige GB */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.12); /* trait net, haut de gamme */
+  transition: box-shadow .2s ease, transform .15s ease;
+}
+
+/* Image = 100% du cadre */
+.lang-switch button img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* uniforme même si le SVG a du blanc interne */
+  display: block;
+}
+
+/* Inactif : pas de glow bleu */
+.lang-switch button:not(.active){ box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+
+/* Hover desktop : soulignement très subtil */
+@media (hover:hover) and (pointer:fine){
+  .lang-switch button:hover{ box-shadow: 0 0 0 2px rgba(105,183,121,.35); transform: translateY(-1px); }
+}
+
+/* Actif : fin anneau bleu, propre (pas de drop-shadow qui grossit visuellement) */
+.lang-switch button.active{
+  box-shadow: 0 0 0 2px #2A9FFF;
+  transform: none;
+}
+
+/* GB : fond blanc pour neutraliser les bordures internes éventuelles */
+.lang-switch img[src*="gb"]{ background:#fff; }
+
+/* 3) Version mobile : mêmes tailles exactes (pas d’illusion optique) */
+@media (max-width: 980px){
+  .lang-switch button{
+    width: var(--flag-w-mobile);
+    height: var(--flag-h-mobile);
+    border-radius: var(--flag-radius);
+  }
+}
+
+/* 4) Drawer header : éloigner franchement la croix en LTR */
+.drawer .panel .header-row{
+  display:flex; align-items:center; gap: 12px; justify-content:flex-start;
+}
+.drawer .panel .header-row h3{ margin:0; }
+.drawer .panel .header-row .lang-switch{ margin-inline-end:auto; }
+.drawer .panel .close-btn{
+  margin-left:auto;               /* pousse complètement à droite en LTR */
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.06);
+  line-height: 1;
+}
+
+/* 5) RTL : inverser le flux ET pousser encore plus la croix */
+[dir="rtl"] .drawer .panel .header-row{
+  flex-direction: row-reverse;    /* titre à droite, croix tout à gauche */
+}
+[dir="rtl"] .drawer .panel .header-row .lang-switch{
+  margin-inline-start: auto;      /* espace entre drapeaux et titre */
+  margin-inline-end: 0;
+}
+[dir="rtl"] .drawer .panel .close-btn{
+  margin-right: auto;             /* colle la croix au bord gauche */
+  margin-left: 0;
+}
+
