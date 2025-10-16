@@ -311,3 +311,81 @@ img, svg{
   height: auto;
 }
 
+/* ================== FIX 1 — Mobile: bande blanche à droite ================== */
+
+/* Empêche tout scroll horizontal, même si un élément déborde d’1px */
+html, body{
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* Le drawer ne doit jamais peindre hors écran */
+.drawer{
+  overflow: hidden !important;                /* clippe les ombres/panneaux */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Sécurise les blocs pleine largeur courants */
+.white-header, .page, .section, .container{
+  max-width: 100% !important;
+}
+
+/* Les images/SVG ne dépassent jamais */
+img, svg{
+  max-width: 100%;
+  height: auto;
+}
+
+/* iOS edge-case : clip de peinture sur le panneau du drawer */
+.drawer .panel{
+  clip-path: inset(0 0 0 0);                 /* évite le "liseré" blanc */
+}
+
+/* ================== FIX 2 — RTL mobile: croix à gauche, drapeaux au centre,
+   titre à droite aligné comme les items ================== */
+
+@media (max-width: 980px){
+  /* On neutralise toute règle précédente (row-reverse) */
+  [dir="rtl"] .drawer .panel .header-row{
+    display: flex !important;
+    flex-direction: row !important;          /* <— impose le sens LTR pour l'ordre */
+    align-items: center !important;
+    gap: 12px !important;
+    padding-inline: 12px !important;
+  }
+
+  /* Ordre désiré : [X] [flags] ............................. [Titre] */
+  [dir="rtl"] .drawer .panel .header-row .close-btn{
+    order: 0 !important;
+    margin: 0 !important;                    /* colle bien à gauche */
+  }
+  [dir="rtl"] .drawer .panel .header-row .lang-switch{
+    order: 1 !important;
+    margin: 0 !important;                    /* au milieu */
+  }
+  [dir="rtl"] .drawer .panel .header-row h3{
+    order: 2 !important;
+    margin: 0 !important;
+    margin-inline-start: auto !important;    /* pousse totalement à droite */
+    text-align: right !important;            /* même alignement que les items */
+  }
+}
+
+/* ================== Renfort hamburger (au cas où une autre feuille le masque) ================== */
+@media (max-width: 980px){
+  header.site-header.white-header nav.site-nav,
+  .white-header .site-nav{
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+  header.site-header.white-header .menu-toggle,
+  .white-header .menu-toggle{
+    display: flex !important;
+    order: 3;
+    margin-left: auto;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
