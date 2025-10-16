@@ -3,39 +3,38 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Missions — Power Link</title>
+  <title>Power Link</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <script defer src="assets/script.js"></script>
-  <link rel="stylesheet" href="assets/i18n/i18n.css" />
   <script defer src="assets/i18n/i18n.js"></script>
 </head>
 <body>
   <header class="site-header white-header">
     <a class="logo" href="index.html"><img src="assets/LOGO.jpg" alt="Power Link" /></a>
     <nav class="site-nav">
-      <!-- Flags before HOME -->
       <div class="lang-switch">
-        <button data-lang="en" onclick='setLanguage("en")'><img src="assets/flags/gb.svg" alt="English" /></button>
-        <button data-lang="ar" onclick='setLanguage("ar")'><img src="assets/flags/sa.svg" alt="العربية" /></button>
+        <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+        <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+        <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
       </div>
       <a href="index.html" data-i18n="nav.home">HOME</a>
       <a href="presentation.html" data-i18n="nav.about">ABOUT US</a>
-      <a href="missions.html" class="active" data-i18n="nav.services">SERVICES</a>
+      <a href="missions.html" data-i18n="nav.services">SERVICES</a>
       <a href="personnel.html" data-i18n="nav.team">TEAM</a>
       <a href="contact.html" data-i18n="nav.contact">CONTACT</a>
     </nav>
     <button class="menu-toggle" aria-label="Open menu"><span></span></button>
   </header>
 
-  <!-- Drawer -->
   <div class="drawer" aria-hidden="true">
     <div class="overlay"></div>
     <div class="panel">
       <div class="header-row">
         <h3 data-i18n="nav.drawer">MAIN MENU</h3>
         <div class="lang-switch">
-          <button data-lang="en" onclick='setLanguage("en")'><img src="assets/flags/gb.svg" alt="English" /></button>
-          <button data-lang="ar" onclick='setLanguage("ar")'><img src="assets/flags/sa.svg" alt="العربية" /></button>
+          <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+          <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+          <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
         </div>
         <button class="close-btn" aria-label="Close">×</button>
       </div>
@@ -47,40 +46,17 @@
     </div>
   </div>
 
-  <main class="container section">
-    <h1 data-i18n="missions.title">Our Missions</h1>
-    <p data-i18n="missions.lead">We deliver complete solar and charging solutions — from system design to installation and long-term maintenance — to maximize efficiency, sustainability and return on investment.</p>
-    <h2 data-i18n="missions.solar_models">Solar Partnership Models</h2>
-    <div class="note" data-i18n="missions.models_note">Choose the model that best fits your financial and operational needs.</div>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th data-i18n="table.feature">Feature</th>
-          <th data-i18n="table.epc">Energy Performance Contract</th>
-          <th data-i18n="table.turnkey">Turnkey</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td data-i18n="table.investment">Investment</td><td data-i18n="table.invest_split">70% Power Link / 30% Client</td><td data-i18n="table.invest_100">100% Client</td></tr>
-        <tr><td data-i18n="table.oam">Operation & Maintenance</td><td data-i18n="table.oam_pl">Managed by Power Link</td><td data-i18n="table.oam_client">Client (with Power Link training)</td></tr>
-        <tr><td data-i18n="table.upfront">Upfront Cost</td><td data-i18n="table.low">Low</td><td data-i18n="table.high">High</td></tr>
-        <tr><td data-i18n="table.payment">Payment</td><td data-i18n="table.payment_70">Client pays monthly for 70% of energy produced</td><td data-i18n="table.payment_0">No monthly payment; client owns 100% of production</td></tr>
-        <tr><td data-i18n="table.ownership">Ownership</td><td data-i18n="table.ownership_transfer">Full ownership transferred at end of contract</td><td data-i18n="table.ownership_immediate">Immediate full ownership</td></tr>
-      </tbody>
-    </table>
-
-    <h2 data-i18n="missions.ev_benefits">EV Charging — Benefits</h2>
-    <ul class="list-cards">
-      <li data-i18n="missions.ev_clean">Cleaner transportation</li>
-      <li data-i18n="missions.ev_access">Convenient access</li>
-      <li data-i18n="missions.ev_growth">Economic growth</li>
-      <li data-i18n="missions.ev_efficiency">Energy efficiency</li>
-    </ul>
+  <main class="page">
+    <div class="container">
+      <section class="hero slide-in">
+        <h1 data-i18n="pages.services.title">Power Link</h1>
+        <p class="lead" data-i18n="pages.services.lead">Premium energy consulting & services.</p>
+      </section>
+    </div>
   </main>
 
   <footer class="site-footer">
-    © <span id="year"></span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
+    © <span id="year">2025</span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
   </footer>
 </body>
 </html>

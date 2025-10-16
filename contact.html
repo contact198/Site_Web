@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Power Link</title>
+  <title>Power Link</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <script defer src="assets/script.js"></script>
-  <link rel="stylesheet" href="assets/i18n/i18n.css" />
   <script defer src="assets/i18n/i18n.js"></script>
 </head>
 <body>
   <header class="site-header white-header">
     <a class="logo" href="index.html"><img src="assets/LOGO.jpg" alt="Power Link" /></a>
     <nav class="site-nav">
-      <!-- Flags before HOME -->
       <div class="lang-switch">
-        <button data-lang="en" onclick='setLanguage("en")'><img src="assets/flags/gb.svg" alt="English" /></button>
-        <button data-lang="ar" onclick='setLanguage("ar")'><img src="assets/flags/sa.svg" alt="العربية" /></button>
+        <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+        <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+        <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
       </div>
       <a href="index.html" data-i18n="nav.home">HOME</a>
       <a href="presentation.html" data-i18n="nav.about">ABOUT US</a>
@@ -27,15 +26,15 @@
     <button class="menu-toggle" aria-label="Open menu"><span></span></button>
   </header>
 
-  <!-- Drawer -->
   <div class="drawer" aria-hidden="true">
     <div class="overlay"></div>
     <div class="panel">
       <div class="header-row">
         <h3 data-i18n="nav.drawer">MAIN MENU</h3>
         <div class="lang-switch">
-          <button data-lang="en" onclick='setLanguage("en")'><img src="assets/flags/gb.svg" alt="English" /></button>
-          <button data-lang="ar" onclick='setLanguage("ar")'><img src="assets/flags/sa.svg" alt="العربية" /></button>
+          <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+          <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+          <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
         </div>
         <button class="close-btn" aria-label="Close">×</button>
       </div>
@@ -47,30 +46,44 @@
     </div>
   </div>
 
-  <main class="container section">
-    <h1 data-i18n="contact.title">Contact us</h1>
-    <p data-i18n="contact.lead">Use the form below and our team will get back to you as soon as possible.</p>
+  <main class="container section contact">
+    <div class="contact-shell">
+      <div class="contact-head">
+        <h1 data-i18n="contact.title">Contact us</h1>
+        <p class="lead" data-i18n="contact.lead">Use the form below and our team will get back to you as soon as possible.</p>
+      </div>
 
-    <form id="contact-form" action="https://formspree.io/f/mblzaevw" method="POST">
-      <label><span class="i18n-label-text" data-i18n="contact.name">Name</span>
-        <input type="text" name="name" required minlength="2" placeholder="Your name" data-i18n="contact.placeholder_name" />
-      </label>
-      <label><span class="i18n-label-text" data-i18n="contact.email">Email</span>
-        <input type="email" name="email" required placeholder="you@example.com" inputmode="email" autocomplete="email" data-i18n="contact.placeholder_email" />
-      </label>
-      <label><span class="i18n-label-text" data-i18n="contact.subject">Subject</span>
-        <input type="text" name="subject" required minlength="2" placeholder="Subject" data-i18n="contact.placeholder_subject" />
-      </label>
-      <label><span class="i18n-label-text" data-i18n="contact.message">Message</span>
-        <textarea name="message" required minlength="10" placeholder="How can we help?" data-i18n="contact.placeholder_message"></textarea>
-      </label>
-      <button class="btn" type="submit" data-i18n="contact.send">Send message</button>
-      <div id="form-status" class="note" style="display:none;margin-top:12px"></div>
-    </form>
+      <form id="contact-form" action="https://formspree.io/f/mblzaevw" method="POST" class="contact-form">
+        <label class="field">
+          <span class="i18n-label-text" data-i18n="contact.name">Name</span>
+          <input type="text" name="name" required minlength="2" data-i18n="contact.placeholder_name" />
+        </label>
+
+        <label class="field">
+          <span class="i18n-label-text" data-i18n="contact.email">Email</span>
+          <input type="email" name="email" required autocomplete="email" inputmode="email" data-i18n="contact.placeholder_email" />
+        </label>
+
+        <label class="field">
+          <span class="i18n-label-text" data-i18n="contact.subject">Subject</span>
+          <input type="text" name="subject" required minlength="2" data-i18n="contact.placeholder_subject" />
+        </label>
+
+        <label class="field">
+          <span class="i18n-label-text" data-i18n="contact.message">Message</span>
+          <textarea name="message" required minlength="10" data-i18n="contact.placeholder_message"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn" type="submit" data-i18n="contact.send">Send message</button>
+        </div>
+        <div id="form-status" class="form-status" aria-live="polite"></div>
+      </form>
+    </div>
   </main>
 
   <footer class="site-footer">
-    © <span id="year"></span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
+    © <span id="year">2025</span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
   </footer>
 </body>
 </html>

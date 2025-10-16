@@ -3,27 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — Power Link</title>
+  <title>Power Link</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <script defer src="assets/script.js"></script>
-  <link rel="stylesheet" href="assets/i18n/i18n.css" />
   <script defer src="assets/i18n/i18n.js"></script>
 </head>
 <body>
   <header class="site-header white-header">
     <a class="logo" href="index.html"><img src="assets/LOGO.jpg" alt="Power Link" /></a>
     <nav class="site-nav">
-      <!-- Flags before HOME -->
       <div class="lang-switch">
-        <button data-lang="en" aria-label="Switch to English" onclick='setLanguage("en")'>
-          <img src="assets/flags/gb.svg" alt="English" />
-        </button>
-        <button data-lang="ar" aria-label="التبديل للعربية" onclick='setLanguage("ar")'>
-          <img src="assets/flags/sa.svg" alt="العربية" />
-        </button>
+        <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+        <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+        <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
       </div>
       <a href="index.html" data-i18n="nav.home">HOME</a>
-      <a href="presentation.html" class="active" data-i18n="nav.about">ABOUT US</a>
+      <a href="presentation.html" data-i18n="nav.about">ABOUT US</a>
       <a href="missions.html" data-i18n="nav.services">SERVICES</a>
       <a href="personnel.html" data-i18n="nav.team">TEAM</a>
       <a href="contact.html" data-i18n="nav.contact">CONTACT</a>
@@ -31,15 +26,15 @@
     <button class="menu-toggle" aria-label="Open menu"><span></span></button>
   </header>
 
-  <!-- Drawer -->
   <div class="drawer" aria-hidden="true">
     <div class="overlay"></div>
     <div class="panel">
       <div class="header-row">
         <h3 data-i18n="nav.drawer">MAIN MENU</h3>
         <div class="lang-switch">
-          <button data-lang="en" onclick='setLanguage("en")'><img src="assets/flags/gb.svg" alt="English" /></button>
-          <button data-lang="ar" onclick='setLanguage("ar")'><img src="assets/flags/sa.svg" alt="العربية" /></button>
+          <button data-lang="fr" onclick='setLanguage("fr")' aria-label="Français"><img src="assets/flags/fr.svg" alt="Français" /></button>
+          <button data-lang="en" onclick='setLanguage("en")' aria-label="English"><img src="assets/flags/gb.svg" alt="English" /></button>
+          <button data-lang="ar" onclick='setLanguage("ar")' aria-label="العربية"><img src="assets/flags/sa.svg" alt="العربية" /></button>
         </div>
         <button class="close-btn" aria-label="Close">×</button>
       </div>
@@ -51,37 +46,17 @@
     </div>
   </div>
 
-  <section class="hero">
+  <main class="page">
     <div class="container">
-      <span class="badge" data-i18n="badge.clean_ev"><span class="dot"></span> Clean energy & EV charging</span>
-      <h1 data-i18n="hero.tagline">Power Link — clean energy that looks good and performs even better.</h1>
-      <p data-i18n="hero.lead">Photovoltaic systems and smart EV charging solutions. From consulting and design to installation and long-term maintenance.</p>
-    </div>
-  </section>
-
-  <main class="container section">
-    <h1 data-i18n="about.title">About Power Link</h1>
-    <p data-i18n="about.lead">As the world moves toward a sustainable future, green energy has become essential. Power Link develops photovoltaic systems and EV charging solutions to accelerate the transition to clean, renewable power. Our goal is simple: make sustainable energy accessible to everyone, everywhere.</p>
-    
-    <h2 data-i18n="about.why">Why green energy matters</h2>
-    <ul class="list-cards">
-      <li data-i18n="about.env">Environmental benefits — lower emissions, cleaner air and environment.</li>
-      <li data-i18n="about.energy">Energy independence — diversify energy sources and increase resilience.</li>
-      <li data-i18n="about.econ">Economic benefits — reduce bills and improve ROI over time.</li>
-      <li data-i18n="about.future">Sustainable future — invest in long-term, future-proof energy systems.</li>
-    </ul>
-
-    <h2 data-i18n="about.markets">Target Markets</h2>
-    <div class="grid two">
-      <article class="card"><h3 data-i18n="about.market_commercial">Commercial</h3><p data-i18n="about.market_commercial_desc">Rooftop and car-park systems tailored to business needs.</p></article>
-      <article class="card"><h3 data-i18n="about.market_industrial">Industrial</h3><p data-i18n="about.market_industrial_desc">High-yield PV and reliable charging for demanding sites.</p></article>
-      <article class="card"><h3 data-i18n="about.market_government">Government & Public</h3><p data-i18n="about.market_government_desc">Municipal buildings, schools, and public infrastructure.</p></article>
-      <article class="card"><h3 data-i18n="about.market_utilities">Utilities</h3><p data-i18n="about.market_utilities_desc">Grid-integrated projects with stable long-term performance.</p></article>
+      <section class="hero slide-in">
+        <h1 data-i18n="pages.about.title">Power Link</h1>
+        <p class="lead" data-i18n="pages.about.lead">Premium energy consulting & services.</p>
+      </section>
     </div>
   </main>
 
   <footer class="site-footer">
-    © <span id="year"></span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
+    © <span id="year">2025</span> <span data-i18n="footer.rights">Power Link — All rights reserved.</span>
   </footer>
 </body>
 </html>
