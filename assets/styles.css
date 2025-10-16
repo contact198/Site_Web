@@ -1,325 +1,120 @@
-/* ========= POWER LINK — FINAL PRO UI =========
-   - I18N: support [dir="rtl"]
-   - Mobile: fix overflow + alignement RTL
-   - Optimisé iOS / Android
-=========================================================== */
+/* ========= POWER LINK — Mobile/Drawer/Flags (clean) ========= */
 
-/* --- Variables --- */
-:root {
-  --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
-  --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
-  --white:#ffffff; --muted:#C8D6CE;
-  --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
-  --header-h:90px; --container-w:1180px; --page-max:960px; --gutter:22px;
-  --fs-1:clamp(30px,5vw,56px); --fs-2:clamp(20px,2.4vw,28px); --fs-3:16px;
-  --ring:0 0 0 3px rgba(105,183,121,.35);
-  --flag-w-desktop:24px; --flag-h-desktop:16px;
-  --flag-w-mobile:26px;  --flag-h-mobile:18px;
-  --flag-radius:3px; --flag-gap:.5rem;
+/* ==== Variables (garde tes autres tokens) ==== */
+:root{
+  --flag-d-w: 24px;   /* desktop */
+  --flag-d-h: 24px;
+  --flag-m-w: 26px;   /* mobile */
+  --flag-m-h: 26px;
+  --flag-gap: .5rem;
 }
 
-/* --- Reset --- */
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-html,body{
-  margin:0; padding:0; color:var(--white);
-  font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  max-width:100%; overflow-x:hidden; /* anti liseré */
-}
+/* ===== Anti liseré blanc universel ===== */
+html, body { max-width:100% !important; overflow-x:hidden !important; }
+img, svg { max-width:100%; height:auto; }
 
-/* Fond */
-body{
-  background:#0F2A1F url('assets/bg-luxury.jpg') center/cover no-repeat;
-  background-attachment:scroll;
-}
+/* Le drawer ne doit jamais peindre hors écran */
+.drawer { overflow:hidden !important; -webkit-overflow-scrolling:touch; }
+.drawer .panel { clip-path: inset(0 0 0 0); }
 
-/* Liens */
-a{color:var(--green-200);text-decoration:none;transition:color .2s ease;}
-a:hover{color:#E9FFB3;}
-a:focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px;}
-
-/* Boutons */
-.btn{
-  display:inline-block;padding:12px 18px;border-radius:14px;font-weight:700;
-  background:linear-gradient(135deg,var(--green-300),#E8FFC7);color:#0f2a1f;
-  border:none;box-shadow:var(--shadow);
-  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
-}
-@media(hover:hover)and(pointer:fine){
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.4);}
-}
-.btn:active{transform:translateY(0);filter:saturate(.98);}
-.btn.secondary{background:rgba(255,255,255,.08);color:var(--white);
-  border:1px solid rgba(255,255,255,.12);box-shadow:none;}
-
-/* --- Header --- */
-.white-header{
-  background:#fff;border-bottom:1px solid rgba(0,0,0,.08);
-  box-shadow:0 3px 8px rgba(0,0,0,.05);
-  color:#16402B;position:sticky;top:0;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:0 18px;height:var(--header-h);
-}
-.white-header .logo img{height:60px;object-fit:contain;display:block;}
-.white-header .site-nav{display:flex;gap:28px;align-items:center;}
-.white-header .site-nav a{
-  color:#1D5336;font-weight:600;text-transform:uppercase;font-size:15px;
-  position:relative;transition:color .2s ease;letter-spacing:.4px;
-}
-.white-header .site-nav a:hover,
-.white-header .site-nav a.active{color:#69B779;}
-.white-header .site-nav a::after{
-  content:"";position:absolute;bottom:-6px;left:0;width:0;height:2px;
-  background:#69B779;transition:width .3s ease;
-}
-.white-header .site-nav a:hover::after,
-.white-header .site-nav a.active::after{width:100%;}
-
-/* --- Menu hamburger --- */
-.menu-toggle{
-  display:none;width:44px;height:44px;border-radius:10px;
-  border:1px solid rgba(0,0,0,.08);background:#fff;
-  justify-content:center;align-items:center;cursor:pointer;
-}
-.menu-toggle span,.menu-toggle span::before,.menu-toggle span::after{
-  display:block;width:22px;height:2px;background:#1D5336;content:"";
-  position:relative;
-}
-.menu-toggle span::before{position:absolute;transform:translateY(-6px);}
-.menu-toggle span::after{position:absolute;transform:translateY(6px);}
-
-/* --- Drawer (menu latéral mobile) --- */
-.drawer{
-  position:fixed;inset:0;z-index:300;pointer-events:none;
-  overflow:hidden; /* évite le débordement horizontal */
-}
+/* ===== Drawer (structure & animation safe) ===== */
+.drawer { position:fixed; inset:0; z-index:300; pointer-events:none; }
 .drawer .overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,.35);
-  opacity:0;transition:opacity .25s ease;
+  position:absolute; inset:0; background:rgba(0,0,0,.35);
+  opacity:0; transition:opacity .25s ease;
 }
 .drawer .panel{
-  position:absolute;top:0;right:0;width:78%;max-width:380px;height:100%;
-  background:#fff;box-shadow:-10px 0 30px rgba(0,0,0,.25);
-  display:flex;flex-direction:column;gap:8px;padding:18px;
-  transform:translateX(100%);transition:transform .25s ease;will-change:transform;
-  clip-path:inset(0 0 0 0); /* évite le liseré blanc iOS */
+  position:absolute; top:0; right:0; width:78%; max-width:380px; height:100%;
+  background:#fff; box-shadow:-10px 0 30px rgba(0,0,0,.25);
+  display:flex; flex-direction:column; gap:8px; padding:18px;
+  transform:translateX(100%); transition:transform .25s ease; will-change:transform;
 }
-.drawer.open{pointer-events:auto;}
-.drawer.open .overlay{opacity:1;}
-.drawer.open .panel{transform:translateX(0);}
+.drawer.open{ pointer-events:auto; }
+.drawer.open .overlay{ opacity:1; }
+.drawer.open .panel{ transform:translateX(0); }
 
-/* Header du drawer */
-.drawer .panel .header-row{
-  display:flex;align-items:center;gap:12px;justify-content:flex-start;
-  padding-inline:6px;
-}
-.drawer .panel h3{
-  margin:0;color:#1D5336;font-size:16px;font-weight:700;
-  letter-spacing:.3px;
-}
-.drawer .panel .close-btn{
-  margin-left:auto;padding:6px 10px;line-height:1;
-  border-radius:999px;background:rgba(0,0,0,.04);
-  border:1px solid rgba(0,0,0,.06);
-}
+/* RTL : panneau coulisse depuis la gauche */
+[dir="rtl"] .drawer .panel{ left:0; right:auto; transform:translateX(-100%); }
+[dir="rtl"] .drawer.open .panel{ transform:translateX(0); }
 
-/* Liens du drawer */
-.drawer .panel a{
-  display:flex;align-items:center;justify-content:space-between;
-  text-decoration:none;color:#374151;padding:14px 10px;
-  border-top:1px solid #eee;text-transform:uppercase;
-  font-weight:600;font-size:15px;
-}
-.drawer .panel a:first-of-type{border-top:none;}
-
-/* === Langues === */
-.lang-switch button{
-  width:var(--flag-w-mobile);height:var(--flag-h-mobile);
-  border:none;background:transparent;border-radius:var(--flag-radius);
-  overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
-  box-shadow:0 0 0 1px rgba(0,0,0,.12);transition:box-shadow .2s ease;
-}
-.lang-switch button img{width:100%;height:100%;object-fit:cover;display:block;}
-.lang-switch button.active{box-shadow:0 0 0 2px #2A9FFF;}
-.lang-switch img[src*="gb"]{background:#fff;}
-
-/* === Mobile général === */
+/* ===== Header du drawer : ligne unique, stable ===== */
 @media (max-width:980px){
-  .white-header .site-nav{display:none!important;}
-  .menu-toggle{display:flex!important;margin-left:auto;}
-}
-
-/* === RTL (arabe) — version mobile === */
-@media (max-width:980px){
-  [dir="rtl"] .drawer .panel{
-    left:0;right:auto;transform:translateX(-100%);
-  }
-  [dir="rtl"] .drawer.open .panel{
-    transform:translateX(0);
-  }
-
-  /* Header du drawer arabe aligné proprement */
-  [dir="rtl"] .drawer .panel .header-row{
+  /* LTR — [Title] .... [Flags] [X] */
+  .drawer .panel .header-row{
     display:grid !important;
-    grid-template-columns:auto auto 1fr; /* [X] [flags] ......... [Title] */
+    grid-template-columns: 1fr auto auto !important;
     align-items:center !important;
     column-gap:10px !important;
     padding-inline:12px !important;
-  }
-  [dir="rtl"] .drawer .panel .header-row .close-btn{
-    grid-column:1 !important;
-    justify-self:start !important;
-    margin:0 !important;
-  }
-  [dir="rtl"] .drawer .panel .header-row .lang-switch{
-    grid-column:2 !important;
-    justify-self:start !important;
-    margin:0 !important;
-  }
-  [dir="rtl"] .drawer .panel .header-row h3{
-    grid-column:3 !important;
-    justify-self:end !important;
-    text-align:right !important;
-    margin:0 !important;
-  }
-}
-
-/* === Anti-liseré blanc universel === */
-.white-header,.page,.section,.container,img,svg{
-  max-width:100% !important;height:auto;
-}
-/* ===== Drawer header: une ligne stable (LTR & RTL) ===== */
-@media (max-width: 980px){
-  /* LTR — [Title] .... [Flags] [X] */
-  .drawer .panel .header-row{
-    display: grid !important;
-    grid-template-columns: 1fr auto auto !important;  /* 1 ligne */
-    align-items: center !important;
-    column-gap: 10px !important;
-    padding-inline: 12px !important;
-    min-height: 56px; /* cohérent visuellement */
+    min-height:56px;
   }
   .drawer .panel .header-row h3{
-    grid-column: 1 !important;
-    margin: 0 !important;
-    text-align: left !important;
-    min-width: 0;                 /* permet la troncature */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    grid-column:1 !important; margin:0 !important; text-align:left !important;
+    min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .drawer .panel .header-row .lang-switch{
-    grid-column: 2 !important;
-    margin: 0 !important;
-    display: inline-flex !important;
-    gap: 8px !important;
-    flex-wrap: nowrap !important; /* jamais sur 2 lignes */
+    grid-column:2 !important; margin:0 !important; display:inline-flex !important;
+    align-items:center; gap:8px; flex-wrap:nowrap;
   }
   .drawer .panel .header-row .close-btn{
-    grid-column: 3 !important;
-    margin: 0 !important;
-    justify-self: end !important; /* X à droite en LTR */
+    grid-column:3 !important; margin:0 !important; justify-self:end !important;
+    padding:6px 10px; line-height:1; border-radius:999px;
+    background:rgba(0,0,0,.04); border:1px solid rgba(0,0,0,.06);
   }
 
   /* RTL — [X] [Flags] .... [Title] */
   [dir="rtl"] .drawer .panel .header-row{
     grid-template-columns: auto auto 1fr !important;
-    direction: rtl; /* n'impacte que le flux interne */
+    direction: rtl; /* n’affecte que cette ligne */
   }
   [dir="rtl"] .drawer .panel .header-row .close-btn{
-    grid-column: 1 !important;
-    justify-self: start !important; /* X à gauche en arabe */
+    grid-column:1 !important; justify-self:start !important; margin:0 !important;
   }
   [dir="rtl"] .drawer .panel .header-row .lang-switch{
-    grid-column: 2 !important;
-    justify-self: start !important;
+    grid-column:2 !important; justify-self:start !important; margin:0 !important;
   }
   [dir="rtl"] .drawer .panel .header-row h3{
-    grid-column: 3 !important;
-    text-align: right !important;   /* aligné comme les items */
-  }
-
-  /* Taille & comportement des drapeaux (pas de wrap, tailles fixes) */
-  .drawer .header-row .lang-switch button{
-    width: var(--flag-w-mobile); height: var(--flag-h-mobile);
-    border-radius: var(--flag-radius);
-    overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(0,0,0,.12);
-  }
-  .drawer .header-row .lang-switch button img{
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
-  .drawer .header-row .lang-switch button.active{
-    box-shadow: 0 0 0 2px #2A9FFF;
+    grid-column:3 !important; justify-self:end !important; text-align:right !important; margin:0 !important;
   }
 }
 
-/* Sécurité anti-débordement (au cas où d'autres règles s'appliquent) */
-html, body{max-width:100% !important; overflow-x:hidden !important;}
-.drawer{overflow:hidden !important;}
-/* ===== Drawer header — mise en ligne parfaite (LTR & RTL) ===== */
-@media (max-width: 980px){
-  /* LTR — MAIN MENU | flags | X */
-  .drawer .panel .header-row{
-    display: grid !important;
-    grid-template-columns: 1fr auto auto !important; /* Titre flexible, puis flags, puis X */
-    align-items: center !important;
-    column-gap: 10px !important;
-    padding-inline: 12px !important;
-    min-height: 56px;
-  }
-
-  .drawer .panel .header-row h3{
-    grid-column: 1 !important;
-    margin: 0 !important;
-    text-align: left !important;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-
-  .drawer .panel .header-row .lang-switch{
-    grid-column: 2 !important;
-    margin: 0 !important;
-    display: inline-flex !important;
-    align-items: center; gap: 8px; flex-wrap: nowrap;
-  }
-
-  .drawer .panel .header-row .close-btn{
-    grid-column: 3 !important;
-    margin: 0 !important;
-    justify-self: end !important;   /* X bien à droite */
-  }
-
-  /* RTL — X | flags | Title (aligné à droite) */
-  [dir="rtl"] .drawer .panel .header-row{
-    grid-template-columns: auto auto 1fr !important;
-    direction: rtl; /* n’affecte que la ligne de header */
-  }
-  [dir="rtl"] .drawer .panel .header-row .close-btn{
-    grid-column: 1 !important; justify-self: start !important; margin: 0 !important;
-  }
-  [dir="rtl"] .drawer .panel .header-row .lang-switch{
-    grid-column: 2 !important; justify-self: start !important; margin: 0 !important;
-  }
-  [dir="rtl"] .drawer .panel .header-row h3{
-    grid-column: 3 !important; justify-self: end !important;
-    text-align: right !important; margin: 0 !important;
-  }
-
-  /* Drapeaux (taille fixe + pas de wrap) */
-  .drawer .header-row .lang-switch button{
-    width: var(--flag-w-mobile); height: var(--flag-h-mobile);
-    border-radius: var(--flag-radius);
-    overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.12);
-  }
-  .drawer .header-row .lang-switch button img{
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
-  .drawer .header-row .lang-switch button.active{
-    box-shadow: 0 0 0 2px #2A9FFF; /* garde l’état actif si tu le souhaites */
-  }
+/* ===== Flags — même rendu desktop & mobile ===== */
+/* Conteneur (desktop nav & drawer) */
+.site-header .site-nav > .lang-switch,
+.drawer .header-row .lang-switch{
+  display:inline-flex !important; gap:var(--flag-gap); align-items:center; justify-content:center;
 }
 
-/* Sécurités anti-débordement (liseré blanc) — gardées */
-html, body{ max-width:100% !important; overflow-x:hidden !important; }
-.drawer{ overflow:hidden !important; }
-.drawer .panel{ clip-path: inset(0 0 0 0); }
+/* Bouton flag — rond, taille adaptée */
+.lang-switch button{
+  width:var(--flag-d-w); height:var(--flag-d-h);
+  border:0; padding:0; background:transparent; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:50%; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(0,0,0,.14);   /* fin trait net */
+  transition:box-shadow .2s ease, transform .12s ease;
+}
+.lang-switch button img{
+  width:100%; height:100%; object-fit:cover; display:block; border-radius:50%;
+}
+/* Actif : anneau discret (pas de glow) */
+.lang-switch button.active{ box-shadow:0 0 0 2px #2A9FFF; transform:none; }
+
+/* GB : fond blanc pour un cercle propre */
+.lang-switch button img[src*="gb"]{ background:#fff; border-radius:50%; }
+
+/* Mobile : même look, taille un poil plus grande */
+@media (max-width:980px){
+  .lang-switch button{ width:var(--flag-m-w); height:var(--flag-m-h); }
+}
+
+/* ===== Nav mobile : hamburger visible, nav masquée ===== */
+@media (max-width:980px){
+  .white-header .site-nav{ display:none !important; }
+  .menu-toggle{ display:flex !important; margin-left:auto; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+}
+
+/* ===== (option) sur desktop : flags un peu plus près du logo ===== */
+@media (min-width:981px){
+  .site-header .site-nav > .lang-switch{ margin-inline-end:.5rem; }
+}
