@@ -323,3 +323,84 @@ body.fade-out{ opacity:0; }
   position:absolute !important; width:1px; height:1px; overflow:hidden;
   clip:rect(0 0 0 0); white-space:nowrap; clip-path:inset(50%);
 }
+/* ===== Mobile flags: glow only + move close button ===== */
+
+/* 1) Boutons de langue: zéro fond/cercle, glow seulement sur l'image */
+.lang-switch button{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  width: 34px !important;
+  height: 24px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lang-switch img{
+  width: 28px !important;
+  height: 20px !important;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+  /* pas d’anneau bleu, juste un fin trait pour netteté */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.12);
+  /* pas de scale pour éviter l’effet “capsule” */
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Hover (desktop) = glow subtil autour du drapeau, pas de cercle */
+@media (hover:hover) and (pointer:fine){
+  .lang-switch button:hover img{
+    box-shadow: 0 0 0 1px rgba(0,0,0,.12);
+    filter: drop-shadow(0 0 8px rgba(42,159,255,.55))
+            drop-shadow(0 0 2px rgba(42,159,255,.45));
+  }
+}
+
+/* Actif (langue sélectionnée) = glow bleu, sans anneau plein */
+.lang-switch button.active img{
+  box-shadow: 0 0 0 1px rgba(0,0,0,.12);
+  filter: drop-shadow(0 0 10px rgba(42,159,255,.75))
+          drop-shadow(0 0 3px rgba(42,159,255,.65));
+}
+
+/* GB svg: fond blanc uniforme pour masquer son contour interne */
+.lang-switch button img[src*="gb"]{
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* 2) Espace “×” loin des drapeaux dans le drawer */
+.drawer .panel .header-row{
+  display: flex;
+  align-items: center;
+  column-gap: 14px;           /* espace interne */
+  justify-content: flex-start;/* on gère l’alignement via margins */
+}
+
+/* Titre à gauche, flags ensuite, la croix poussée complétement à droite */
+.drawer .panel .header-row h3{ margin: 0; }
+.drawer .panel .header-row .lang-switch{ margin-inline-end: auto; }
+.drawer .panel .close-btn{
+  margin-left: auto;          /* colle la croix au bord droit */
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.06);
+  line-height: 1;
+}
+
+/* Option: sur écrans étroits, drapeaux un peu plus petits */
+@media (max-width: 420px){
+  .drawer .header-row .lang-switch img{
+    width: 26px !important;
+    height: 18px !important;
+  }
+  .drawer .header-row .lang-switch button{
+    width: 32px !important;
+    height: 22px !important;
+  }
+}
