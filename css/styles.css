@@ -1,5 +1,5 @@
 
-/* =============== POWER LINK — Premium UI (3 languages) =============== */
+/* =============== POWER LINK — Premium UI (with logo + contact form) =============== */
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
@@ -12,15 +12,19 @@
 html{scroll-behavior:smooth}
 html,body{margin:0;padding:0;color:var(--white);font:16px/1.6 "Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:100%;overflow-x:hidden}
 body{background:#0F2A1F url('../assets/bg-luxury.jpg') center/cover no-repeat}
+
+a{color:var(--green-200);text-decoration:none}
+a:hover{color:#E9FFB3}
+
 .container{max-width:var(--container-w);margin:0 auto;padding:0 var(--gutter)}
 .page{min-height:calc(100vh - var(--header-h) - 120px);display:flex;align-items:center;justify-content:center;padding:60px 0}
 .page .container{max-width:var(--page-max);width:100%;padding:0 24px}
 
 /* Header */
-.site-header{position:sticky;top:0;z-index:50;background:#fff;color:#16402B;height:var(--header-h);display:flex;align-items:center}
+.site-header{position:sticky;top:0;z-index:50;background:#fff;color:#16402B;height:var(--header-h);display:flex;align-items:center;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 3px 8px rgba(0,0,0,.05)}
 .site-header .inner{display:flex;align-items:center;gap:18px;width:100%}
-.brand{display:flex;align-items:center;gap:10px;color:#16402B;font-weight:800;letter-spacing:.5px}
-.brand .logo{width:42px;height:42px;border-radius:10px;background:#2A6B45;box-shadow:0 6px 18px rgba(0,0,0,.18) inset}
+.brand{display:flex;align-items:center;gap:12px;color:#16402B;font-weight:800;letter-spacing:.5px}
+.brand img{height:56px;width:auto;display:block;object-fit:contain}
 .nav{margin-left:auto;display:flex;align-items:center;gap:28px}
 .nav a{color:#1D5336;text-decoration:none;text-transform:uppercase;font-weight:600;font-size:15px;position:relative}
 .nav a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:#69B779;transition:width .25s ease}
@@ -28,18 +32,22 @@ body{background:#0F2A1F url('../assets/bg-luxury.jpg') center/cover no-repeat}
 
 /* Flag Switcher (premium circular) */
 .lang-switch{display:flex;align-items:center;gap:10px}
-.lang-switch button{--sz:36px;width:var(--sz);height:var(--sz);border-radius:999px;padding:0;border:0;background:linear-gradient(#fff,#fff) padding-box,radial-gradient(120% 120% at 30% 20%,#E6D8B9,#C1A36E) border-box;border:2px solid transparent;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);display:inline-grid;place-items:center;transition:transform .12s ease,box-shadow .2s ease}
+.lang-switch button{--sz:34px;width:var(--sz);height:var(--sz);border-radius:999px;padding:0;border:0;
+  background:linear-gradient(#fff,#fff) padding-box,radial-gradient(120% 120% at 30% 20%,#E6D8B9,#C1A36E) border-box;
+  border:2px solid transparent;cursor:pointer;display:grid;place-items:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);transition:transform .12s ease,box-shadow .2s ease}
 .lang-switch button img{width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;display:block;object-fit:cover}
 .lang-switch button:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.22)}
 .lang-switch button.active{border-width:3px}
-/* Drawers */
+
+/* Drawer */
 .menu-toggle{display:none;width:44px;height:44px;border:1px solid rgba(0,0,0,.08);border-radius:10px;background:#fff;display:none;place-items:center}
 .menu-toggle span,.menu-toggle span::before,.menu-toggle span::after{width:22px;height:2px;background:#1D5336;content:"";display:block;position:relative}
 .menu-toggle span::before{position:absolute;transform:translateY(-6px)}
 .menu-toggle span::after{position:absolute;transform:translateY(6px)}
 .drawer{position:fixed;inset:0;z-index:60;pointer-events:none;overflow:hidden}
 .drawer .overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .25s ease}
-.drawer .panel{position:absolute;top:0;right:0;width:78%;max-width:380px;height:100%;background:#fff;color:#1f2937;box-shadow:-10px 0 30px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer .panel{position:absolute;top:0;right:0;width:78%;max-width:380px;height:100%;background:#fff;color:#1f2937;box-shadow:-10px 0 30px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;clip-path:inset(0 0 0 0)}
 .drawer.open{pointer-events:auto}.drawer.open .overlay{opacity:1}.drawer.open .panel{transform:translateX(0)}
 .drawer .head{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:14px 14px 10px}
 .drawer .head h3{margin:0;color:#1D5336;font-size:18px;font-weight:800;letter-spacing:.3px}
@@ -69,3 +77,25 @@ h1,h2,h3{margin:0 0 12px}
 .lead{color:#E6F5EA}
 .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
 .site-footer{padding:40px 20px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,.08);margin-top:44px}
+
+/* Contact premium styles */
+.contact{padding-top:64px;padding-bottom:72px}
+.contact-shell{max-width:var(--page-max);margin:0 auto;padding:40px 32px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow);backdrop-filter:blur(8px) saturate(110%)}
+.contact-head{text-align:center;margin-bottom:36px}
+.contact-head h1{margin:0 0 8px;font-size:clamp(32px,5vw,46px);line-height:1.2;filter:drop-shadow(0 6px 22px rgba(0,0,0,.28))}
+.contact-head .lead{margin:0 0 16px;font-size:18px;opacity:.9}
+
+.contact-form{display:grid;gap:20px}
+.field{display:grid;gap:6px}
+.field label{font-weight:700;letter-spacing:.2px;color:#f2f7f3}
+.field input,.field textarea{appearance:none;width:100%;padding:18px 20px;font-size:17px;line-height:1.4;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.20);transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+.field input{height:56px}
+.field textarea{min-height:180px;resize:vertical}
+.field ::placeholder{color:rgba(255,255,255,.72)}
+.field input:focus-visible,.field textarea:focus-visible{outline:none;border-color:#BDEBC7;box-shadow:0 0 0 4px rgba(105,183,121,.28),0 10px 22px rgba(0,0,0,.28);background:rgba(255,255,255,.10)}
+.form-actions{display:grid;justify-items:center;gap:8px;margin-top:8px}
+.form-actions .btn{padding:16px 42px;font-size:17px;border-radius:18px}
+.form-status{display:block;margin-top:10px;text-align:center;font-weight:600;letter-spacing:.2px}
+.form-status.success{color:#BDEBC7}.form-status.error{color:#ffb3b8}
+
+@media (max-width:600px){.contact-shell{padding:22px 16px}}
