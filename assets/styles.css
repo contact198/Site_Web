@@ -257,3 +257,69 @@ a:focus-visible{outline:none;box-shadow:var(--ring);border-radius:8px;}
 /* Sécurité anti-débordement (au cas où d'autres règles s'appliquent) */
 html, body{max-width:100% !important; overflow-x:hidden !important;}
 .drawer{overflow:hidden !important;}
+/* ===== Drawer header — mise en ligne parfaite (LTR & RTL) ===== */
+@media (max-width: 980px){
+  /* LTR — MAIN MENU | flags | X */
+  .drawer .panel .header-row{
+    display: grid !important;
+    grid-template-columns: 1fr auto auto !important; /* Titre flexible, puis flags, puis X */
+    align-items: center !important;
+    column-gap: 10px !important;
+    padding-inline: 12px !important;
+    min-height: 56px;
+  }
+
+  .drawer .panel .header-row h3{
+    grid-column: 1 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .drawer .panel .header-row .lang-switch{
+    grid-column: 2 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center; gap: 8px; flex-wrap: nowrap;
+  }
+
+  .drawer .panel .header-row .close-btn{
+    grid-column: 3 !important;
+    margin: 0 !important;
+    justify-self: end !important;   /* X bien à droite */
+  }
+
+  /* RTL — X | flags | Title (aligné à droite) */
+  [dir="rtl"] .drawer .panel .header-row{
+    grid-template-columns: auto auto 1fr !important;
+    direction: rtl; /* n’affecte que la ligne de header */
+  }
+  [dir="rtl"] .drawer .panel .header-row .close-btn{
+    grid-column: 1 !important; justify-self: start !important; margin: 0 !important;
+  }
+  [dir="rtl"] .drawer .panel .header-row .lang-switch{
+    grid-column: 2 !important; justify-self: start !important; margin: 0 !important;
+  }
+  [dir="rtl"] .drawer .panel .header-row h3{
+    grid-column: 3 !important; justify-self: end !important;
+    text-align: right !important; margin: 0 !important;
+  }
+
+  /* Drapeaux (taille fixe + pas de wrap) */
+  .drawer .header-row .lang-switch button{
+    width: var(--flag-w-mobile); height: var(--flag-h-mobile);
+    border-radius: var(--flag-radius);
+    overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.12);
+  }
+  .drawer .header-row .lang-switch button img{
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .drawer .header-row .lang-switch button.active{
+    box-shadow: 0 0 0 2px #2A9FFF; /* garde l’état actif si tu le souhaites */
+  }
+}
+
+/* Sécurités anti-débordement (liseré blanc) — gardées */
+html, body{ max-width:100% !important; overflow-x:hidden !important; }
+.drawer{ overflow:hidden !important; }
+.drawer .panel{ clip-path: inset(0 0 0 0); }
