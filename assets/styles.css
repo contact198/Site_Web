@@ -286,4 +286,28 @@ body.fade-out{ opacity:0; }
     text-align: right;         /* aligne la typographie comme les items */
   }
 }
+/* ===== FIX mobile — bande blanche à droite (overflow X) ===== */
+
+/* 1) Empêche tout scroll horizontal parasite */
+html, body{
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* 2) Le drawer (menu latéral) ne doit pas déborder visuellement */
+.drawer{
+  overflow: hidden;          /* clippe l'ombre et le panneau quand il est hors-champ */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3) Sécurise quelques blocs pleine largeur */
+.white-header, .page, .section, .container{
+  max-width: 100%;
+}
+
+/* 4) (optionnel) images/SVG ne dépassent jamais */
+img, svg{
+  max-width: 100%;
+  height: auto;
+}
 
