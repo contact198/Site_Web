@@ -81,3 +81,25 @@
 
 /* === TWEAK: logo size bump (final) === */
 .logo img, .brand img{ height:64px !important; width:auto; display:block; }
+
+
+/* === HOTFIX (clicks + RTL + header stacking) === */
+.site-header{ position: relative; z-index: 1000; }
+.header-inner{ position: relative; }
+.lang-switch, .lang-btn{ pointer-events: auto; }
+.lang-btn{ background: transparent !important; border: 0 !important; box-shadow: none !important; }
+.lang-btn img{ display:block; border-radius:50%; }
+/* Ensure header sits above hero or any effects */
+.hero, .section{ position: relative; z-index: 1; }
+/* Push nav correctly depending on direction using logical margin */
+.nav, .site-nav{ display:flex; align-items:center; gap:26px; margin-inline-start:auto; margin-inline-end:0; }
+[dir="rtl"] .nav, [dir="rtl"] .site-nav{ margin-inline-start:0; margin-inline-end:auto; }
+/* Logo final size */
+.logo img, .brand img{ height:64px !important; width:auto; display:block; }
+
+
+/* === HOTFIX2 header z-index + rtl nav + logo === */
+.site-header{ position: relative; z-index: 1000; }
+.nav, .site-nav{ margin-inline-start:auto; margin-inline-end:0; }
+[dir="rtl"] .nav, [dir="rtl"] .site-nav{ margin-inline-start:0; margin-inline-end:auto; }
+.logo img, .brand img{ height:64px !important; width:auto; display:block; }
