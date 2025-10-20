@@ -19,7 +19,10 @@
   async function setLang(lang,push=true){if(!SUPPORTED.includes(lang)) lang='en'; localStorage.setItem('lang',lang); applyRTL(lang); const d=await loadDict(lang); \1 retriggerEnter();
     if(push){const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState({},'',u);}}
   document.addEventListener('click',e=>{const b=e.target.closest('.lang-btn'); if(b){setLang(b.dataset.lang);}});
-  const drawer=document.querySelector('.drawer'); document.querySelector('.hamburger')?.addEventListener('click',()=>drawer?.classList.add('open'));
+  const drawer=document.querySelector('.drawer');
+  document.querySelector('.hamburger')?.addEventListener('click',()=>drawer?.classList.add('open'));
+  document.querySelector('.menu-toggle')?.addEventListener('click',()=>drawer?.classList.add('open'));
+ document.querySelector('.hamburger')?.addEventListener('click',()=>drawer?.classList.add('open'));
   document.querySelector('.drawer-close')?.addEventListener('click',()=>drawer?.classList.remove('open')); drawer?.querySelector('.overlay')?.addEventListener('click',()=>drawer?.classList.remove('open'));
   const form=document.getElementById('contact-form'); form?.addEventListener('submit',async e=>{e.preventDefault(); const msg=document.getElementById('contact-success'); await new Promise(r=>setTimeout(r,300)); msg.hidden=false; form.reset();});
   setLang(START,false);
