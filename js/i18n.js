@@ -26,4 +26,21 @@
   document.querySelector('.drawer-close')?.addEventListener('click',()=>drawer?.classList.remove('open')); drawer?.querySelector('.overlay')?.addEventListener('click',()=>drawer?.classList.remove('open'));
   const form=document.getElementById('contact-form'); form?.addEventListener('submit',async e=>{e.preventDefault(); const msg=document.getElementById('contact-success'); await new Promise(r=>setTimeout(r,300)); msg.hidden=false; form.reset();});
   setLang(START,false);
+
+  function bindUI(){
+    const drawer=document.querySelector('.drawer');
+    // Open (hamburger/menu-toggle) via delegation
+    document.addEventListener('click', (e)=>{
+      const openBtn = e.target.closest('.hamburger, .menu-toggle');
+      if(openBtn){ drawer?.classList.add('open'); }
+      const closeBtn = e.target.closest('.drawer-close, .overlay');
+      if(closeBtn){ drawer?.classList.remove('open'); }
+      const flagBtn = e.target.closest('.lang-btn');
+      if(flagBtn){ setLang(flagBtn.dataset.lang); }
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bindUI, {once:true});
+  }else{ bindUI(); }
+
 })();
