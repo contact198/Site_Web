@@ -58,48 +58,22 @@
 }
 .site-header .brand img{height:48px;width:auto;display:block}
 
-
-
-/* === POWER LINK: Header width + alignment tweaks === */
-:root{
-  --container-w: 1500px;
-  --gutter: 24px;
-}
-.site-header .header-inner,
-.site-header .inner{
-  max-width: min(var(--container-w), 100%);
-  margin: 0 auto;
-  padding: 10px var(--gutter);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-/* push nav + flags to the far right */
-.nav, .site-nav { margin-left: auto; }
-/* brand/logo sizing */
-.logo img, .brand img{ height: 52px; width: auto; display:block; }
-
-/* === Contact full-width form === */
-.contact-hero, .hero.hero-full{
-  width: 100%;
-  margin: 0;
-  padding: clamp(24px, 4vw, 48px) var(--gutter);
-}
-.contact-hero form, .contact form{
-  max-width: none !important;
-  width: 100%;
-}
-.contact-hero form > *, .contact form > *{
-  width: 100%;
-}
-
-/* === Page enter transition from top === */
+/* === TWEAKS (2025-10-20) === */
+/* 1) Logo bigger & crisper */
+.logo img, .brand img{ height:64px !important; image-rendering:auto; }
+/* 2) Flags: remove white contour */
+.lang-btn{ background: transparent !important; border: 0 !important; box-shadow: none !important; }
+.lang-btn img{ width:28px; height:28px; border-radius:50%; display:block; box-shadow:none !important; background:transparent !important; }
+/* 5) RTL: push nav to the left when Arabic */
+.nav, .site-nav{ margin-inline-start: auto; } /* logical property works LTR/RTL */
+/* 3) Stronger slide-from-top */
 @media (prefers-reduced-motion: no-preference){
-  .page-enter{ 
-    animation: pl-slide-down-in .6s cubic-bezier(.22,.85,.36,1) both; 
-  }
+  .page-enter{ animation: pl-slide-down-in .72s cubic-bezier(.2,.8,.2,1.05) both; }
   @keyframes pl-slide-down-in{
-    from{ opacity:0; transform: translateY(-24px); }
-    to{   opacity:1; transform: translateY(0); }
+    from{ opacity:0; transform: translateY(-48px); }
+    60%{ opacity:1; }
+    to{ opacity:1; transform: translateY(0); }
   }
 }
+/* 6) Drawer title styling */
+.drawer-header .drawer-title{ font-weight:800; text-transform:uppercase; letter-spacing:.5px; }
