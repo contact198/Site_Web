@@ -103,3 +103,42 @@
 .nav, .site-nav{ margin-inline-start:auto; margin-inline-end:0; }
 [dir="rtl"] .nav, [dir="rtl"] .site-nav{ margin-inline-start:0; margin-inline-end:auto; }
 .logo img, .brand img{ height:64px !important; width:auto; display:block; }
+
+/* === Hotfix header & menu (final) === */
+.site-header{ position:relative; z-index:1000; }
+.header-inner{ position:relative; }
+.lang-switch, .lang-btn{ pointer-events:auto; }
+
+/* Logo plus grand */
+.logo img, .brand img{ height:64px !important; width:auto; display:block; }
+
+/* Flags sans contour ni ombre */
+.lang-btn{ background:transparent !important; border:0 !important; box-shadow:none !important; }
+.lang-btn img{ width:28px; height:28px; display:block; border-radius:50%; box-shadow:none !important; }
+
+/* Nav poussé à droite en LTR / à gauche en RTL */
+.nav, .site-nav{ display:flex; align-items:center; gap:26px; margin-inline-start:auto; margin-inline-end:0; }
+[dir="rtl"] .nav, [dir="rtl"] .site-nav{ margin-inline-start:0; margin-inline-end:auto; }
+
+/* Drawer (mobile) */
+.drawer{ position:fixed; inset:0; z-index:60; pointer-events:none; overflow:hidden; }
+.drawer .overlay{ position:absolute; inset:0; background:rgba(0,0,0,.35); opacity:0; transition:opacity .25s; pointer-events:auto; }
+.drawer .panel{ position:absolute; top:0; right:0; width:82%; max-width:420px; height:100%; background:#fff; transform:translateX(100%); transition:transform .28s ease; box-shadow:-10px 0 30px rgba(0,0,0,.25); }
+.drawer.open{ pointer-events:auto; }
+.drawer.open .overlay{ opacity:1; }
+.drawer.open .panel{ transform:translateX(0); }
+
+@media (max-width:1020px){
+  .nav{ display:none; }
+  .hamburger{ display:flex; margin-left:auto; width:42px; height:42px; border-radius:12px; border:1px solid #E5E7EB; background:#fff; align-items:center; justify-content:center; }
+}
+
+/* Transitions depuis le haut (plus marquées) */
+@media (prefers-reduced-motion: no-preference){
+  @keyframes pl-slide-down-in{
+    from{ opacity:0; transform:translateY(-48px); }
+    60%{ opacity:1; }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .page-enter{ animation:pl-slide-down-in .72s cubic-bezier(.2,.8,.2,1.05) both; }
+}
