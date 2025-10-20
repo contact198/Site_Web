@@ -1,15 +1,4 @@
 (function(){
-  
-  function bindUI(){
-    const drawer=document.querySelector('.drawer');
-    document.addEventListener('click',(e)=>{
-      const openBtn=e.target.closest('.hamburger,.menu-toggle'); if(openBtn){drawer?.classList.add('open');}
-      const closeBtn=e.target.closest('.drawer-close,.overlay'); if(closeBtn){drawer?.classList.remove('open');}
-      const flag=e.target.closest('.lang-btn'); if(flag){ setLang(flag.dataset.lang); }
-    });
-    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') drawer?.classList.remove('open'); });
-  }
-
   const SUPPORTED=['en','fr','ar']; const DEFAULT=localStorage.getItem('lang')||'en';
   const q=new URL(location.href).searchParams.get('lang'); const START=SUPPORTED.includes(q||'')?q:DEFAULT;
   async function loadDict(lang){const r=await fetch('/i18n/'+lang+'.json',{cache:'no-cache'});return r.json();}
@@ -25,6 +14,16 @@
   document.querySelector('.drawer-close')?.addEventListener('click',()=>drawer?.classList.remove('open')); drawer?.querySelector('.overlay')?.addEventListener('click',()=>drawer?.classList.remove('open'));
   const form=document.getElementById('contact-form'); form?.addEventListener('submit',async e=>{e.preventDefault(); const msg=document.getElementById('contact-success'); await new Promise(r=>setTimeout(r,300)); msg.hidden=false; form.reset();});
   setLang(START,false);
-  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",()=>{bindUI();}, {once:true});}else{bindUI();}
+
+  function bindUI(){
+    const drawer=document.querySelector('.drawer');
+    document.addEventListener('click',(e)=>{
+      const openBtn=e.target.closest('.hamburger,.menu-toggle'); if(openBtn){drawer?.classList.add('open');}
+      const closeBtn=e.target.closest('.drawer-close,.overlay'); if(closeBtn){drawer?.classList.remove('open');}
+      const flag=e.target.closest('.lang-btn'); if(flag){ setLang(flag.dataset.lang); }
+    });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') drawer?.classList.remove('open'); });
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',()=>{ bindUI(); }, {once:true}); } else { bindUI(); }
 })();
 window.setLanguage = setLang;
