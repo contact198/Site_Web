@@ -77,3 +77,7 @@
 }
 /* 6) Drawer title styling */
 .drawer-header .drawer-title{ font-weight:800; text-transform:uppercase; letter-spacing:.5px; }
+
+
+/* === TWEAK: logo size bump (final) === */
+.logo img, .brand img{ height:64px !important; width:auto; display:block; }
