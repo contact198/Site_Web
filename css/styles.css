@@ -73,3 +73,30 @@
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
   .nav .lang-switch{ display:none; }
 }
+/* ===== CLICK HOTFIX — assure la cliquabilité globale ===== */
+
+/* Par défaut, le tiroir n’intercepte AUCUN clic */
+.drawer{ pointer-events: none; }
+
+/* L’overlay et le panneau n’attrapent rien tant que le tiroir est fermé */
+.drawer .overlay,
+.drawer .panel{ pointer-events: none; }
+
+/* Quand on ouvre le tiroir, ALORS seulement ils deviennent cliquables */
+.drawer.open{ pointer-events: auto; }
+.drawer.open .overlay,
+.drawer.open .panel{ pointer-events: auto; }
+
+/* Le header et ses éléments doivent toujours être cliquables */
+.site-header,
+.header-inner,
+.logo,
+.nav,
+.nav a,
+.lang-btn,
+.hamburger{ pointer-events: auto; }
+
+/* Z-index cohérents (le drawer ne passe au-dessus que lorsqu’il est ouvert) */
+.site-header{ position: relative; z-index: 1000; }
+.drawer{ position: fixed; inset: 0; z-index: 10; }       /* derrière le header quand fermé */
+.drawer.open{ z-index: 3000; }                           /* au-dessus quand ouvert */
