@@ -82,3 +82,13 @@
 .contact-page .hero, .contact-hero{ max-width:none !important; width:100%; padding:clamp(28px,4vw,56px) var(--gutter,24px); }
 .contact-page form{ max-width:none !important; width:100%; } .contact-page form>*{ width:100%; }
 
+/* === Ajustement position logo (symétrie gauche/droite) === */
+.header-inner {
+  padding-left: var(--gutter, 22px);
+  padding-right: var(--gutter, 22px);
+}
+.logo {
+  margin-left: 0;
+}
+
+
