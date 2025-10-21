@@ -1,7 +1,11 @@
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
-  --white:#fff; --muted:#C8D6CE; --header-h:88px; --container-w:1180px; --gutter:22px;
+  --white:#fff; --muted:#C8D6CE;
+  --header-h:88px; --container-w:1180px; --gutter:22px;
+  --edge-pad-desktop:24px;  /* marge bord desktop */
+  --edge-pad-mobile:16px;   /* marge bord mobile  */
+  --header-maxw:1350px;     /* largeur utile du header */
 }
 
 *{box-sizing:border-box}
@@ -13,21 +17,23 @@ body{
   overflow-x:hidden;
 }
 
-/* === HEADER ==================================================== */
+/* ===== HEADER =============================================================== */
 .site-header{
   position:sticky; top:0; z-index:50; background:#fff;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 .header-inner{
-  max-width:var(--container-w);
+  max-width:var(--header-maxw);
   margin:0 auto;
-  padding:10px var(--gutter);
+  padding-block:10px;
+  padding-inline:var(--edge-pad-desktop);
   display:flex; align-items:center; gap:18px;
+  justify-content:space-between; /* logo à gauche, nav/drapeaux à droite */
 }
 .logo img{ height:84px; width:auto; display:block; }
 
 .nav{
-  margin-left:auto;
+  margin-inline-start:auto;    /* pousse la nav vers le bord droit (ou gauche en RTL) */
   display:flex; align-items:center; gap:26px;
 }
 .nav a{
@@ -36,7 +42,7 @@ body{
 }
 .nav a:hover,.nav a.active{ color:var(--green-500); }
 
-/* === LANG SWITCH (ronds) ====================================== */
+/* ===== LANG SWITCH (drapeaux ronds) ======================================== */
 .lang-switch{ display:flex; gap:14px; align-items:center; }
 .lang-btn{
   width:40px; height:40px; border-radius:50%;
@@ -51,11 +57,12 @@ body{
 }
 .lang-btn.active{ outline:2px solid #2A6B45; outline-offset:2px; }
 
-/* === HAMBURGER + DRAWER ======================================= */
+/* ===== HAMBURGER + DRAWER ================================================== */
 .hamburger{
   display:none; width:42px; height:42px; border-radius:12px;
   border:1px solid #E5E7EB; background:#fff;
   align-items:center; justify-content:center;
+  margin-inline-start:auto; /* colle le burger au bord droit (ou gauche en RTL) */
 }
 .hamburger span,.hamburger span::before,.hamburger span::after{
   display:block; width:20px; height:2px; background:#1D5336; content:""; position:relative;
@@ -64,7 +71,10 @@ body{
 .hamburger span::after{ position:absolute; transform:translateY(6px); }
 
 .drawer{ position:fixed; inset:0; z-index:3000; pointer-events:none; overflow:hidden; }
-.drawer .overlay{ position:absolute; inset:0; background:rgba(0,0,0,.35); opacity:0; transition:opacity .25s; pointer-events:none; }
+.drawer .overlay{
+  position:absolute; inset:0; background:rgba(0,0,0,.35);
+  opacity:0; transition:opacity .25s; pointer-events:none;
+}
 .drawer .panel{
   position:absolute; top:0; right:0; width:82%; max-width:380px; height:100%;
   background:#fff; transform:translateX(100%); transition:transform .25s;
@@ -75,18 +85,19 @@ body{
 .drawer.open .panel{ transform:translateX(0); pointer-events:auto; }
 
 .drawer-header{
-  display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:10px; padding:14px 16px;
+  display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:10px;
+  padding-block:14px; padding-inline:var(--edge-pad-mobile);
 }
 .drawer-title{ margin:0; color:#16402B; font-weight:800; letter-spacing:.3px; }
 .drawer-close{
   justify-self:end; background:#fff; border:1px solid #E5E7EB; border-radius:999px; width:38px; height:38px;
 }
 .drawer-list a{
-  display:block; color:#374151; text-decoration:none; padding:16px;
-  border-top:1px solid #F0F2F4; text-transform:uppercase; font-weight:700;
+  display:block; color:#374151; text-decoration:none;
+  padding:16px; border-top:1px solid #F0F2F4; text-transform:uppercase; font-weight:700;
 }
 
-/* === HERO ====================================================== */
+/* ===== HERO ================================================================ */
 .hero{ max-width:var(--container-w); margin:0 auto; padding:80px var(--gutter) 56px; }
 .hero h1{
   font-size:clamp(28px,4vw,52px); line-height:1.15; margin:0 0 12px;
@@ -94,36 +105,40 @@ body{
 }
 .hero p{ color:#CFE3D6; max-width:840px; margin:0 0 18px; }
 
-/* === BUTTON ==================================================== */
+/* ===== BUTTON ============================================================== */
 .btn{
   display:inline-block; padding:12px 18px; border-radius:14px; font-weight:700;
   background:linear-gradient(135deg,var(--green-300),#E8FFC7); color:#0f2a1f;
   border:none; box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-/* === FOOTER ==================================================== */
+/* ===== FOOTER ============================================================== */
 .site-footer{
   color:#A9B7AF; text-align:center; padding:36px 12px;
   border-top:1px solid rgba(255,255,255,.08); margin-top:40px;
 }
 
-/* === RESPONSIVE =============================================== */
+/* ===== RESPONSIVE ========================================================== */
 @media (max-width:1020px){
-  .nav{ display:none; }
-  .hamburger{ display:flex; margin-left:auto; }
+  .logo img{ height:58px; }
+  .header-inner{
+    padding-inline:var(--edge-pad-mobile); /* même marge des deux côtés sur mobile */
+  }
+  .nav{ display:none; }            /* nav cachée en mobile */
+  .hamburger{ display:flex; }      /* burger visible et aligné par margin-inline-start:auto */
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* === RTL SUPPORT ============================================== */
+/* ===== RTL SUPPORT ========================================================= */
 [dir="rtl"] .nav{ flex-direction:row-reverse; }
 [dir="rtl"] .drawer .panel{ left:0; right:auto; transform:translateX(-100%); }
 [dir="rtl"] .drawer.open .panel{ transform:translateX(0); }
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
 [dir="rtl"] .header-inner{ flex-direction:row-reverse; }
-[dir="rtl"] .nav{ margin-left:0; margin-right:auto; }
+[dir="rtl"] .nav{ margin-inline-start:0; margin-inline-end:auto; }
 
-/* === LUXURY TRANSITIONS ======================================= */
+/* ===== TRANSITIONS PREMIUM ================================================= */
 @media (prefers-reduced-motion: no-preference){
   .page-enter{
     animation: pl-lux-enter 1s cubic-bezier(.19,1,.22,1) both;
@@ -141,31 +156,10 @@ body{
   }
 }
 
-/* === Contact full width ======================================= */
+/* ===== Contact full width ================================================== */
 .contact-page .hero, .contact-hero{
   max-width:none !important; width:100%;
   padding:clamp(28px,4vw,56px) var(--gutter,24px);
 }
 .contact-page form{ max-width:none !important; width:100%; }
 .contact-page form>*{ width:100%; }
-
-/* === ALIGNEMENT SYMÉTRIQUE DU HEADER (version 2) =============== */
-.site-header .header-inner{
-  max-width:1400px !important;   /* largeur équilibrée du container */
-  margin:0 auto !important;      /* centré */
-  padding-left:40px !important;  /* marge gauche */
-  padding-right:40px !important; /* marge droite */
-  justify-content:space-between; /* logo à gauche, nav à droite */
-}
-
-.site-header .logo,
-.site-header .logo a,
-.site-header .logo img{
-  margin:0 !important; padding:0 !important; display:block;
-}
-
-/* RTL: miroir des marges (le logo passe à droite via flex-direction ci-dessus) */
-[dir="rtl"] .site-header .header-inner{
-  padding-left:40px !important;
-  padding-right:40px !important;
-}
