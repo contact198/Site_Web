@@ -33,70 +33,26 @@
 @media (max-width:1020px){.nav{display:none}.hamburger{display:flex;margin-left:auto}}
 [dir="rtl"] .nav{flex-direction:row-reverse} [dir="rtl"] .drawer .panel{left:0;right:auto;transform:translateX(-100%)} [dir="rtl"] .drawer.open .panel{transform:translateX(0)} [dir="rtl"] .drawer-header{grid-template-columns:auto auto 1fr; direction:rtl} [dir="rtl"] .drawer-title{text-align:right}
 
+/* PATCH START */
 
-/* === POLISH (logo/nav layout, premium transitions, mobile flags) === */
-:root{ --container-w: 1500px; --gutter: 24px; }
+:root{ --container-w:1500px; --gutter:24px; }
 .site-header .header-inner{ max-width:min(var(--container-w),100%); margin:0 auto; padding:10px var(--gutter); display:flex; align-items:center; gap:18px; }
-.logo{ display:inline-flex; align-items:center; }
 .logo img{ height:84px !important; width:auto; display:block; }
 .nav{ margin-left:auto; display:flex; align-items:center; gap:26px; }
-
-.lang-btn{ width:38px; height:38px; border-radius:50%; background:transparent !important; border:0 !important; box-shadow:none !important; display:inline-flex; align-items:center; justify-content:center; }
+[dir="rtl"] .header-inner{ flex-direction:row; } [dir="rtl"] .nav{ margin-left:auto; }
+.lang-btn{ width:38px; height:38px; border-radius:50%; background:transparent !important; border:0 !important; box-shadow:none !important; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
 .lang-btn img{ width:28px; height:28px; border-radius:50%; display:block; }
 .lang-btn.active{ outline:2px solid #2A6B45; outline-offset:2px; }
-
-@media (prefers-reduced-motion: no-preference){
-  .page-enter{ animation: pl-leaf-drop .75s cubic-bezier(.22,1,.36,1) both; will-change: transform, opacity; }
-  @keyframes pl-leaf-drop{
-    0%   { opacity:0; transform: translate3d(0,-40px,0) rotate(-0.6deg) scale(0.985); filter:saturate(.96) }
-    60%  { opacity:1; }
-    100% { opacity:1; transform: translate3d(0,0,0) rotate(0) scale(1); filter:saturate(1) }
-  }
-}
-
-[dir="rtl"] .header-inner{ flex-direction: row-reverse; }
-[dir="rtl"] .nav{ margin-left:0; margin-right:auto; }
-
-.contact-page main, .contact-hero{ width:100%; margin:0; padding: clamp(24px, 4vw, 52px) var(--gutter); }
-.contact-page form{ max-width:none !important; width:100%; }
-.contact-page form > *{ width:100%; }
-
 .site-header{ position:relative; z-index:1000; }
-.drawer{ position:fixed; inset:0; z-index:3000; pointer-events:none; overflow:hidden; }
-.drawer .overlay{ position:absolute; inset:0; background:rgba(0,0,0,.35); opacity:0; transition:opacity .25s; pointer-events:auto; }
-.drawer .panel{ position:absolute; top:0; right:0; width:82%; max-width:420px; height:100%; background:#fff; transform:translateX(100%); transition:transform .28s ease; box-shadow:-10px 0 30px rgba(0,0,0,.25); }
-.drawer.open{ pointer-events:auto; } .drawer.open .overlay{ opacity:1; } .drawer.open .panel{ transform:translateX(0); }
-
-@media (max-width:1020px){
-  .nav{ display:none; }
-  .hamburger{ display:flex; margin-left:auto; width:42px; height:42px; border-radius:12px; border:1px solid #E5E7EB; background:#fff; align-items:center; justify-content:center; }
-  .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
-  .nav .lang-switch{ display:none; }
+.drawer{ position:fixed; inset:0; z-index:3000; pointer-events:none; }
+.drawer .overlay, .drawer .panel{ pointer-events:none; }
+.drawer.open{ pointer-events:auto; } .drawer.open .overlay, .drawer.open .panel{ pointer-events:auto; }
+@media (max-width:1020px){ .nav{ display:none; } .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; } }
+@media (prefers-reduced-motion: no-preference){
+  .page-enter{ will-change:transform,opacity; animation:pl-leaf-drop .75s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes pl-leaf-drop{ 0%{ opacity:0; transform:translate3d(0,-40px,0) rotate(-0.6deg) scale(.985) } 60%{ opacity:1 } 100%{ opacity:1; transform:translate3d(0,0,0) rotate(0) scale(1) } }
+  .page-leave{ animation:pl-leaf-leave .3s ease both; }
+  @keyframes pl-leaf-leave{ from{ opacity:1; transform:translate3d(0,0,0) } to{ opacity:0; transform:translate3d(0,16px,0) } }
 }
-/* ===== CLICK HOTFIX — assure la cliquabilité globale ===== */
-
-/* Par défaut, le tiroir n’intercepte AUCUN clic */
-.drawer{ pointer-events: none; }
-
-/* L’overlay et le panneau n’attrapent rien tant que le tiroir est fermé */
-.drawer .overlay,
-.drawer .panel{ pointer-events: none; }
-
-/* Quand on ouvre le tiroir, ALORS seulement ils deviennent cliquables */
-.drawer.open{ pointer-events: auto; }
-.drawer.open .overlay,
-.drawer.open .panel{ pointer-events: auto; }
-
-/* Le header et ses éléments doivent toujours être cliquables */
-.site-header,
-.header-inner,
-.logo,
-.nav,
-.nav a,
-.lang-btn,
-.hamburger{ pointer-events: auto; }
-
-/* Z-index cohérents (le drawer ne passe au-dessus que lorsqu’il est ouvert) */
-.site-header{ position: relative; z-index: 1000; }
-.drawer{ position: fixed; inset: 0; z-index: 10; }       /* derrière le header quand fermé */
-.drawer.open{ z-index: 3000; }                           /* au-dessus quand ouvert */
+.contact-page .hero, .contact-hero{ max-width:none !important; width:100%; padding:clamp(28px,4vw,56px) var(--gutter); }
+.contact-page form{ max-width:none !important; width:100%; } .contact-page form>*{ width:100%; }
