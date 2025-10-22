@@ -1,12 +1,11 @@
-/* ===== POWER LINK — i18n + UI ===== */
+/* ===== POWER LINK — i18n + UI + Form ===== */
 (function () {
-  /* ---------- Helpers ---------- */
+  /* ---------- Helpers (transition enter) ---------- */
   function retriggerEnter() {
     const el = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
     if (!el) return;
     el.classList.remove("page-enter");
-    // force reflow
-    void el.offsetWidth;
+    void el.offsetWidth; // force reflow
     el.classList.add("page-enter");
   }
 
@@ -28,7 +27,7 @@
   }
 
   function translate(dict) {
-    // text content
+    // text nodes
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const k = el.getAttribute("data-i18n");
       if (dict[k] != null) el.textContent = dict[k];
@@ -53,9 +52,9 @@
 
   function activateFlag(lang) {
     document.querySelectorAll(".lang-btn").forEach((b) => {
-      const isActive = b.dataset.lang === lang;
-      b.classList.toggle("active", isActive);
-      b.setAttribute("aria-current", isActive ? "true" : "false");
+      const active = b.dataset.lang === lang;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-current", active ? "true" : "false");
     });
   }
 
@@ -63,8 +62,8 @@
     if (!SUPPORTED.includes(lang)) lang = "en";
     localStorage.setItem("lang", lang);
     applyRTL(lang);
-    const d = await loadDict(lang);
-    translate(d);
+    const dict = await loadDict(lang);
+    translate(dict);
     activateFlag(lang);
     retriggerEnter();
     if (push) {
@@ -74,18 +73,20 @@
     }
   }
 
-  /* Expose pour inline handlers éventuels */
+  // Expose pour éventuels handlers inline
   window.setLanguage = setLang;
 
   /* ---------- UI (drawer, flags, esc) ---------- */
   function bindUI() {
     const drawer = document.querySelector(".drawer");
+
     document.addEventListener(
       "click",
       (e) => {
         const openBtn = e.target.closest(".hamburger, .menu-toggle");
         const closeBtn = e.target.closest(".drawer-close, .overlay");
         const flag = e.target.closest(".lang-btn");
+
         if (openBtn) drawer?.classList.add("open");
         if (closeBtn) drawer?.classList.remove("open");
         if (flag) {
@@ -109,6 +110,7 @@
     document.addEventListener(
       "click",
       (e) => {
+        // pas de transition pour changement de langue / liens spéciaux
         if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
 
         const a = e.target.closest("a[href]");
@@ -125,9 +127,7 @@
           e.preventDefault();
           const root = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
           root?.classList.add("page-leave");
-          setTimeout(() => {
-            location.href = url.href;
-          }, 320);
+          setTimeout(() => (location.href = url.href), 320);
         }
       },
       true
@@ -141,8 +141,8 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const msg = document.getElementById("contact-success");
+
       try {
         const resp = await fetch(form.action, {
           method: form.method || "POST",
@@ -154,9 +154,14 @@
           if (msg) msg.hidden = false;
           form.reset();
         } else {
+          // Essaye de logguer le détail pour debug
+          let details = null;
+          try { details = await resp.json(); } catch {}
+          console.warn("Formspree error:", resp.status, details);
           alert("Une erreur est survenue. Merci de réessayer.");
         }
       } catch (err) {
+        console.error(err);
         alert("Réseau indisponible. Vérifiez votre connexion puis réessayez.");
       }
     });
