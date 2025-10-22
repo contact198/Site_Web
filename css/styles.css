@@ -8,9 +8,6 @@
   --header-maxw:1280px;
   --edge-pad-desktop:20px;
   --edge-pad-mobile:14px;
-
-  /* Compensation du blanc interne de l'image du logo (optical alignment) */
-  --logo-nudge-desktop:-10px; /* tirer un peu le logo vers le bord */
   --logo-nudge-mobile:-8px;
 }
 
@@ -39,19 +36,14 @@ body{
   justify-content:space-between;
   gap:18px;
 }
-
-/* Logo (avec nudge optique) */
 .logo,
 .logo a{
   display:inline-flex; align-items:center;
   margin:0; padding:0;
 }
-.logo{ margin-inline-start: var(--logo-nudge-desktop); } /* compense le blanc du PNG */
 .logo img{
   height:72px; width:auto; display:block;
 }
-
-/* Nav + liens */
 .nav{
   margin-inline-start:auto;
   display:flex; align-items:center; gap:26px;
@@ -82,7 +74,7 @@ body{
   display:none;width:40px;height:40px;border-radius:12px;
   border:1px solid #E5E7EB;background:#fff;
   align-items:center;justify-content:center;
-  margin-inline-start:auto; /* colle à l’extrémité opposée du logo */
+  margin-inline-start:auto;
 }
 .hamburger span,
 .hamburger span::before,
@@ -152,8 +144,10 @@ body{
 
 /* === RESPONSIVE ============================================== */
 @media (max-width:1020px){
-  .site-header .header-inner{ padding-inline:var(--edge-pad-mobile); }
-  .logo{ margin-inline-start: var(--logo-nudge-mobile); } /* nudge adapté mobile */
+  .site-header .header-inner{
+    padding-inline:var(--edge-pad-mobile);
+  }
+  .logo{ margin-inline-start: var(--logo-nudge-mobile); }
   .site-header .logo img{ height:56px; }
   .nav{ display:none; }
   .hamburger{ display:flex; }
@@ -167,8 +161,6 @@ body{
 [dir="rtl"] .drawer.open .panel{ transform:translateX(0); }
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
-
-/* Conserve la symétrie des bords en RTL (les paddings sont logiques) */
 [dir="rtl"] .site-header .header-inner{ padding-inline:var(--edge-pad-desktop); }
 @media (max-width:1020px){
   [dir="rtl"] .site-header .header-inner{ padding-inline:var(--edge-pad-mobile); }
@@ -200,3 +192,13 @@ body{
 }
 .contact-page form{ max-width:none !important;width:100%; }
 .contact-page form>*{ width:100%; }
+
+/* === SYMÉTRIE PARFAITE DESKTOP =============================== */
+@media (min-width:1021px){
+  .site-header .header-inner{
+    max-width:1280px !important;
+    padding-left:24px !important;
+    padding-right:30px !important; /* +6px pour compenser la largeur visuelle des drapeaux */
+  }
+  .logo{ margin-inline-start:0 !important; }
+}
