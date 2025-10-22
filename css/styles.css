@@ -4,13 +4,16 @@
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
 
-  /* marges + largeur équilibrée */
+  /* Conteneur + marges */
   --header-maxw:1280px;
   --edge-pad-desktop:20px;
   --edge-pad-mobile:14px;
+
+  /* Compensation du blanc interne de l'image du logo (optical alignment) */
+  --logo-nudge-desktop:-10px; /* tirer un peu le logo vers le bord */
+  --logo-nudge-mobile:-8px;
 }
 
-/* === BASE ===================================================== */
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
@@ -36,33 +39,28 @@ body{
   justify-content:space-between;
   gap:18px;
 }
+
+/* Logo (avec nudge optique) */
 .logo,
 .logo a{
-  display:inline-flex;
-  align-items:center;
-  margin:0 !important;
-  padding:0 !important;
+  display:inline-flex; align-items:center;
+  margin:0; padding:0;
 }
+.logo{ margin-inline-start: var(--logo-nudge-desktop); } /* compense le blanc du PNG */
 .logo img{
-  height:72px;
-  width:auto;
-  display:block;
+  height:72px; width:auto; display:block;
 }
+
+/* Nav + liens */
 .nav{
   margin-inline-start:auto;
-  display:flex;
-  align-items:center;
-  gap:26px;
+  display:flex; align-items:center; gap:26px;
 }
 .nav a{
-  color:#16402B;
-  text-decoration:none;
-  text-transform:uppercase;
-  font-weight:700;
-  letter-spacing:.4px;
+  color:#16402B; text-decoration:none; text-transform:uppercase;
+  font-weight:700; letter-spacing:.4px;
 }
-.nav a:hover,
-.nav a.active{color:var(--green-500)}
+.nav a:hover,.nav a.active{color:var(--green-500)}
 
 /* === LANG SWITCH ============================================== */
 .lang-switch{display:flex;gap:14px;align-items:center}
@@ -84,7 +82,7 @@ body{
   display:none;width:40px;height:40px;border-radius:12px;
   border:1px solid #E5E7EB;background:#fff;
   align-items:center;justify-content:center;
-  margin-inline-start:auto;
+  margin-inline-start:auto; /* colle à l’extrémité opposée du logo */
 }
 .hamburger span,
 .hamburger span::before,
@@ -154,29 +152,26 @@ body{
 
 /* === RESPONSIVE ============================================== */
 @media (max-width:1020px){
-  .site-header .header-inner{
-    padding-inline:var(--edge-pad-mobile);
-  }
-  .site-header .logo img{height:56px}
-  .nav{display:none}
-  .hamburger{display:flex}
-  .drawer .lang-switch{display:flex !important;gap:10px;align-items:center}
+  .site-header .header-inner{ padding-inline:var(--edge-pad-mobile); }
+  .logo{ margin-inline-start: var(--logo-nudge-mobile); } /* nudge adapté mobile */
+  .site-header .logo img{ height:56px; }
+  .nav{ display:none; }
+  .hamburger{ display:flex; }
+  .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
 /* === RTL SUPPORT ============================================= */
-[dir="rtl"] .header-inner{flex-direction:row-reverse}
-[dir="rtl"] .nav{margin-inline-start:0;margin-inline-end:auto}
-[dir="rtl"] .drawer .panel{left:0;right:auto;transform:translateX(-100%)}
-[dir="rtl"] .drawer.open .panel{transform:translateX(0)}
-[dir="rtl"] .drawer-header{grid-template-columns:auto auto 1fr;direction:rtl}
-[dir="rtl"] .drawer-title{text-align:right}
-[dir="rtl"] .site-header .header-inner{
-  padding-inline:var(--edge-pad-desktop);
-}
+[dir="rtl"] .header-inner{ flex-direction:row-reverse; }
+[dir="rtl"] .nav{ margin-inline-start:0; margin-inline-end:auto; }
+[dir="rtl"] .drawer .panel{ left:0; right:auto; transform:translateX(-100%); }
+[dir="rtl"] .drawer.open .panel{ transform:translateX(0); }
+[dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
+[dir="rtl"] .drawer-title{ text-align:right; }
+
+/* Conserve la symétrie des bords en RTL (les paddings sont logiques) */
+[dir="rtl"] .site-header .header-inner{ padding-inline:var(--edge-pad-desktop); }
 @media (max-width:1020px){
-  [dir="rtl"] .site-header .header-inner{
-    padding-inline:var(--edge-pad-mobile);
-  }
+  [dir="rtl"] .site-header .header-inner{ padding-inline:var(--edge-pad-mobile); }
 }
 
 /* === TRANSITIONS PREMIUM ===================================== */
@@ -203,7 +198,5 @@ body{
   max-width:none !important;width:100%;
   padding:clamp(28px,4vw,56px) var(--gutter,24px);
 }
-.contact-page form{
-  max-width:none !important;width:100%;
-}
-.contact-page form>*{width:100%}
+.contact-page form{ max-width:none !important;width:100%; }
+.contact-page form>*{ width:100%; }
