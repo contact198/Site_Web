@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM (LTR/RTL SYMÉTRIQUE PARFAIT) ========= */
+/* ========= POWER LINK — PREMIUM (RTL & LTR SYMÉTRIQUE PARFAIT) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -30,7 +30,7 @@ body{
   padding-block:10px;
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
-  justify-content:space-between;
+  justify-content:flex-start; /* base: aligné au bord gauche/droit selon la langue */
   flex-direction:row;
 }
 
@@ -41,7 +41,6 @@ body{
 /* ===== NAVIGATION =============================================== */
 .nav{
   display:flex; align-items:center; gap:26px;
-  margin-left:auto;
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -52,7 +51,6 @@ body{
 /* ===== LANG SWITCH ============================================== */
 .lang-switch{
   display:flex;align-items:center;gap:14px;
-  margin-left:24px;
 }
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -119,7 +117,6 @@ body{
 .drawer.open .panel { animation: pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both; }
 .drawer.closing .panel { animation: pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both; }
 
-/* Drawer content */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -134,9 +131,6 @@ body{
   padding:16px;border-top:1px solid #F0F2F4;
   text-transform:uppercase;font-weight:700;
 }
-
-/* ===== CONTENU (page-root) ====================================== */
-.page-root{ contain:content; display:block; }
 
 /* ===== HERO ===================================================== */
 .hero{
@@ -168,7 +162,6 @@ body{
 @media (prefers-reduced-motion: no-preference){
   .page-root.page-enter{
     animation:page-enter-anim 0.9s cubic-bezier(.19,1,.22,1) both;
-    will-change:transform,opacity,filter;
   }
   @keyframes page-enter-anim{
     0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985);filter:blur(8px)}
@@ -191,12 +184,12 @@ body{
   .hamburger{ display:flex; transform:translateX(var(--burger-optical-nudge)); }
   .nav{ display:none; }
 
-  /* Drawer latéral droite → gauche sur mobile */
+  /* Drawer latéral droite → gauche */
   .drawer .panel{
     top:0; bottom:0;
     right:0; left:auto;
     border-radius:16px 0 0 16px;
-    width:min(86%, 420px); max-width:420px; height:100%;
+    width:min(86%,420px); max-width:420px; height:100%;
     transform:translateX(24px); opacity:0;
   }
   @keyframes pl-side-enter { 0%{transform:translateX(24px);opacity:0;} 100%{transform:translateX(0);opacity:1;} }
@@ -207,41 +200,36 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT ============================================== */
-/* En arabe : logo à droite, menu + drapeaux à gauche, même espacements */
+/* ===== RTL SYMÉTRIE PARFAITE ==================================== */
+/* Base LTR : [LOGO] —— [MENU] [🇫🇷 🇬🇧 🇸🇦] */
+/* RTL : [🇫🇷 🇬🇧 🇸🇦] [MENU] —— [LOGO] */
+
+html[dir="ltr"] .site-header .logo{ order:0; }
+html[dir="ltr"] .site-header .nav{ order:1; margin-inline-start:auto; }
+html[dir="ltr"] .site-header .lang-switch{
+  order:2; margin-inline-start:24px; gap:14px; flex-direction:row;
+}
+
 html[dir="rtl"] .site-header .header-inner{
-  flex-direction: row-reverse !important;
-  justify-content: space-between !important;
-  gap: 18px;
+  flex-direction:row !important;
+  justify-content:flex-start !important;
+  gap:18px;
 }
-
-/* Menu à gauche du logo */
 html[dir="rtl"] .site-header .nav{
-  order: 0 !important;
-  margin: 0 !important;
-  text-align: right;
+  order:0 !important;
+  margin:0 !important;
+  text-align:right;
 }
-
-/* Drapeaux juste après le menu, même marge et même ordre */
 html[dir="rtl"] .site-header .lang-switch{
-  order: 1 !important;
-  margin-inline-start: 24px !important;
-  gap: 14px;
-  flex-direction: row !important;  /* ne pas inverser l'ordre */
-  direction: ltr !important;       /* garde FR → EN → SA */
+  order:1 !important;
+  margin-inline-start:24px !important;
+  gap:14px;
+  flex-direction:row !important;
+  direction:ltr !important; /* garde FR→EN→SA */
 }
-
-/* Logo à l’extrême droite */
 html[dir="rtl"] .site-header .logo{
-  order: 2 !important;
-}
-
-/* Si les drapeaux sont dans .nav */
-html[dir="rtl"] .site-header .nav > .lang-switch{
-  order: 1 !important;
-  margin-inline-start: 24px !important;
-  flex-direction: row !important;
-  direction: ltr !important;
+  order:2 !important;
+  margin-inline-start:auto !important; /* pousse le logo à droite */
 }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
