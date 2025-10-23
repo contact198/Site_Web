@@ -1,16 +1,12 @@
-/* ========= POWER LINK — PREMIUM FIXED ORDER (Logo → Menu → Drapeaux) ========= */
+/* ========= POWER LINK — PREMIUM (Mode B RTL + Drawer latéral mobile) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
-
-  --edge-desktop:24px;
-  --edge-mobile:16px;
-
-  --mobile-optical-nudge:-3px;
-  --burger-optical-nudge:1px;
+  --edge-desktop:24px; --edge-mobile:16px;
+  --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 }
 
 *{box-sizing:border-box}
@@ -33,21 +29,19 @@ body{
   margin:0 auto;
   padding-block:10px;
   padding-inline:var(--edge-desktop);
-  display:flex;
-  align-items:center;
+  display:flex; align-items:center; gap:18px;
   justify-content:space-between;
-  flex-direction:row; /* ordre toujours identique (LTR & RTL) */
-  gap:18px;
+  flex-direction:row; /* base: jamais inversé automatiquement */
 }
 
-/* === LOGO (toujours à gauche) =================================== */
+/* === LOGO ======================================================= */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
 /* ===== NAVIGATION (liens) ======================================= */
 .nav{
   display:flex; align-items:center; gap:26px;
-  margin-left:auto; /* pousse le bloc menu à droite du logo */
+  margin-left:auto; /* en LTR, pousse le menu à droite du logo */
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -55,11 +49,8 @@ body{
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
-/* ===== LANG SWITCH (toujours tout à droite) ===================== */
-.lang-switch{
-  display:flex;align-items:center;gap:14px;
-  margin-left:24px;        /* colle les drapeaux à droite du menu */
-}
+/* ===== LANG SWITCH ============================================== */
+.lang-switch{display:flex;align-items:center;gap:14px;}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -102,7 +93,7 @@ body{
 }
 .drawer .panel{
   position:absolute;top:0;left:50%;
-  transform:translate(-50%,-40px);
+  transform:translate(-50%,-40px); /* desktop: chute depuis le haut */
   width:92%;max-width:420px;
   background:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
@@ -112,7 +103,7 @@ body{
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) =============== */
+/* ===== ANIMATION PREMIUM DU MENU (desktop: depuis le haut) ===== */
 @keyframes pl-lux-enter{
   0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985); filter:blur(8px) saturate(.94)}
   60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1); filter:blur(1px)}
@@ -125,6 +116,7 @@ body{
 .drawer.open .panel { animation: pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both; }
 .drawer.closing .panel { animation: pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both; }
 
+/* Drawer content */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -203,15 +195,51 @@ body{
     transform:translateX(var(--burger-optical-nudge));
   }
   .nav{ display:none; }
+
+  /* --- MOBILE: drawer latéral droite→gauche --- */
+  .drawer .panel{
+    top:0; bottom:0;
+    right:0; left:auto;
+    border-radius:16px 0 0 16px;
+    width:min(86%, 420px); max-width:420px; height:100%;
+    /* position de départ hors-écran à droite */
+    transform:translateX(24px); opacity:0;
+  }
+  @keyframes pl-side-enter {
+    0%   { transform:translateX(24px); opacity:0; }
+    100% { transform:translateX(0);    opacity:1; }
+  }
+  @keyframes pl-side-leave {
+    0%   { transform:translateX(0);    opacity:1; }
+    100% { transform:translateX(24px); opacity:0; }
+  }
+  /* override des anims desktop sur mobile */
+  .drawer.open   .panel{ animation: pl-side-enter .42s cubic-bezier(.22,.9,.2,1) both; }
+  .drawer.closing .panel{ animation: pl-side-leave .32s cubic-bezier(.4,.0,.2,1) both; }
+
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT (structure inchangée) ======================== */
-/* On garde l’ordre fixe : Logo → Menu → Drapeaux */
-[dir="rtl"] .header-inner{ flex-direction:row; justify-content:space-between; }
-[dir="rtl"] .nav{ text-align:right; }     /* le texte arabe s’aligne à droite */
-[dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
-[dir="rtl"] .drawer-title{ text-align:right; }
+/* ===== RTL SUPPORT ============================================== */
+/* --- Desktop FR/EN (LTR) : Logo (g) | Menu | Drapeaux (d) — déjà fait par base. */
+
+/* --- Desktop AR (Mode B) : pack à droite dans l'ordre visuel Drapeaux | Menu | Logo */
+@media (min-width:1021px){
+  html[dir="rtl"] .site-header .header-inner{
+    justify-content:flex-end; gap:18px; flex-direction:row !important;
+  }
+  /* Ordres RTL (de droite vers gauche: Logo | Menu | Drapeaux) */
+  html[dir="rtl"] .site-header .logo{ order:2; }
+  html[dir="rtl"] .site-header .nav { order:1; text-align:right; margin-left:0; }
+  html[dir="rtl"] .site-header .lang-switch{ order:0; }
+
+  /* Espacement agréable entre menu et drapeaux */
+  html[dir="rtl"] .site-header .nav{ margin-inline:18px; }
+}
+
+/* Conserve le header non inversé pour tout le reste */
+html[dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
+html[dir="rtl"] .drawer-title{ text-align:right; }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
 .contact-page .hero,
