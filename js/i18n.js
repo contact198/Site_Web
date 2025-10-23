@@ -1,24 +1,12 @@
-/* ===== POWER LINK — i18n + UI + Form (premium transitions, scoped) ===== */
+/* ===== POWER LINK — i18n + UI + Form ===== */
 (function () {
-  /* ---------- Page-root helpers ---------- */
-  function getPageRoot() {
-    // Privilégie <main>; fallback body
-    const main = document.querySelector("main");
-    if (main && !main.classList.contains("page-root")) {
-      main.classList.add("page-root");
-    }
-    return main || document.body;
-  }
-
+  /* ---------- Helpers (transition enter) ---------- */
   function retriggerEnter() {
-    const root =
-      document.querySelector(".page-root") ||
-      document.querySelector("main") ||
-      document.body;
-    if (!root) return;
-    root.classList.remove("page-enter");
-    void root.offsetWidth; // force reflow
-    root.classList.add("page-enter");
+    const el = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
+    if (!el) return;
+    el.classList.remove("page-enter");
+    void el.offsetWidth; // force reflow
+    el.classList.add("page-enter");
   }
 
   /* ---------- I18N ---------- */
@@ -85,39 +73,12 @@
     }
   }
 
-  // Expose si tu utilises onclick="setLanguage('xx')"
+  // Expose pour éventuels handlers inline
   window.setLanguage = setLang;
 
   /* ---------- UI (drawer, flags, esc) ---------- */
   function bindUI() {
     const drawer = document.querySelector(".drawer");
-    const panel = drawer?.querySelector(".panel");
-
-    let isClosing = false;
-
-    function smoothOpenDrawer() {
-      if (!drawer) return;
-      if (drawer.classList.contains("open") || isClosing) return;
-      drawer.classList.add("open");
-    }
-
-    function smoothCloseDrawer() {
-      if (!drawer) return;
-      if (!drawer.classList.contains("open") || isClosing) return;
-      isClosing = true;
-      drawer.classList.add("closing");
-      drawer.classList.remove("open");
-
-      const done = () => {
-        drawer.classList.remove("closing");
-        isClosing = false;
-        panel?.removeEventListener("animationend", onAnimEnd);
-      };
-
-      const onAnimEnd = () => { clearTimeout(fallback); done(); };
-      const fallback = setTimeout(done, 480);
-      panel?.addEventListener("animationend", onAnimEnd);
-    }
 
     document.addEventListener(
       "click",
@@ -126,33 +87,30 @@
         const closeBtn = e.target.closest(".drawer-close, .overlay");
         const flag = e.target.closest(".lang-btn");
 
-        if (openBtn) { e.preventDefault(); smoothOpenDrawer(); return; }
-        if (closeBtn) { e.preventDefault(); smoothCloseDrawer(); return; }
-
+        if (openBtn) drawer?.classList.add("open");
+        if (closeBtn) drawer?.classList.remove("open");
         if (flag) {
           e.preventDefault();
           e.stopPropagation();
-          const lang = flag.dataset.lang;
-          setLang(lang).then(() => { smoothCloseDrawer(); });
-          return;
+          setLang(flag.dataset.lang);
         }
       },
       true
     );
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") smoothCloseDrawer();
+      if (e.key === "Escape") drawer?.classList.remove("open");
     });
   }
 
-  /* ---------- Page transitions (scopées à .page-root) ----------- */
+  /* ---------- Page transitions ---------- */
   function bindPageTransitions() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     document.addEventListener(
       "click",
       (e) => {
-        // pas de transition pour changement de langue / liens marqués
+        // pas de transition pour changement de langue / liens spéciaux
         if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
 
         const a = e.target.closest("a[href]");
@@ -167,10 +125,7 @@
 
         if (sameOrigin && sameTab) {
           e.preventDefault();
-          const root =
-            document.querySelector(".page-root") ||
-            document.querySelector("main") ||
-            document.body;
+          const root = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
           root?.classList.add("page-leave");
           setTimeout(() => (location.href = url.href), 320);
         }
@@ -199,6 +154,7 @@
           if (msg) msg.hidden = false;
           form.reset();
         } else {
+          // Essaye de logguer le détail pour debug
           let details = null;
           try { details = await resp.json(); } catch {}
           console.warn("Formspree error:", resp.status, details);
@@ -213,10 +169,6 @@
 
   /* ---------- Boot ---------- */
   function boot() {
-    const root = getPageRoot();
-    if (!root.classList.contains("page-enter")) {
-      root.classList.add("page-enter");
-    }
     bindUI();
     bindPageTransitions();
     bindContactForm();
