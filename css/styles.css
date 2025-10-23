@@ -8,8 +8,9 @@
   --edge-desktop:24px;
   --edge-mobile:16px;
 
-  /* correction optique mobile */
-  --mobile-optical-nudge:-2px;
+  /* ajustements optiques mobile */
+  --mobile-optical-nudge:-3px;   /* tire légèrement le logo vers la gauche */
+  --burger-optical-nudge:1px;    /* pousse un peu le burger à droite */
 }
 
 *{box-sizing:border-box}
@@ -156,12 +157,13 @@ body{
     padding-inline:var(--edge-mobile) !important;
   }
   .site-header .logo img{
-    height:40px !important; /* même taille que le hamburger */
+    height:40px !important;
     transform:translateX(var(--mobile-optical-nudge)); /* correction optique */
   }
   .hamburger{
     display:flex;
     margin-inline-end:0 !important;
+    transform:translateX(var(--burger-optical-nudge)); /* correction optique */
     box-shadow:none !important;
   }
   .nav{ display:none; }
