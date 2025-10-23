@@ -4,11 +4,9 @@
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
 
-  /* === paramètres de symétrie === */
-  --edge-desktop:24px;      /* marge bord G/D desktop */
-  --edge-mobile:16px;       /* marge bord G/D mobile */
-  --logo-trim-desktop:8px;  /* compensation optique logo desktop */
-  --logo-trim-mobile:6px;   /* compensation optique logo mobile */
+  /* marges bord G/D strictement égales */
+  --edge-desktop:24px;
+  --edge-mobile:16px;
 }
 
 *{box-sizing:border-box}
@@ -20,7 +18,7 @@ body{
   overflow-x:hidden;
 }
 
-/* === HEADER =================================================== */
+/* ===== HEADER =================================================== */
 .site-header{
   position:sticky; top:0; z-index:50;
   background:#fff;
@@ -30,25 +28,20 @@ body{
   max-width:100%;
   margin:0 auto;
   padding-block:10px;
-  padding-inline:var(--edge-desktop);
+  padding-inline:var(--edge-desktop);   /* ⇦⇨ bords égaux */
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:18px;
 }
 
-/* Logo */
-.logo,
-.logo a{
+/* Logo — plus aucun nudge, géométrie pure */
+.logo, .logo a{
   display:inline-flex; align-items:center;
   margin:0; padding:0;
 }
-.logo{
-  padding-left:var(--logo-trim-desktop);
-}
 .logo img{
   height:72px; width:auto; display:block;
-  position:relative; left:calc(-1 * var(--logo-trim-desktop));
 }
 
 /* Nav */
@@ -62,7 +55,7 @@ body{
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
-/* === LANG SWITCH ============================================== */
+/* ===== LANG SWITCH (drapeaux ronds, anneau interne) ============ */
 .lang-switch{display:flex;gap:14px;align-items:center}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -75,24 +68,22 @@ body{
   width:32px;height:32px;border-radius:50%;
   aspect-ratio:1/1;object-fit:cover;display:block;
 }
-/* anneau interne (pas d’outline externe) */
+/* anneau en box-shadow interne → n’augmente pas la largeur perçue */
 .lang-btn.active{
   outline:none !important;
-  box-shadow:inset 0 0 0 2px #2A6B45 !important;
+  box-shadow: inset 0 0 0 2px #2A6B45 !important;
 }
 
-/* === HAMBURGER + DRAWER ======================================= */
+/* ===== HAMBURGER + DRAWER ======================================= */
 .hamburger{
   display:none;width:40px;height:40px;border-radius:12px;
   border:1px solid #E5E7EB;background:#fff;
   align-items:center;justify-content:center;
   margin-inline-start:auto;
 }
-.hamburger span,
-.hamburger span::before,
-.hamburger span::after{
-  display:block;width:20px;height:2px;background:#1D5336;
-  content:"";position:relative;
+.hamburger span,.hamburger span::before,.hamburger span::after{
+  display:block;width:20px;height:2px;background:#1D5336;content:"";
+  position:relative;
 }
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
@@ -126,7 +117,7 @@ body{
   text-transform:uppercase;font-weight:700;
 }
 
-/* === HERO ===================================================== */
+/* ===== HERO ===================================================== */
 .hero{
   max-width:var(--container-w);
   margin:0 auto;
@@ -141,32 +132,31 @@ body{
   color:#CFE3D6;max-width:840px;margin:0 0 18px;
 }
 
-/* === BUTTON =================================================== */
+/* ===== BUTTON =================================================== */
 .btn{
   display:inline-block;padding:12px 18px;border-radius:14px;
   font-weight:700;background:linear-gradient(135deg,var(--green-300),#E8FFC7);
   color:#0f2a1f;border:none;box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-/* === FOOTER =================================================== */
+/* ===== FOOTER =================================================== */
 .site-footer{
   color:#A9B7AF;text-align:center;padding:36px 12px;
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* === RESPONSIVE ============================================== */
+/* ===== RESPONSIVE ============================================== */
 @media (max-width:1020px){
   .site-header .header-inner{
-    padding-inline:var(--edge-mobile);
+    padding-inline:var(--edge-mobile);   /* ⇦⇨ bords égaux sur mobile */
   }
-  .logo{ padding-left:var(--logo-trim-mobile); }
-  .logo img{ left:calc(-1 * var(--logo-trim-mobile)); height:56px; }
+  .logo img{ height:56px; }
   .nav{ display:none; }
   .hamburger{ display:flex; }
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* === RTL SUPPORT ============================================= */
+/* ===== RTL SUPPORT ============================================= */
 [dir="rtl"] .header-inner{ flex-direction:row-reverse; }
 [dir="rtl"] .nav{ margin-inline-start:0; margin-inline-end:auto; }
 [dir="rtl"] .drawer .panel{ left:0; right:auto; transform:translateX(-100%); }
@@ -174,7 +164,7 @@ body{
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
 
-/* === TRANSITIONS PREMIUM ===================================== */
+/* ===== TRANSITIONS PREMIUM ===================================== */
 @media (prefers-reduced-motion: no-preference){
   .page-enter{
     animation:pl-lux-enter 1s cubic-bezier(.19,1,.22,1) both;
@@ -192,7 +182,7 @@ body{
   }
 }
 
-/* === CONTACT FULL WIDTH ====================================== */
+/* ===== CONTACT FULL WIDTH ====================================== */
 .contact-page .hero,
 .contact-hero{
   max-width:none !important;width:100%;
