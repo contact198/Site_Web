@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM (LTR vs RTL propre) ========= */
+/* ========= POWER LINK — PREMIUM (LTR/RTL SYMÉTRIQUE PARFAIT) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -41,7 +41,7 @@ body{
 /* ===== NAVIGATION =============================================== */
 .nav{
   display:flex; align-items:center; gap:26px;
-  margin-left:auto; /* LTR: pousse le menu à droite du logo */
+  margin-left:auto;
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -52,7 +52,7 @@ body{
 /* ===== LANG SWITCH ============================================== */
 .lang-switch{
   display:flex;align-items:center;gap:14px;
-  margin-left:24px; /* espace entre menu et drapeaux */
+  margin-left:24px;
 }
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -96,7 +96,7 @@ body{
 }
 .drawer .panel{
   position:absolute;top:0;left:50%;
-  transform:translate(-50%,-40px);      /* desktop: chute depuis le haut */
+  transform:translate(-50%,-40px);
   width:92%;max-width:420px;
   background:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
@@ -108,9 +108,9 @@ body{
 
 /* ===== ANIMATION PREMIUM DU MENU (desktop: depuis le haut) ===== */
 @keyframes pl-lux-enter{
-  0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985); filter:blur(8px) saturate(.94)}
-  60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1); filter:blur(1px)}
-  100%{opacity:1;transform:translate3d(-50%,0,0) scale(1); filter:blur(0)}
+  0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985);filter:blur(8px)}
+  60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1);filter:blur(1px)}
+  100%{opacity:1;transform:translate3d(-50%,0,0) scale(1);filter:blur(0)}
 }
 @keyframes pl-lux-leave{
   0%{opacity:1;transform:translate3d(-50%,0,0);filter:none}
@@ -164,16 +164,16 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== TRANSITIONS DE PAGE (UNIQUEMENT .page-root) ============== */
+/* ===== TRANSITIONS DE PAGE ===================================== */
 @media (prefers-reduced-motion: no-preference){
   .page-root.page-enter{
     animation:page-enter-anim 0.9s cubic-bezier(.19,1,.22,1) both;
     will-change:transform,opacity,filter;
   }
   @keyframes page-enter-anim{
-    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
-    55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
+    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985);filter:blur(8px)}
+    55%{opacity:1;transform:translate3d(0,-8px,0);filter:blur(1px)}
+    100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
   }
   .page-root.page-leave{
     animation:page-leave-anim .36s cubic-bezier(.33,.66,.4,1) both;
@@ -207,34 +207,48 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT — Miroir propre (AR) ========================= */
-/* Objectif: [🇫🇷 🇬🇧 🇸🇦] [MENU] ————————— [LOGO] */
+/* ===== RTL SUPPORT ============================================== */
+/* En arabe : logo à droite, menu + drapeaux à gauche, même espacements */
 html[dir="rtl"] .site-header .header-inner{
-  /* pas de row-reverse global — on gère avec order/marges pour rester prévisible */
-  flex-direction:row !important;
-  justify-content:space-between !important;
-  gap:18px;
+  flex-direction: row-reverse !important;
+  justify-content: space-between !important;
+  gap: 18px;
 }
 
-/* Force l'ordre visuel en RTL: Drapeaux (0) | Menu (1) | Logo (2) */
-html[dir="rtl"] .site-header .lang-switch{ order:0 !important; margin:0 !important; }
+/* Menu à gauche du logo */
 html[dir="rtl"] .site-header .nav{
-  order:1 !important;
-  margin:0 !important;
-  margin-left:18px !important;    /* petit espace entre drapeaux et menu */
-  text-align:right;
+  order: 0 !important;
+  margin: 0 !important;
+  text-align: right;
 }
+
+/* Drapeaux juste après le menu, même marge et même ordre */
+html[dir="rtl"] .site-header .lang-switch{
+  order: 1 !important;
+  margin-inline-start: 24px !important;
+  gap: 14px;
+  flex-direction: row !important;  /* ne pas inverser l'ordre */
+  direction: ltr !important;       /* garde FR → EN → SA */
+}
+
+/* Logo à l’extrême droite */
 html[dir="rtl"] .site-header .logo{
-  order:2 !important;             /* logo à l’extrême droite */
-  margin:0 !important;
+  order: 2 !important;
 }
 
-/* Si les drapeaux sont *dans* .nav, place-les avant les liens en RTL */
+/* Si les drapeaux sont dans .nav */
 html[dir="rtl"] .site-header .nav > .lang-switch{
-  order:-1 !important;
-  margin:0 18px 0 0 !important;
+  order: 1 !important;
+  margin-inline-start: 24px !important;
+  flex-direction: row !important;
+  direction: ltr !important;
 }
 
-/* Nettoyage d’anciennes inversions éventuelles */
-html[dir="rtl"] .nav{ margin-left:0 !important; }
-html[dir="rtl"] .lang-switch{ margin-left:0 !important; }
+/* ===== CONTACT FULL WIDTH ====================================== */
+.contact-page .hero,
+.contact-hero{
+  max-width:none !important;width:100%;
+  padding:clamp(28px,4vw,56px) var(--gutter,24px);
+}
+.contact-page form{ max-width:none !important;width:100%; }
+.contact-page form>*{ width:100%; }
