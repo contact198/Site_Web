@@ -30,8 +30,8 @@ body{
   padding-block:10px;
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
-  justify-content:flex-start;
-  flex-direction:row;
+  justify-content:flex-start;               /* Pas de space-between */
+  flex-direction:row;                       /* Jamais row-reverse */
 }
 
 /* === LOGO ======================================================= */
@@ -94,7 +94,7 @@ body{
 }
 .drawer .panel{
   position:absolute;top:0;left:50%;
-  transform:translate(-50%,-40px);
+  transform:translate(-50%,-40px);          /* desktop: chute depuis le haut */
   width:92%;max-width:420px;
   background:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
@@ -104,7 +104,7 @@ body{
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) ===== */
+/* ===== ANIMATION PREMIUM DU MENU (desktop) ===== */
 @keyframes pl-lux-enter{
   0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985);filter:blur(8px)}
   60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1);filter:blur(1px)}
@@ -200,38 +200,37 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ================== LTR (FR/EN/AR) — SYMÉTRIE PARFAITE ================== */
-/* Tous les sites (même arabe) : [LOGO] — [MENU] — [FLAGS] */
-html[dir="ltr"] .site-header .header-inner,
-html[dir="rtl"] .site-header .header-inner{
-  flex-direction:row !important;
-  justify-content:flex-start !important;
-  gap:18px;
-}
+/* ======== LAYOUT (IDENTIQUE EN FR/EN/AR) ======================== */
+/* Objectif: [LOGO] — [MENU] — [DRAPEAUX] */
 
-/* LOGO à gauche */
-html[dir="ltr"] .site-header .logo,
-html[dir="rtl"] .site-header .logo{
+.site-header .logo{            /* Logo collé à gauche */
   order:0 !important;
   margin-right:auto !important;
 }
 
-/* MENU au centre (avant les drapeaux) */
-html[dir="ltr"] .site-header .nav,
-html[dir="rtl"] .site-header .nav{
+.site-header .nav{             /* Menu au milieu */
   order:1 !important;
   margin:0 !important;
-  margin-inline-end:24px !important;
+  margin-inline-end:24px !important;  /* espace avant les drapeaux */
+  text-align:inherit;                 /* en AR, le texte suit la langue */
 }
 
-/* DRAPEAUX à droite */
-html[dir="ltr"] .site-header .lang-switch,
-html[dir="rtl"] .site-header .lang-switch{
+.site-header .lang-switch{     /* Drapeaux tout à droite */
   order:2 !important;
+  margin:0 !important;
   margin-inline-start:auto !important;
   gap:14px !important;
   flex-direction:row !important;
-  direction:ltr !important; /* conserve FR → EN → SA */
+  direction:ltr !important;    /* ordre FR → EN → SA */
+}
+
+/* ===== HOT-FIX RTL: neutraliser toute inversion héritée ========= */
+html[dir="rtl"] .site-header .header-inner{
+  flex-direction:row !important;
+  justify-content:flex-start !important;
+}
+html[dir="rtl"] .site-header *[style*="row-reverse"]{
+  flex-direction:row !important;
 }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
