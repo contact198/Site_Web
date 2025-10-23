@@ -27,6 +27,8 @@ body{
   position:sticky; top:0; z-index:50;
   background:#fff;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
+  will-change:transform;
+  transform:translateZ(0);
 }
 .header-inner{
   max-width:100%;
@@ -93,34 +95,52 @@ body{
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
 
+/* ----- Drawer structure (panel centré) ----- */
 .drawer{
   position:fixed;inset:0;z-index:3000;
   pointer-events:none;overflow:hidden;
 }
 .drawer .overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.35);
-  opacity:0;transition:opacity .25s ease;pointer-events:none;
+  opacity:0;transition:opacity .28s ease;pointer-events:none;
+  will-change:opacity;
 }
 .drawer .panel{
-  position:absolute;top:0;left:50%;transform:translate(-50%,-60px);
+  position:absolute;top:0;left:50%;
+  transform:translate(-50%,-40px);
   width:92%;max-width:420px;
   background:#fff;
   border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
   opacity:0;pointer-events:none;
+  will-change:transform,opacity,filter;
 }
 .drawer.open{pointer-events:auto}
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) ===== */
-.drawer.open .panel {
-  animation: pl-lux-enter 0.8s cubic-bezier(.19,1,.22,1) both;
+/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) =============== */
+/* Entrée: chute douce depuis le haut avec léger blur et rebound */
+@keyframes pl-lux-enter{
+  0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985); filter:blur(8px) saturate(.94)}
+  60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1); filter:blur(1px)}
+  100%{opacity:1;transform:translate3d(-50%,0,0) scale(1); filter:blur(0)}
 }
-.drawer:not(.open) .panel {
-  animation: pl-lux-leave 0.4s cubic-bezier(.33,.66,.4,1) both;
+/* Sortie: remonte légèrement + fade */
+@keyframes pl-lux-leave{
+  0%{opacity:1;transform:translate3d(-50%,0,0);filter:none}
+  100%{opacity:0;transform:translate3d(-50%,-24px,0);filter:blur(2px)}
 }
 
+/* Applique les keyframes SANS slide latéral */
+.drawer.open .panel {
+  animation: pl-lux-enter .80s cubic-bezier(.19,1,.22,1) both;
+}
+.drawer.closing .panel {
+  animation: pl-lux-leave .40s cubic-bezier(.33,.66,.4,1) both;
+}
+
+/* Contenu du drawer */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -164,7 +184,31 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== RESPONSIVE ============================================== */
+/* ===== TRANSITIONS DE PAGE (depuis le haut, style Apple) ======== */
+@media (prefers-reduced-motion: no-preference){
+  .page-enter{
+    animation:page-enter-anim 0.90s cubic-bezier(.19,1,.22,1) both;
+    will-change:transform,opacity,filter;
+    backface-visibility:hidden;
+    transform:translateZ(0);
+  }
+  @keyframes page-enter-anim{
+    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
+    55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
+    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
+  }
+
+  .page-leave{
+    animation:page-leave-anim .36s cubic-bezier(.33,.66,.4,1) both;
+    will-change:transform,opacity,filter;
+  }
+  @keyframes page-leave-anim{
+    from{opacity:1;transform:none;filter:none}
+    to{opacity:0;transform:translate3d(0,18px,0);filter:blur(2px)}
+  }
+}
+
+/* ===== RESPONSIVE =============================================== */
 @media (max-width:1020px){
   .site-header .header-inner{
     padding-inline:var(--edge-mobile) !important;
@@ -183,31 +227,13 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT ============================================= */
+/* ===== RTL SUPPORT ============================================== */
 [dir="rtl"] .header-inner{ flex-direction:row-reverse; }
 [dir="rtl"] .nav{ margin-inline-start:0; margin-inline-end:auto; }
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
 
-/* ===== TRANSITIONS PREMIUM ===================================== */
-@media (prefers-reduced-motion: no-preference){
-  .page-enter{
-    animation:pl-lux-enter 1s cubic-bezier(.19,1,.22,1) both;
-    will-change:transform,opacity,filter;
-  }
-  @keyframes pl-lux-enter{
-    0%{opacity:0;transform:translate3d(0,-60px,0) scale(.985) rotate(-0.35deg);filter:blur(8px) saturate(.94)}
-    60%{opacity:1}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
-  }
-  .page-leave{animation:pl-lux-leave .36s cubic-bezier(.33,.66,.4,1) both}
-  @keyframes pl-lux-leave{
-    from{opacity:1;transform:none;filter:none}
-    to{opacity:0;transform:translate3d(0,18px,0);filter:blur(2px)}
-  }
-}
-
-/* ===== CONTACT FULL WIDTH ====================================== */
+/* ===== PAGES CONTACT FULL WIDTH ================================= */
 .contact-page .hero,
 .contact-hero{
   max-width:none !important;width:100%;
