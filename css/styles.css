@@ -69,7 +69,7 @@ body{
 }
 .lang-btn:hover{transform:translateY(-1px)}
 .lang-btn img{
-  width:32px;height:32px;border-radius:50%;
+  width:28px;height:28px;border-radius:50%;
   aspect-ratio:1/1;object-fit:cover;display:block;
 }
 /* anneau interne (n’ajoute pas de largeur) */
