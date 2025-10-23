@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM (Mode B RTL + Drawer latéral mobile) ========= */
+/* ========= POWER LINK — PREMIUM (Logo gauche, Menu + Drapeaux à droite) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -31,18 +31,23 @@ body{
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
   justify-content:space-between;
-  flex-direction:row; /* base: jamais inversé automatiquement */
+  flex-direction:row; /* jamais inversé automatiquement */
 }
+
+/* --- ORDRE FORCÉ (fonctionne même si le HTML est dans un autre ordre) --- */
+.site-header .header-inner > .logo        { order:0 !important; }
+.site-header .header-inner > .nav         { order:1 !important; margin-left:auto !important; }
+.site-header .header-inner > .lang-switch { order:2 !important; margin-left:24px !important; }
+
+/* --- SI les drapeaux sont DANS .nav, on garde Menu | Drapeaux à droite --- */
+.nav{ display:flex; align-items:center; gap:26px; }
+.nav .lang-switch{ margin-left:24px; } /* menu puis drapeaux */
 
 /* === LOGO ======================================================= */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
 /* ===== NAVIGATION (liens) ======================================= */
-.nav{
-  display:flex; align-items:center; gap:26px;
-  margin-left:auto; /* en LTR, pousse le menu à droite du logo */
-}
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
   font-weight:700; letter-spacing:.4px;
@@ -116,7 +121,6 @@ body{
 .drawer.open .panel { animation: pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both; }
 .drawer.closing .panel { animation: pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both; }
 
-/* Drawer content */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -202,7 +206,6 @@ body{
     right:0; left:auto;
     border-radius:16px 0 0 16px;
     width:min(86%, 420px); max-width:420px; height:100%;
-    /* position de départ hors-écran à droite */
     transform:translateX(24px); opacity:0;
   }
   @keyframes pl-side-enter {
@@ -213,33 +216,27 @@ body{
     0%   { transform:translateX(0);    opacity:1; }
     100% { transform:translateX(24px); opacity:0; }
   }
-  /* override des anims desktop sur mobile */
   .drawer.open   .panel{ animation: pl-side-enter .42s cubic-bezier(.22,.9,.2,1) both; }
   .drawer.closing .panel{ animation: pl-side-leave .32s cubic-bezier(.4,.0,.2,1) both; }
 
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT ============================================== */
-/* --- Desktop FR/EN (LTR) : Logo (g) | Menu | Drapeaux (d) — déjà fait par base. */
-
-/* --- Desktop AR (Mode B) : pack à droite dans l'ordre visuel Drapeaux | Menu | Logo */
-@media (min-width:1021px){
-  html[dir="rtl"] .site-header .header-inner{
-    justify-content:flex-end; gap:18px; flex-direction:row !important;
-  }
-  /* Ordres RTL (de droite vers gauche: Logo | Menu | Drapeaux) */
-  html[dir="rtl"] .site-header .logo{ order:2; }
-  html[dir="rtl"] .site-header .nav { order:1; text-align:right; margin-left:0; }
-  html[dir="rtl"] .site-header .lang-switch{ order:0; }
-
-  /* Espacement agréable entre menu et drapeaux */
-  html[dir="rtl"] .site-header .nav{ margin-inline:18px; }
+/* ===== RTL SUPPORT (structure inchangée, texte aligné à droite) == */
+html[dir="rtl"] .site-header .header-inner{ 
+  flex-direction:row !important; 
+  justify-content:space-between; 
 }
+html[dir="rtl"] .site-header .nav{ 
+  text-align:right; 
+  margin-left:auto !important; 
+}
+html[dir="rtl"] .site-header .lang-switch{ margin-left:24px !important; }
 
-/* Conserve le header non inversé pour tout le reste */
-html[dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
-html[dir="rtl"] .drawer-title{ text-align:right; }
+/* Rappels d’ordre pour neutraliser d’anciennes règles */
+html[dir="rtl"] .site-header .header-inner > .logo        { order:0 !important; }
+html[dir="rtl"] .site-header .header-inner > .nav         { order:1 !important; }
+html[dir="rtl"] .site-header .header-inner > .lang-switch { order:2 !important; }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
 .contact-page .hero,
