@@ -200,47 +200,47 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== LTR — [LOGO] — [FLAGS] [MENU] ============================ */
+/* ================== LTR (FR/EN) ================== */
+/* [LOGO] —— [FLAGS] [MENU] */
 html[dir="ltr"] .site-header .header-inner{
   flex-direction:row !important;
   justify-content:flex-start !important;
 }
 html[dir="ltr"] .site-header .logo{
   order:0 !important;
-  margin-right:auto !important;           /* pousse les autres à droite */
+  margin-right:auto !important;                /* pousse tout le reste à droite */
 }
 html[dir="ltr"] .site-header .lang-switch{
   order:1 !important;
-  margin-inline-start:auto !important;    /* groupe de droite */
-  margin-inline-end:24px !important;      /* espace entre drapeaux et menu */
-  gap:14px !important;
-  flex-direction:row !important;
+  margin-inline-start:auto !important;         /* groupe de droite */
+  margin-inline-end:24px !important;           /* espace entre drapeaux et menu */
+  gap:14px !important; flex-direction:row !important;
 }
 html[dir="ltr"] .site-header .nav{
-  order:2 !important;
-  margin:0 !important;
+  order:2 !important; margin:0 !important;
 }
 
-/* ===== RTL — [MENU] [FLAGS] — [LOGO] ============================ */
+/* ================== RTL (AR/SA) ================== */
+/* [LOGO] —— [MENU] [FLAGS] */
 html[dir="rtl"] .site-header .header-inner{
-  flex-direction:row !important;
+  flex-direction:row !important;               /* pas de row-reverse, on contrôle l'ordre */
   justify-content:flex-start !important;
 }
+html[dir="rtl"] .site-header .logo{
+  order:0 !important;                           /* logo à GAUCHE */
+  margin-right:auto !important;                 /* crée l'espace flexible */
+}
 html[dir="rtl"] .site-header .nav{
-  order:0 !important;
-  margin:0 !important;
+  order:1 !important;
+  margin-left:auto !important;                  /* pousse le menu vers la droite */
   text-align:right;
 }
 html[dir="rtl"] .site-header .lang-switch{
-  order:1 !important;
-  margin-inline-start:24px !important;
+  order:2 !important;
+  margin-left:24px !important;                  /* espace entre menu et drapeaux */
   gap:14px;
   flex-direction:row !important;
-  direction:ltr !important; /* garde FR → EN → SA */
-}
-html[dir="rtl"] .site-header .logo{
-  order:2 !important;
-  margin-inline-start:auto !important;
+  direction:ltr !important;                     /* drapeaux FR → EN → SA */
 }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
