@@ -30,7 +30,7 @@ body{
   padding-block:10px;
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
-  justify-content:flex-start; /* base: aligné au bord gauche/droit selon la langue */
+  justify-content:flex-start;
   flex-direction:row;
 }
 
@@ -117,6 +117,7 @@ body{
 .drawer.open .panel { animation: pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both; }
 .drawer.closing .panel { animation: pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both; }
 
+/* Drawer content */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -201,8 +202,8 @@ body{
 }
 
 /* ===== RTL SYMÉTRIE PARFAITE ==================================== */
-/* Base LTR : [LOGO] —— [MENU] [🇫🇷 🇬🇧 🇸🇦] */
-/* RTL : [🇫🇷 🇬🇧 🇸🇦] [MENU] —— [LOGO] */
+/* LTR : [LOGO] — [MENU] [🇫🇷 🇬🇧 🇸🇦]
+   RTL : [MENU] [🇫🇷 🇬🇧 🇸🇦] — [LOGO] */
 
 html[dir="ltr"] .site-header .logo{ order:0; }
 html[dir="ltr"] .site-header .nav{ order:1; margin-inline-start:auto; }
@@ -211,9 +212,13 @@ html[dir="ltr"] .site-header .lang-switch{
 }
 
 html[dir="rtl"] .site-header .header-inner{
-  flex-direction:row !important;
+  flex-direction:row-reverse !important;
   justify-content:flex-start !important;
   gap:18px;
+}
+html[dir="rtl"] .site-header .logo{
+  order:2 !important;
+  margin-inline-start:auto !important;
 }
 html[dir="rtl"] .site-header .nav{
   order:0 !important;
@@ -226,10 +231,6 @@ html[dir="rtl"] .site-header .lang-switch{
   gap:14px;
   flex-direction:row !important;
   direction:ltr !important; /* garde FR→EN→SA */
-}
-html[dir="rtl"] .site-header .logo{
-  order:2 !important;
-  margin-inline-start:auto !important; /* pousse le logo à droite */
 }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
