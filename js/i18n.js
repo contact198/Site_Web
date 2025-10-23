@@ -1,11 +1,15 @@
-/* ===== POWER LINK — i18n + UI + Form ===== */
+/* ===== POWER LINK — i18n + UI + Form (premium transitions) ===== */
 (function () {
   /* ---------- Helpers (transition enter) ---------- */
   function retriggerEnter() {
-    const el = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
+    const el =
+      document.querySelector(".page-enter") ||
+      document.querySelector("main") ||
+      document.body;
     if (!el) return;
     el.classList.remove("page-enter");
-    void el.offsetWidth; // force reflow
+    // force reflow pour relancer l'anim CSS
+    void el.offsetWidth;
     el.classList.add("page-enter");
   }
 
@@ -73,12 +77,44 @@
     }
   }
 
-  // Expose pour éventuels handlers inline
+  // Expose pour handlers inline éventuels
   window.setLanguage = setLang;
 
   /* ---------- UI (drawer, flags, esc) ---------- */
   function bindUI() {
     const drawer = document.querySelector(".drawer");
+    const panel = drawer?.querySelector(".panel");
+    const overlay = drawer?.querySelector(".overlay");
+
+    let isClosing = false;
+
+    function smoothOpenDrawer() {
+      if (!drawer) return;
+      if (drawer.classList.contains("open") || isClosing) return;
+      drawer.classList.add("open");
+    }
+
+    function smoothCloseDrawer() {
+      if (!drawer) return;
+      if (!drawer.classList.contains("open") || isClosing) return;
+      // Lance l'anim de sortie CSS (classe .closing = keyframes leave)
+      isClosing = true;
+      drawer.classList.add("closing");
+      drawer.classList.remove("open");
+
+      const done = () => {
+        drawer.classList.remove("closing");
+        isClosing = false;
+        panel?.removeEventListener("animationend", done);
+      };
+
+      // Sécurité si pas d'animation (ou interrompue)
+      const fallback = setTimeout(done, 480);
+      panel?.addEventListener("animationend", () => {
+        clearTimeout(fallback);
+        done();
+      });
+    }
 
     document.addEventListener(
       "click",
@@ -87,19 +123,33 @@
         const closeBtn = e.target.closest(".drawer-close, .overlay");
         const flag = e.target.closest(".lang-btn");
 
-        if (openBtn) drawer?.classList.add("open");
-        if (closeBtn) drawer?.classList.remove("open");
+        if (openBtn) {
+          e.preventDefault();
+          smoothOpenDrawer();
+          return;
+        }
+        if (closeBtn) {
+          e.preventDefault();
+          smoothCloseDrawer();
+          return;
+        }
         if (flag) {
           e.preventDefault();
           e.stopPropagation();
-          setLang(flag.dataset.lang);
+          const lang = flag.dataset.lang;
+          // on traduit, puis on relance l'anim d'entrée
+          setLang(lang).then(() => {
+            // referme le drawer proprement si on était en mobile
+            smoothCloseDrawer();
+          });
+          return;
         }
       },
       true
     );
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") drawer?.classList.remove("open");
+      if (e.key === "Escape") smoothCloseDrawer();
     });
   }
 
@@ -110,7 +160,7 @@
     document.addEventListener(
       "click",
       (e) => {
-        // pas de transition pour changement de langue / liens spéciaux
+        // pas de transition pour changement de langue / liens marqués
         if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
 
         const a = e.target.closest("a[href]");
@@ -125,7 +175,10 @@
 
         if (sameOrigin && sameTab) {
           e.preventDefault();
-          const root = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
+          const root =
+            document.querySelector(".page-enter") ||
+            document.querySelector("main") ||
+            document.body;
           root?.classList.add("page-leave");
           setTimeout(() => (location.href = url.href), 320);
         }
@@ -154,7 +207,6 @@
           if (msg) msg.hidden = false;
           form.reset();
         } else {
-          // Essaye de logguer le détail pour debug
           let details = null;
           try { details = await resp.json(); } catch {}
           console.warn("Formspree error:", resp.status, details);
@@ -169,6 +221,10 @@
 
   /* ---------- Boot ---------- */
   function boot() {
+    // S'assure que la première entrée se joue
+    if (!document.body.classList.contains("page-enter")) {
+      document.body.classList.add("page-enter");
+    }
     bindUI();
     bindPageTransitions();
     bindContactForm();
