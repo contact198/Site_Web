@@ -35,13 +35,13 @@ body{
   gap:18px;
 }
 
-/* Logo (même taille que drapeaux/hamburger) */
+/* === LOGO ======================================================= */
 .logo, .logo a{
   display:inline-flex; align-items:center;
   margin:0; padding:0;
 }
 .logo img{
-  height:40px; width:auto; display:block;
+  height:48px; width:auto; display:block;
 }
 
 /* Nav */
