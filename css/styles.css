@@ -200,47 +200,38 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ================== LTR (FR/EN) ================== */
-/* [LOGO] —— [FLAGS] [MENU] */
-html[dir="ltr"] .site-header .header-inner{
+/* ================== LTR (FR/EN/AR) — SYMÉTRIE PARFAITE ================== */
+/* Tous les sites (même arabe) : [LOGO] — [MENU] — [FLAGS] */
+html[dir="ltr"] .site-header .header-inner,
+html[dir="rtl"] .site-header .header-inner{
   flex-direction:row !important;
   justify-content:flex-start !important;
-}
-html[dir="ltr"] .site-header .logo{
-  order:0 !important;
-  margin-right:auto !important;                /* pousse tout le reste à droite */
-}
-html[dir="ltr"] .site-header .lang-switch{
-  order:1 !important;
-  margin-inline-start:auto !important;         /* groupe de droite */
-  margin-inline-end:24px !important;           /* espace entre drapeaux et menu */
-  gap:14px !important; flex-direction:row !important;
-}
-html[dir="ltr"] .site-header .nav{
-  order:2 !important; margin:0 !important;
+  gap:18px;
 }
 
-/* ================== RTL (AR/SA) ================== */
-/* [LOGO] —— [MENU] [FLAGS] */
-html[dir="rtl"] .site-header .header-inner{
-  flex-direction:row !important;               /* pas de row-reverse, on contrôle l'ordre */
-  justify-content:flex-start !important;
-}
+/* LOGO à gauche */
+html[dir="ltr"] .site-header .logo,
 html[dir="rtl"] .site-header .logo{
-  order:0 !important;                           /* logo à GAUCHE */
-  margin-right:auto !important;                 /* crée l'espace flexible */
+  order:0 !important;
+  margin-right:auto !important;
 }
+
+/* MENU au centre (avant les drapeaux) */
+html[dir="ltr"] .site-header .nav,
 html[dir="rtl"] .site-header .nav{
   order:1 !important;
-  margin-left:auto !important;                  /* pousse le menu vers la droite */
-  text-align:right;
+  margin:0 !important;
+  margin-inline-end:24px !important;
 }
+
+/* DRAPEAUX à droite */
+html[dir="ltr"] .site-header .lang-switch,
 html[dir="rtl"] .site-header .lang-switch{
   order:2 !important;
-  margin-left:24px !important;                  /* espace entre menu et drapeaux */
-  gap:14px;
+  margin-inline-start:auto !important;
+  gap:14px !important;
   flex-direction:row !important;
-  direction:ltr !important;                     /* drapeaux FR → EN → SA */
+  direction:ltr !important; /* conserve FR → EN → SA */
 }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
