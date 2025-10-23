@@ -4,7 +4,7 @@
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
 
-  /* marges bord G/D strictement égales */
+  /* marges symétriques */
   --edge-desktop:24px;
   --edge-mobile:16px;
 }
@@ -28,20 +28,20 @@ body{
   max-width:100%;
   margin:0 auto;
   padding-block:10px;
-  padding-inline:var(--edge-desktop);   /* ⇦⇨ bords égaux */
+  padding-inline:var(--edge-desktop);
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:18px;
 }
 
-/* Logo — plus aucun nudge, géométrie pure */
+/* Logo (même taille que drapeaux/hamburger) */
 .logo, .logo a{
   display:inline-flex; align-items:center;
   margin:0; padding:0;
 }
 .logo img{
-  height:72px; width:auto; display:block;
+  height:40px; width:auto; display:block;
 }
 
 /* Nav */
@@ -55,7 +55,7 @@ body{
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
-/* ===== LANG SWITCH (drapeaux ronds, anneau interne) ============ */
+/* ===== LANG SWITCH ============================================== */
 .lang-switch{display:flex;gap:14px;align-items:center}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -68,10 +68,10 @@ body{
   width:32px;height:32px;border-radius:50%;
   aspect-ratio:1/1;object-fit:cover;display:block;
 }
-/* anneau en box-shadow interne → n’augmente pas la largeur perçue */
+/* anneau interne (n’ajoute pas de largeur) */
 .lang-btn.active{
   outline:none !important;
-  box-shadow: inset 0 0 0 2px #2A6B45 !important;
+  box-shadow:inset 0 0 0 2px #2A6B45 !important;
 }
 
 /* ===== HAMBURGER + DRAWER ======================================= */
@@ -81,9 +81,11 @@ body{
   align-items:center;justify-content:center;
   margin-inline-start:auto;
 }
-.hamburger span,.hamburger span::before,.hamburger span::after{
-  display:block;width:20px;height:2px;background:#1D5336;content:"";
-  position:relative;
+.hamburger span,
+.hamburger span::before,
+.hamburger span::after{
+  display:block;width:20px;height:2px;background:#1D5336;
+  content:"";position:relative;
 }
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
@@ -148,9 +150,11 @@ body{
 /* ===== RESPONSIVE ============================================== */
 @media (max-width:1020px){
   .site-header .header-inner{
-    padding-inline:var(--edge-mobile);   /* ⇦⇨ bords égaux sur mobile */
+    padding-inline:var(--edge-mobile);
   }
-  .logo img{ height:56px; }
+  .site-header .logo img{
+    height:40px !important; /* même taille que le hamburger */
+  }
   .nav{ display:none; }
   .hamburger{ display:flex; }
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
