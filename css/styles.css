@@ -7,6 +7,9 @@
   /* marges symétriques */
   --edge-desktop:24px;
   --edge-mobile:16px;
+
+  /* correction optique mobile */
+  --mobile-optical-nudge:-2px;
 }
 
 *{box-sizing:border-box}
@@ -150,13 +153,18 @@ body{
 /* ===== RESPONSIVE ============================================== */
 @media (max-width:1020px){
   .site-header .header-inner{
-    padding-inline:var(--edge-mobile);
+    padding-inline:var(--edge-mobile) !important;
   }
   .site-header .logo img{
     height:40px !important; /* même taille que le hamburger */
+    transform:translateX(var(--mobile-optical-nudge)); /* correction optique */
+  }
+  .hamburger{
+    display:flex;
+    margin-inline-end:0 !important;
+    box-shadow:none !important;
   }
   .nav{ display:none; }
-  .hamburger{ display:flex; }
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
