@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM (Logo gauche | Menu + Drapeaux à droite) ========= */
+/* ========= POWER LINK — PREMIUM (Logo miroir RTL/LTR) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -34,14 +34,14 @@ body{
   flex-direction:row;
 }
 
-/* === LOGO (toujours à gauche) =================================== */
+/* === LOGO ======================================================= */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
-/* ===== NAVIGATION (liens) ======================================= */
+/* ===== NAVIGATION =============================================== */
 .nav{
   display:flex; align-items:center; gap:26px;
-  margin-left:auto; /* pousse le menu à droite du logo */
+  margin-left:auto;
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -52,7 +52,7 @@ body{
 /* ===== LANG SWITCH ============================================== */
 .lang-switch{
   display:flex;align-items:center;gap:14px;
-  margin-left:24px; /* espace entre menu et drapeaux */
+  margin-left:24px;
 }
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -96,7 +96,7 @@ body{
 }
 .drawer .panel{
   position:absolute;top:0;left:50%;
-  transform:translate(-50%,-40px); /* desktop: chute depuis le haut */
+  transform:translate(-50%,-40px);
   width:92%;max-width:420px;
   background:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
@@ -163,18 +163,17 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== TRANSITIONS DE PAGE (UNIQUEMENT .page-root) ============== */
+/* ===== TRANSITIONS DE PAGE ===================================== */
 @media (prefers-reduced-motion: no-preference){
   .page-root.page-enter{
     animation:page-enter-anim 0.9s cubic-bezier(.19,1,.22,1) both;
     will-change:transform,opacity,filter;
   }
   @keyframes page-enter-anim{
-    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
-    55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
+    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985);filter:blur(8px)}
+    55%{opacity:1;transform:translate3d(0,-8px,0);filter:blur(1px)}
+    100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
   }
-
   .page-root.page-leave{
     animation:page-leave-anim .36s cubic-bezier(.33,.66,.4,1) both;
   }
@@ -184,52 +183,49 @@ body{
   }
 }
 
-/* ===== RESPONSIVE (mobile) ====================================== */
+/* ===== RESPONSIVE =============================================== */
 @media (max-width:1020px){
   .site-header .header-inner{ padding-inline:var(--edge-mobile) !important; }
-  .site-header .logo img{
-    height:40px !important;
-    transform:translateX(var(--mobile-optical-nudge));
-  }
-  .hamburger{
-    display:flex;
-    margin-inline-end:0 !important;
-    transform:translateX(var(--burger-optical-nudge));
-  }
+  .site-header .logo img{ height:40px !important; }
+  .hamburger{ display:flex; }
   .nav{ display:none; }
 
-  /* --- Drawer latéral droite → gauche --- */
+  /* Drawer latéral droite → gauche */
   .drawer .panel{
     top:0; bottom:0;
     right:0; left:auto;
     border-radius:16px 0 0 16px;
-    width:min(86%, 420px); max-width:420px; height:100%;
+    width:min(86%,420px); max-width:420px; height:100%;
     transform:translateX(24px); opacity:0;
   }
-  @keyframes pl-side-enter {
-    0%   { transform:translateX(24px); opacity:0; }
-    100% { transform:translateX(0);    opacity:1; }
+  @keyframes pl-side-enter{
+    0%{transform:translateX(24px);opacity:0;}
+    100%{transform:translateX(0);opacity:1;}
   }
-  @keyframes pl-side-leave {
-    0%   { transform:translateX(0);    opacity:1; }
-    100% { transform:translateX(24px); opacity:0; }
+  @keyframes pl-side-leave{
+    0%{transform:translateX(0);opacity:1;}
+    100%{transform:translateX(24px);opacity:0;}
   }
-  .drawer.open   .panel{ animation: pl-side-enter .42s cubic-bezier(.22,.9,.2,1) both; }
-  .drawer.closing .panel{ animation: pl-side-leave .32s cubic-bezier(.4,.0,.2,1) both; }
-
-  .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
+  .drawer.open .panel{animation:pl-side-enter .42s cubic-bezier(.22,.9,.2,1) both;}
+  .drawer.closing .panel{animation:pl-side-leave .32s cubic-bezier(.4,.0,.2,1) both;}
 }
 
-/* ===== RTL SUPPORT (structure inchangée) ======================== */
-html[dir="rtl"] .site-header .header-inner{ 
-  flex-direction: row !important; 
-  justify-content: space-between !important;
+/* ===== RTL SUPPORT ============================================== */
+/* En arabe : Logo à droite, menu + drapeaux à gauche */
+html[dir="rtl"] .header-inner{
+  flex-direction:row-reverse !important;
+  justify-content:space-between !important;
 }
-html[dir="rtl"] .site-header .nav{ 
-  text-align: right; 
-  margin-left: auto !important; 
+html[dir="rtl"] .nav{
+  margin-right:auto !important;
+  margin-left:0 !important;
+  text-align:right;
 }
-html[dir="rtl"] .site-header .lang-switch{ margin-left:24px !important; }
+html[dir="rtl"] .lang-switch{
+  margin-right:24px !important;
+  margin-left:0 !important;
+  flex-direction:row-reverse;
+}
 
 /* ===== CONTACT FULL WIDTH ====================================== */
 .contact-page .hero,
@@ -239,12 +235,3 @@ html[dir="rtl"] .site-header .lang-switch{ margin-left:24px !important; }
 }
 .contact-page form{ max-width:none !important;width:100%; }
 .contact-page form>*{ width:100%; }
-
-/* ===== FIX FINAL (ordre absolu toutes langues) ================= */
-.site-header .header-inner > .logo        { order:0 !important; }
-.site-header .header-inner > .nav         { order:1 !important; margin-left:auto !important; }
-.site-header .header-inner > .lang-switch { order:2 !important; margin-left:24px !important; }
-
-html[dir="rtl"] .site-header .header-inner > .logo        { order:0 !important; }
-html[dir="rtl"] .site-header .header-inner > .nav         { order:1 !important; }
-html[dir="rtl"] .site-header .header-inner > .lang-switch { order:2 !important; }
