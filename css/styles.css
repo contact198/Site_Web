@@ -211,7 +211,7 @@ body{
 }
 
 /* ===== RTL SUPPORT ============================================== */
-/* En arabe : Logo à droite, menu + drapeaux à gauche */
+/* En arabe : logo à droite, menu + drapeaux à gauche */
 html[dir="rtl"] .header-inner{
   flex-direction:row-reverse !important;
   justify-content:space-between !important;
