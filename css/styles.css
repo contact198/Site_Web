@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM UI (logo toujours à gauche) ========= */
+/* ========= POWER LINK — PREMIUM FIXED ORDER (Logo → Menu → Drapeaux) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -16,7 +16,7 @@
 }
 
 *{box-sizing:border-box}
-html,body{margin:0}
+html,body{margin:0;padding:0}
 body{
   color:var(--white);
   font:16px/1.55 "Inter",system-ui,Arial,sans-serif;
@@ -29,7 +29,6 @@ body{
   position:sticky; top:0; z-index:50;
   background:#fff;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
-  transform:translateZ(0);
 }
 .header-inner{
   max-width:100%;
@@ -39,18 +38,18 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  flex-direction:row; /* ordre toujours identique */
   gap:18px;
 }
 
-/* Logo toujours à gauche (LTR & RTL) */
+/* === LOGO ======================================================= */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
-.logo{ order:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
-/* Nav (menu + drapeaux) toujours à droite */
+/* ===== NAVIGATION =============================================== */
 .nav{
-  margin-left:auto;               /* pousse tout le bloc nav à droite */
   display:flex; align-items:center; gap:26px;
+  margin-left:auto; /* pousse le menu à droite du logo */
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -58,8 +57,11 @@ body{
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
-/* ===== LANG SWITCH ============================================== */
-.lang-switch{display:flex;gap:14px;align-items:center}
+/* ===== LANG SWITCH (toujours tout à droite) ===================== */
+.lang-switch{
+  display:flex;align-items:center;gap:14px;
+  margin-left:auto; /* pousse les drapeaux à l’extrême droite */
+}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -92,7 +94,6 @@ body{
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
 
-/* Drawer structure */
 .drawer{
   position:fixed;inset:0;z-index:3000;
   pointer-events:none;overflow:hidden;
@@ -100,7 +101,6 @@ body{
 .drawer .overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.35);
   opacity:0;transition:opacity .28s ease;pointer-events:none;
-  will-change:opacity;
 }
 .drawer .panel{
   position:absolute;top:0;left:50%;
@@ -110,7 +110,6 @@ body{
   border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
   opacity:0;pointer-events:none;
-  will-change:transform,opacity,filter;
 }
 .drawer.open{pointer-events:auto}
 .drawer.open .overlay{opacity:1;pointer-events:auto}
@@ -126,10 +125,9 @@ body{
   0%{opacity:1;transform:translate3d(-50%,0,0);filter:none}
   100%{opacity:0;transform:translate3d(-50%,-24px,0);filter:blur(2px)}
 }
-.drawer.open .panel { animation: pl-lux-enter .80s cubic-bezier(.19,1,.22,1) both; }
-.drawer.closing .panel { animation: pl-lux-leave .40s cubic-bezier(.33,.66,.4,1) both; }
+.drawer.open .panel { animation: pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both; }
+.drawer.closing .panel { animation: pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both; }
 
-/* Drawer content */
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
   padding-block:14px;padding-inline:var(--edge-mobile);
@@ -177,20 +175,17 @@ body{
 /* ===== TRANSITIONS DE PAGE (UNIQUEMENT .page-root) ============== */
 @media (prefers-reduced-motion: no-preference){
   .page-root.page-enter{
-    animation:page-enter-anim 0.90s cubic-bezier(.19,1,.22,1) both;
+    animation:page-enter-anim 0.9s cubic-bezier(.19,1,.22,1) both;
     will-change:transform,opacity,filter;
-    backface-visibility:hidden;
-    transform:translateZ(0);
   }
   @keyframes page-enter-anim{
     0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
     55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
+    100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0) saturate(1)}
   }
 
   .page-root.page-leave{
     animation:page-leave-anim .36s cubic-bezier(.33,.66,.4,1) both;
-    will-change:transform,opacity,filter;
   }
   @keyframes page-leave-anim{
     from{opacity:1;transform:none;filter:none}
@@ -209,16 +204,15 @@ body{
     display:flex;
     margin-inline-end:0 !important;
     transform:translateX(var(--burger-optical-nudge));
-    box-shadow:none !important;
   }
   .nav{ display:none; }
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT (logo reste à gauche) ======================== */
-/* Ne pas inverser la barre : on garde l’ordre LTR (logo à gauche, nav à droite) */
+/* ===== RTL SUPPORT (structure inchangée) ======================== */
+/* On garde l’ordre fixe : Logo → Menu → Drapeaux */
 [dir="rtl"] .header-inner{ flex-direction:row; justify-content:space-between; }
-[dir="rtl"] .nav{ text-align:right; }     /* texte du menu aligné à droite */
+[dir="rtl"] .nav{ text-align:right; }
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
 
