@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM (Logo gauche, Menu + Drapeaux à droite) ========= */
+/* ========= POWER LINK — PREMIUM (Logo gauche | Menu + Drapeaux à droite) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -31,23 +31,18 @@ body{
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
   justify-content:space-between;
-  flex-direction:row; /* jamais inversé automatiquement */
+  flex-direction:row;
 }
 
-/* --- ORDRE FORCÉ (fonctionne même si le HTML est dans un autre ordre) --- */
-.site-header .header-inner > .logo        { order:0 !important; }
-.site-header .header-inner > .nav         { order:1 !important; margin-left:auto !important; }
-.site-header .header-inner > .lang-switch { order:2 !important; margin-left:24px !important; }
-
-/* --- SI les drapeaux sont DANS .nav, on garde Menu | Drapeaux à droite --- */
-.nav{ display:flex; align-items:center; gap:26px; }
-.nav .lang-switch{ margin-left:24px; } /* menu puis drapeaux */
-
-/* === LOGO ======================================================= */
+/* === LOGO (toujours à gauche) =================================== */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
 /* ===== NAVIGATION (liens) ======================================= */
+.nav{
+  display:flex; align-items:center; gap:26px;
+  margin-left:auto; /* pousse le menu à droite du logo */
+}
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
   font-weight:700; letter-spacing:.4px;
@@ -55,7 +50,10 @@ body{
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
 /* ===== LANG SWITCH ============================================== */
-.lang-switch{display:flex;align-items:center;gap:14px;}
+.lang-switch{
+  display:flex;align-items:center;gap:14px;
+  margin-left:24px; /* espace entre menu et drapeaux */
+}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -108,7 +106,7 @@ body{
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (desktop: depuis le haut) ===== */
+/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) =============== */
 @keyframes pl-lux-enter{
   0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985); filter:blur(8px) saturate(.94)}
   60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1); filter:blur(1px)}
@@ -186,7 +184,7 @@ body{
   }
 }
 
-/* ===== RESPONSIVE =============================================== */
+/* ===== RESPONSIVE (mobile) ====================================== */
 @media (max-width:1020px){
   .site-header .header-inner{ padding-inline:var(--edge-mobile) !important; }
   .site-header .logo img{
@@ -200,7 +198,7 @@ body{
   }
   .nav{ display:none; }
 
-  /* --- MOBILE: drawer latéral droite→gauche --- */
+  /* --- Drawer latéral droite → gauche --- */
   .drawer .panel{
     top:0; bottom:0;
     right:0; left:auto;
@@ -222,21 +220,16 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== RTL SUPPORT (structure inchangée, texte aligné à droite) == */
+/* ===== RTL SUPPORT (structure inchangée) ======================== */
 html[dir="rtl"] .site-header .header-inner{ 
-  flex-direction:row !important; 
-  justify-content:space-between; 
+  flex-direction: row !important; 
+  justify-content: space-between !important;
 }
 html[dir="rtl"] .site-header .nav{ 
-  text-align:right; 
-  margin-left:auto !important; 
+  text-align: right; 
+  margin-left: auto !important; 
 }
 html[dir="rtl"] .site-header .lang-switch{ margin-left:24px !important; }
-
-/* Rappels d’ordre pour neutraliser d’anciennes règles */
-html[dir="rtl"] .site-header .header-inner > .logo        { order:0 !important; }
-html[dir="rtl"] .site-header .header-inner > .nav         { order:1 !important; }
-html[dir="rtl"] .site-header .header-inner > .lang-switch { order:2 !important; }
 
 /* ===== CONTACT FULL WIDTH ====================================== */
 .contact-page .hero,
@@ -246,3 +239,12 @@ html[dir="rtl"] .site-header .header-inner > .lang-switch { order:2 !important; 
 }
 .contact-page form{ max-width:none !important;width:100%; }
 .contact-page form>*{ width:100%; }
+
+/* ===== FIX FINAL (ordre absolu toutes langues) ================= */
+.site-header .header-inner > .logo        { order:0 !important; }
+.site-header .header-inner > .nav         { order:1 !important; margin-left:auto !important; }
+.site-header .header-inner > .lang-switch { order:2 !important; margin-left:24px !important; }
+
+html[dir="rtl"] .site-header .header-inner > .logo        { order:0 !important; }
+html[dir="rtl"] .site-header .header-inner > .nav         { order:1 !important; }
+html[dir="rtl"] .site-header .header-inner > .lang-switch { order:2 !important; }
