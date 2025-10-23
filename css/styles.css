@@ -6,11 +6,9 @@
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
 
-  /* marges symétriques */
   --edge-desktop:24px;
   --edge-mobile:16px;
 
-  /* ajustements optiques mobile */
   --mobile-optical-nudge:-3px;
   --burger-optical-nudge:1px;
 }
@@ -38,18 +36,18 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  flex-direction:row; /* ordre toujours identique */
+  flex-direction:row; /* ordre toujours identique (LTR & RTL) */
   gap:18px;
 }
 
-/* === LOGO ======================================================= */
+/* === LOGO (toujours à gauche) =================================== */
 .logo, .logo a{ display:inline-flex; align-items:center; margin:0; padding:0; }
 .logo img{ height:48px; width:auto; display:block; }
 
-/* ===== NAVIGATION =============================================== */
+/* ===== NAVIGATION (liens) ======================================= */
 .nav{
   display:flex; align-items:center; gap:26px;
-  margin-left:auto; /* pousse le menu à droite du logo */
+  margin-left:auto; /* pousse le bloc menu à droite du logo */
 }
 .nav a{
   color:#16402B; text-decoration:none; text-transform:uppercase;
@@ -60,7 +58,7 @@ body{
 /* ===== LANG SWITCH (toujours tout à droite) ===================== */
 .lang-switch{
   display:flex;align-items:center;gap:14px;
-  margin-left:auto; /* pousse les drapeaux à l’extrême droite */
+  margin-left:24px;        /* colle les drapeaux à droite du menu */
 }
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
@@ -106,8 +104,7 @@ body{
   position:absolute;top:0;left:50%;
   transform:translate(-50%,-40px);
   width:92%;max-width:420px;
-  background:#fff;
-  border-radius:20px;
+  background:#fff;border-radius:20px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);
   opacity:0;pointer-events:none;
 }
@@ -181,7 +178,7 @@ body{
   @keyframes page-enter-anim{
     0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
     55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0) saturate(1)}
+    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
   }
 
   .page-root.page-leave{
@@ -212,7 +209,7 @@ body{
 /* ===== RTL SUPPORT (structure inchangée) ======================== */
 /* On garde l’ordre fixe : Logo → Menu → Drapeaux */
 [dir="rtl"] .header-inner{ flex-direction:row; justify-content:space-between; }
-[dir="rtl"] .nav{ text-align:right; }
+[dir="rtl"] .nav{ text-align:right; }     /* le texte arabe s’aligne à droite */
 [dir="rtl"] .drawer-header{ grid-template-columns:auto auto 1fr; direction:rtl; }
 [dir="rtl"] .drawer-title{ text-align:right; }
 
