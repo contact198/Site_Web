@@ -1,16 +1,24 @@
-/* ===== POWER LINK — i18n + UI + Form (premium transitions) ===== */
+/* ===== POWER LINK — i18n + UI + Form (premium transitions, scoped) ===== */
 (function () {
-  /* ---------- Helpers (transition enter) ---------- */
+  /* ---------- Page-root helpers ---------- */
+  function getPageRoot() {
+    // Privilégie <main>; fallback body
+    const main = document.querySelector("main");
+    if (main && !main.classList.contains("page-root")) {
+      main.classList.add("page-root");
+    }
+    return main || document.body;
+  }
+
   function retriggerEnter() {
-    const el =
-      document.querySelector(".page-enter") ||
+    const root =
+      document.querySelector(".page-root") ||
       document.querySelector("main") ||
       document.body;
-    if (!el) return;
-    el.classList.remove("page-enter");
-    // force reflow pour relancer l'anim CSS
-    void el.offsetWidth;
-    el.classList.add("page-enter");
+    if (!root) return;
+    root.classList.remove("page-enter");
+    void root.offsetWidth; // force reflow
+    root.classList.add("page-enter");
   }
 
   /* ---------- I18N ---------- */
@@ -77,14 +85,13 @@
     }
   }
 
-  // Expose pour handlers inline éventuels
+  // Expose si tu utilises onclick="setLanguage('xx')"
   window.setLanguage = setLang;
 
   /* ---------- UI (drawer, flags, esc) ---------- */
   function bindUI() {
     const drawer = document.querySelector(".drawer");
     const panel = drawer?.querySelector(".panel");
-    const overlay = drawer?.querySelector(".overlay");
 
     let isClosing = false;
 
@@ -97,7 +104,6 @@
     function smoothCloseDrawer() {
       if (!drawer) return;
       if (!drawer.classList.contains("open") || isClosing) return;
-      // Lance l'anim de sortie CSS (classe .closing = keyframes leave)
       isClosing = true;
       drawer.classList.add("closing");
       drawer.classList.remove("open");
@@ -105,15 +111,12 @@
       const done = () => {
         drawer.classList.remove("closing");
         isClosing = false;
-        panel?.removeEventListener("animationend", done);
+        panel?.removeEventListener("animationend", onAnimEnd);
       };
 
-      // Sécurité si pas d'animation (ou interrompue)
+      const onAnimEnd = () => { clearTimeout(fallback); done(); };
       const fallback = setTimeout(done, 480);
-      panel?.addEventListener("animationend", () => {
-        clearTimeout(fallback);
-        done();
-      });
+      panel?.addEventListener("animationend", onAnimEnd);
     }
 
     document.addEventListener(
@@ -123,25 +126,14 @@
         const closeBtn = e.target.closest(".drawer-close, .overlay");
         const flag = e.target.closest(".lang-btn");
 
-        if (openBtn) {
-          e.preventDefault();
-          smoothOpenDrawer();
-          return;
-        }
-        if (closeBtn) {
-          e.preventDefault();
-          smoothCloseDrawer();
-          return;
-        }
+        if (openBtn) { e.preventDefault(); smoothOpenDrawer(); return; }
+        if (closeBtn) { e.preventDefault(); smoothCloseDrawer(); return; }
+
         if (flag) {
           e.preventDefault();
           e.stopPropagation();
           const lang = flag.dataset.lang;
-          // on traduit, puis on relance l'anim d'entrée
-          setLang(lang).then(() => {
-            // referme le drawer proprement si on était en mobile
-            smoothCloseDrawer();
-          });
+          setLang(lang).then(() => { smoothCloseDrawer(); });
           return;
         }
       },
@@ -153,7 +145,7 @@
     });
   }
 
-  /* ---------- Page transitions ---------- */
+  /* ---------- Page transitions (scopées à .page-root) ----------- */
   function bindPageTransitions() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -176,7 +168,7 @@
         if (sameOrigin && sameTab) {
           e.preventDefault();
           const root =
-            document.querySelector(".page-enter") ||
+            document.querySelector(".page-root") ||
             document.querySelector("main") ||
             document.body;
           root?.classList.add("page-leave");
@@ -221,9 +213,9 @@
 
   /* ---------- Boot ---------- */
   function boot() {
-    // S'assure que la première entrée se joue
-    if (!document.body.classList.contains("page-enter")) {
-      document.body.classList.add("page-enter");
+    const root = getPageRoot();
+    if (!root.classList.contains("page-enter")) {
+      root.classList.add("page-enter");
     }
     bindUI();
     bindPageTransitions();
