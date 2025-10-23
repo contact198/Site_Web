@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HEADER SYMÉTRIQUE & PREMIUM ========= */
+/* ========= POWER LINK — HEADER SYMÉTRIQUE PREMIUM ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -104,7 +104,7 @@ body{
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (desktop: depuis le haut) ===== */
+/* ===== ANIMATION PREMIUM DU MENU (depuis le haut) ===== */
 @keyframes pl-lux-enter{
   0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985);filter:blur(8px)}
   60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1);filter:blur(1px)}
@@ -200,20 +200,28 @@ body{
   .drawer .lang-switch{ display:flex !important; gap:10px; align-items:center; }
 }
 
-/* ===== LTR — Logo gauche, Drapeaux + Menu à droite ===== */
+/* ===== LTR — [LOGO] — [FLAGS] [MENU] ============================ */
 html[dir="ltr"] .site-header .header-inner{
   flex-direction:row !important;
   justify-content:flex-start !important;
 }
-html[dir="ltr"] .site-header .logo{ order:0; margin-right:auto; }
+html[dir="ltr"] .site-header .logo{
+  order:0 !important;
+  margin-right:auto !important;           /* pousse les autres à droite */
+}
 html[dir="ltr"] .site-header .lang-switch{
-  order:1; margin-inline-end:24px; gap:14px; flex-direction:row;
+  order:1 !important;
+  margin-inline-start:auto !important;    /* groupe de droite */
+  margin-inline-end:24px !important;      /* espace entre drapeaux et menu */
+  gap:14px !important;
+  flex-direction:row !important;
 }
 html[dir="ltr"] .site-header .nav{
-  order:2; margin:0;
+  order:2 !important;
+  margin:0 !important;
 }
 
-/* ===== RTL — Menu gauche, Drapeaux ensuite, Logo droite ===== */
+/* ===== RTL — [MENU] [FLAGS] — [LOGO] ============================ */
 html[dir="rtl"] .site-header .header-inner{
   flex-direction:row !important;
   justify-content:flex-start !important;
@@ -228,7 +236,7 @@ html[dir="rtl"] .site-header .lang-switch{
   margin-inline-start:24px !important;
   gap:14px;
   flex-direction:row !important;
-  direction:ltr !important;
+  direction:ltr !important; /* garde FR → EN → SA */
 }
 html[dir="rtl"] .site-header .logo{
   order:2 !important;
