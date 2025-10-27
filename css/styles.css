@@ -1,4 +1,4 @@
-/* ========= POWER LINK — PREMIUM FLUID (LTR vs RTL propre) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR vs RTL propre) ========= */
 
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
@@ -106,15 +106,15 @@ body{
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 
-/* ===== ANIMATION PREMIUM DU MENU (desktop: depuis le haut) ===== */
+/* ===== ANIMATION DU MENU (depuis le haut) ===== */
 @keyframes pl-lux-enter{
-  0%{opacity:0;transform:translate3d(-50%,-56px,0) scale(.985);filter:blur(8px) saturate(.94)}
-  60%{opacity:1;transform:translate3d(-50%,-6px,0) scale(1);filter:blur(1px)}
-  100%{opacity:1;transform:translate3d(-50%,0,0) scale(1);filter:blur(0)}
+  0%{opacity:0;transform:translate3d(-50%,-56px,0);}
+  60%{opacity:1;transform:translate3d(-50%,-6px,0);}
+  100%{opacity:1;transform:translate3d(-50%,0,0);}
 }
 @keyframes pl-lux-leave{
-  0%{opacity:1;transform:translate3d(-50%,0,0);filter:none}
-  100%{opacity:0;transform:translate3d(-50%,-24px,0);filter:blur(2px)}
+  0%{opacity:1;transform:translate3d(-50%,0,0);}
+  100%{opacity:0;transform:translate3d(-50%,-24px,0);}
 }
 .drawer.open .panel{animation:pl-lux-enter .8s cubic-bezier(.19,1,.22,1) both;}
 .drawer.closing .panel{animation:pl-lux-leave .4s cubic-bezier(.33,.66,.4,1) both;}
@@ -135,7 +135,7 @@ body{
   text-transform:uppercase;font-weight:700;
 }
 
-/* ===== CONTENU (page-root) ====================================== */
+/* ===== CONTENU ================================================== */
 .page-root{ contain:content; display:block; }
 
 /* ===== HERO ===================================================== */
@@ -164,64 +164,74 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== TRANSITIONS DE PAGE (PREMIUM FLUID TOP→DOWN) ============= */
+/* ===== TRANSITIONS DE PAGE (HI-PERF TOP→DOWN) ================== */
 @media (prefers-reduced-motion: no-preference){
   :root{
-    --pl-page-in-dur:.96s;
-    --pl-page-out-dur:.38s;
-    --pl-ease-in:cubic-bezier(.16,1,.3,1);
+    --pl-page-in-dur:1.05s;
+    --pl-page-out-dur:.42s;
+    --pl-ease-in:cubic-bezier(.23,1,.32,1);
     --pl-ease-out:cubic-bezier(.22,.7,.25,1);
-    --pl-dropY:56px;
-    --pl-block-in-dur:.64s;
-    --pl-block-ease:cubic-bezier(.18,.88,.22,1);
-    --pl-block-drop:20px;
+    --pl-dropY:48px;
+    --pl-block-in-dur:.7s;
+    --pl-block-ease:cubic-bezier(.2,.9,.2,1);
+    --pl-block-drop:18px;
   }
 
-  .page-root,
-  .from-top{
-    backface-visibility:hidden;
-    transform:translateZ(0);
-  }
+  .page-root{will-change:transform,opacity;contain:paint;isolation:isolate;}
+  .from-top{will-change:transform,opacity;}
+  .page-root *, .from-top *{backface-visibility:hidden;}
 
+  /* Page Enter */
   .page-root.page-enter{
-    animation:pl-page-enter var(--pl-page-in-dur) var(--pl-ease-in) both;
-    will-change:transform,opacity,filter;
+    animation:plx-page-enter var(--pl-page-in-dur) var(--pl-ease-in) both;
   }
-  @keyframes pl-page-enter{
-    0%{
-      opacity:0;
-      transform:translate3d(0,calc(var(--pl-dropY)*-1),0) scale(.992);
-      filter:blur(6px) saturate(.97);
-    }
-    70%{
-      opacity:1;
-      transform:translate3d(0,-4px,0) scale(1);
-      filter:blur(1px);
-    }
-    100%{
-      opacity:1;
-      transform:translate3d(0,0,0) scale(1);
-      filter:blur(0) saturate(1);
-    }
+  @keyframes plx-page-enter{
+    0%{opacity:0;transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}
+    60%{opacity:1;transform:translate3d(0,-6px,0);}
+    100%{opacity:1;transform:translate3d(0,0,0);}
   }
 
+  /* Page Leave */
   .page-root.page-leave{
-    animation:pl-page-leave var(--pl-page-out-dur) var(--pl-ease-out) both;
+    animation:plx-page-leave var(--pl-page-out-dur) var(--pl-ease-out) both;
   }
-  @keyframes pl-page-leave{
-    from{opacity:1;transform:translate3d(0,0,0);filter:none;}
-    to{opacity:0;transform:translate3d(0,14px,0);filter:blur(1.5px);}
+  @keyframes plx-page-leave{
+    from{opacity:1;transform:translate3d(0,0,0);}
+    to{opacity:0;transform:translate3d(0,12px,0);}
   }
 
+  /* Bloc utilitaire */
   .from-top{
-    opacity:0;transform:translate3d(0,calc(var(--pl-block-drop)*-1),0) scale(.995);
-    filter:blur(5px);will-change:transform,opacity,filter;
-    animation:pl-from-top var(--pl-block-in-dur) var(--pl-block-ease) .04s both;
+    opacity:0;
+    transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);
+    animation:plx-from-top var(--pl-block-in-dur) var(--pl-block-ease) .04s both;
   }
-  @keyframes pl-from-top{
-    0%{opacity:0;transform:translate3d(0,-20px,0) scale(.995);filter:blur(5px);}
-    72%{opacity:1;transform:translate3d(0,-2px,0) scale(1);filter:blur(1px);}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0);}
+  @keyframes plx-from-top{
+    0%{opacity:0;transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);}
+    72%{opacity:1;transform:translate3d(0,-2px,0);}
+    100%{opacity:1;transform:translate3d(0,0,0);}
+  }
+
+  /* Micro-optims */
+  .page-root.page-enter .card,
+  .page-root.page-enter .panel,
+  .page-root.page-enter [class*="shadow"]{transition:box-shadow .001s linear;}
+
+  @media (max-width:1020px){
+    :root{
+      --pl-page-in-dur:.92s;
+      --pl-page-out-dur:.36s;
+      --pl-dropY:40px;
+      --pl-block-in-dur:.58s;
+      --pl-block-drop:16px;
+    }
+  }
+
+  @supports (content-visibility:auto){
+    .section,.hero,.grid,.page-root>*{
+      content-visibility:auto;
+      contain-intrinsic-size:1px 600px;
+    }
   }
 }
 
@@ -245,7 +255,7 @@ body{
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
 }
 
-/* ===== RTL SUPPORT — Miroir propre (AR) ========================= */
+/* ===== RTL SUPPORT — miroir propre ============================== */
 html[dir="rtl"] .site-header .header-inner{
   flex-direction:row!important;
   justify-content:space-between!important;
@@ -256,6 +266,6 @@ html[dir="rtl"] .site-header .nav{
   order:1!important;margin:0!important;margin-left:18px!important;text-align:right;
 }
 html[dir="rtl"] .site-header .logo{order:2!important;margin:0!important;}
-html[dir="rtl"] .site-header .nav > .lang-switch{order:-1!important;margin:0 18px 0 0!important;}
+html[dir="rtl"] .site-header .nav>.lang-switch{order:-1!important;margin:0 18px 0 0!important;}
 html[dir="rtl"] .nav{margin-left:0!important;}
 html[dir="rtl"] .lang-switch{margin-left:0!important;}
