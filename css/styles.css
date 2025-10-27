@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Contact Full Page) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM FINAL 2025 (LTR/RTL + Anti-Flash + ViewTransitions + Contact Full Page) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -148,26 +148,18 @@ html,body{display:flex;flex-direction:column;}
   border-top:1px solid rgba(255,255,255,.08);
 }
 
-/* ===== PAGE CONTACT — STYLE PLEIN ÉCRAN ========================== */
+/* ===== PAGE CONTACT — PLEIN ÉCRAN + COLONNE LARGE =============== */
 .contact-page .page-root{
   min-block-size:calc(100dvh - var(--header-h));
   display:grid;
-  align-content:start;
+  grid-template-columns:1fr min(1120px,calc(100% - clamp(32px,8vw,80px))) 1fr;
+  align-content:start; /* mets center si tu veux centrer verticalement */
   padding-block:56px 80px;
 }
-.contact-page .contact-wrap{
-  max-width:1120px;
-  margin-inline:auto;
-  padding-inline:clamp(16px,4vw,40px);
-}
-.contact-page h1{
-  font-size:clamp(28px,4vw,44px);
-  margin:0 0 14px;
-}
-.contact-page .lead{
-  color:#CFE3D6;
-  margin:0 0 26px;
-}
+.contact-page .page-root > *{grid-column:2;}
+.contact-page h1,
+.contact-page .lead{text-align:center;}
+.contact-page .lead{color:#CFE3D6;margin:0 0 26px;}
 .contact-page label{
   display:block;
   font-weight:700;
@@ -202,6 +194,7 @@ html,body{display:flex;flex-direction:column;}
   box-shadow:0 0 0 3px rgba(105,183,121,.25),0 6px 22px rgba(0,0,0,.16);
   background:#fff;
 }
+.contact-page form{width:100%;}
 .contact-page .form-actions{
   display:flex;justify-content:center;align-items:center;margin-top:18px;
 }
