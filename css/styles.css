@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + Drawer RTL FIX) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -263,24 +263,3 @@ html[dir="rtl"] .site-header .logo{order:2!important;margin:0!important;}
 html[dir="rtl"] .site-header .nav>.lang-switch{order:-1!important;margin:0 18px 0 0!important;}
 html[dir="rtl"] .nav{margin-left:0!important;}
 html[dir="rtl"] .lang-switch{margin-left:0!important;}
-
-/* ===== FIX RTL — Drawer mobile doit venir de la droite ========= */
-@media (max-width:1020px){
-  html[dir="rtl"] .drawer .panel{
-    left:auto !important;
-    right:0 !important;
-    border-radius:16px 0 0 16px;
-    transform:translateX(24px);
-    opacity:0;
-  }
-  @keyframes pl-side-enter-rtl{
-    0%{transform:translateX(24px);opacity:0;}
-    100%{transform:translateX(0);opacity:1;}
-  }
-  @keyframes pl-side-leave-rtl{
-    0%{transform:translateX(0);opacity:1;}
-    100%{transform:translateX(24px);opacity:0;}
-  }
-  html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .42s cubic-bezier(.22,.9,.2,1) both;}
-  html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .32s cubic-bezier(.4,.0,.2,1) both;}
-}
