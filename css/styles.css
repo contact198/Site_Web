@@ -269,3 +269,23 @@ html[dir="rtl"] .drawer .panel{left:0;right:auto;transform:translateX(-24px);opa
   html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .42s cubic-bezier(.22,.9,.2,1) both;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .32s cubic-bezier(.4,.0,.2,1) both;}
 }
+
+/* === FIX FINAL : coller réellement aux bords en RTL ============ */
+/* Desktop */
+html[dir="rtl"] .site-header .header-inner{
+  padding-inline:0 !important;
+}
+html[dir="rtl"] .logo{
+  padding-right:var(--edge-desktop);
+  margin:0;
+}
+html[dir="rtl"] .hamburger{
+  padding-left:var(--edge-desktop);
+  margin:0;
+}
+/* Mobile */
+@media (max-width:1020px){
+  html[dir="rtl"] .site-header .header-inner{padding-inline:0 !important;}
+  html[dir="rtl"] .logo{padding-right:var(--edge-mobile);}
+  html[dir="rtl"] .hamburger{padding-left:var(--edge-mobile);}
+}
