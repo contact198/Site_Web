@@ -164,23 +164,74 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== TRANSITIONS DE PAGE (UNIQUEMENT .page-root) ============== */
+/* ===== TRANSITIONS DE PAGE (PREMIUM TOP→DOWN) =================== */
 @media (prefers-reduced-motion: no-preference){
+  /* Variables d’anim pour garder la main facilement */
+  :root{
+    --pl-page-in-dur:.88s;
+    --pl-page-out-dur:.34s;
+    --pl-ease-in:cubic-bezier(.19,1,.22,1);   /* springy, luxe */
+    --pl-ease-out:cubic-bezier(.33,.66,.4,1); /* smooth exit   */
+    --pl-dropY:64px;
+  }
+
   .page-root.page-enter{
-    animation:page-enter-anim 0.9s cubic-bezier(.19,1,.22,1) both;
-    will-change:transform,opacity,filter;
+    animation: pl-page-enter var(--pl-page-in-dur) var(--pl-ease-in) both;
+    will-change: transform, opacity, filter;
   }
-  @keyframes page-enter-anim{
-    0%{opacity:0;transform:translate3d(0,-64px,0) scale(.985) rotate(-0.25deg);filter:blur(8px) saturate(.94)}
-    55%{opacity:1;transform:translate3d(0,-8px,0) scale(1);filter:blur(1px)}
-    100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0);filter:blur(0) saturate(1)}
+  @keyframes pl-page-enter{
+    0%{
+      opacity:0;
+      transform: translate3d(0, calc(var(--pl-dropY) * -1), 0) scale(.985);
+      filter: blur(8px) saturate(.95);
+    }
+    60%{
+      opacity:1;
+      transform: translate3d(0, -6px, 0) scale(1);
+      filter: blur(1px);
+    }
+    100%{
+      opacity:1;
+      transform: translate3d(0, 0, 0) scale(1);
+      filter: blur(0) saturate(1);
+    }
   }
+
   .page-root.page-leave{
-    animation:page-leave-anim .36s cubic-bezier(.33,.66,.4,1) both;
+    animation: pl-page-leave var(--pl-page-out-dur) var(--pl-ease-out) both;
+    will-change: transform, opacity, filter;
   }
-  @keyframes page-leave-anim{
-    from{opacity:1;transform:none;filter:none}
-    to{opacity:0;transform:translate3d(0,18px,0);filter:blur(2px)}
+  @keyframes pl-page-leave{
+    from{
+      opacity:1;
+      transform: translate3d(0, 0, 0);
+      filter:none;
+    }
+    to{
+      opacity:0;
+      transform: translate3d(0, 18px, 0);
+      filter: blur(2px);
+    }
+  }
+}
+
+/* ===== UTILITAIRE “FROM TOP” POUR BLOCS ========================= */
+/* Applique la même vibe à n’importe quel élément : .from-top */
+@media (prefers-reduced-motion: no-preference){
+  :root{
+    --pl-block-in-dur:.6s;
+    --pl-block-ease:cubic-bezier(.2,.85,.22,1);
+    --pl-block-drop:22px;
+  }
+  .from-top{
+    opacity:0; transform:translate3d(0, calc(var(--pl-block-drop) * -1), 0) scale(.992);
+    filter:blur(6px); will-change:transform,opacity,filter;
+    animation: pl-from-top var(--pl-block-in-dur) var(--pl-block-ease) .04s both;
+  }
+  @keyframes pl-from-top{
+    0%  { opacity:0; transform:translate3d(0, -22px, 0) scale(.992); filter:blur(6px) }
+    70% { opacity:1; transform:translate3d(0, -2px, 0)  scale(1);    filter:blur(1px) }
+    100%{ opacity:1; transform:translate3d(0, 0, 0)     scale(1);    filter:blur(0) }
   }
 }
 
