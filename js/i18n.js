@@ -1,12 +1,20 @@
-/* ===== POWER LINK — i18n + UI + Form ===== */
+/* ===== POWER LINK — i18n + UI + Form + Page Transitions ===== */
 (function () {
-  /* ---------- Helpers (transition enter) ---------- */
+  /* ---------- Helpers (root + transition enter) ---------- */
+  function getRoot() {
+    // Sélectionne le conteneur principal et s'assure qu'il possède .page-root
+    const el = document.querySelector(".page-root") || document.querySelector("main") || document.body;
+    el.classList.add("page-root");
+    return el;
+  }
+
   function retriggerEnter() {
-    const el = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
-    if (!el) return;
-    el.classList.remove("page-enter");
-    void el.offsetWidth; // force reflow
-    el.classList.add("page-enter");
+    const root = getRoot();
+    // Nettoie un éventuel état de sortie, puis rejoue l'entrée
+    root.classList.remove("page-leave");
+    root.classList.remove("page-enter");
+    void root.offsetWidth; // force reflow
+    root.classList.add("page-enter");
   }
 
   /* ---------- I18N ---------- */
@@ -65,7 +73,7 @@
     const dict = await loadDict(lang);
     translate(dict);
     activateFlag(lang);
-    retriggerEnter();
+    retriggerEnter(); // rejoue l'entrée après traduction
     if (push) {
       const u = new URL(location.href);
       u.searchParams.set("lang", lang);
@@ -103,14 +111,19 @@
     });
   }
 
-  /* ---------- Page transitions ---------- */
+  /* ---------- Page transitions (premium top → down) ---------- */
   function bindPageTransitions() {
+    // Respecte le réglage d’accessibilité
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let navigating = false;
 
     document.addEventListener(
       "click",
       (e) => {
-        // pas de transition pour changement de langue / liens spéciaux
+        if (navigating) return;
+
+        // pas de transition pour changement de langue / éléments marqués
         if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
 
         const a = e.target.closest("a[href]");
@@ -119,16 +132,40 @@
         const href = a.getAttribute("href");
         if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
 
+        // même origine + même onglet
         const url = new URL(a.href, location.href);
         const sameOrigin = url.origin === location.origin;
         const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+        if (!sameOrigin || !sameTab) return;
 
-        if (sameOrigin && sameTab) {
-          e.preventDefault();
-          const root = document.querySelector(".page-enter") || document.querySelector("main") || document.body;
-          root?.classList.add("page-leave");
-          setTimeout(() => (location.href = url.href), 320);
-        }
+        e.preventDefault();
+
+        const root = getRoot();
+        navigating = true;
+
+        // prépare la sortie
+        root.classList.remove("page-enter");
+        void root.offsetWidth; // reflow
+        root.classList.add("page-leave");
+
+        // Navigation à la fin réelle de l'animation (pas de timer fixe)
+        const onEnd = (ev) => {
+          if (ev.target !== root) return; // ignore les anims d'enfants
+          root.removeEventListener("animationend", onEnd);
+          location.href = url.href;
+        };
+
+        // Sécurité : si pour une raison X l'anim n'est pas jouée, fallback timer
+        const fallback = setTimeout(() => {
+          root.removeEventListener("animationend", onEnd);
+          location.href = url.href;
+        }, 1200);
+
+        root.addEventListener("animationend", (ev) => {
+          if (ev.target !== root) return;
+          clearTimeout(fallback);
+          onEnd(ev);
+        }, { once: true });
       },
       true
     );
@@ -179,7 +216,7 @@
       "DOMContentLoaded",
       () => {
         boot();
-        setLang(START, false);
+        setLang(START, false); // charge la langue et joue l'entrée
       },
       { once: true }
     );
