@@ -6,7 +6,7 @@
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
   --header-h:88px; --container-w:1180px; --gutter:22px;
-  --edge-desktop:24px; --edge-mobile:16px;
+  --edge-desktop:36px; --edge-mobile:20px;
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 }
 
@@ -20,8 +20,6 @@ body{
   background:#0F2A1F;
   overflow-x:hidden;
 }
-
-/* masque avant que JS charge */
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 
 /* ===== HEADER =================================================== */
@@ -123,14 +121,6 @@ html,body{display:flex;flex-direction:column;}
 .page-root{flex:1;}
 .site-footer{margin-top:0;}
 
-/* CONTACT PAGE FULL HEIGHT */
-.contact-page .page-root{
-  min-block-size:calc(100dvh - var(--header-h));
-  display:grid;
-  align-content:start;
-  padding-block:48px 80px;
-}
-
 /* ===== HERO / GENERAL SECTIONS ================================= */
 .hero{
   max-width:var(--container-w);
@@ -157,80 +147,6 @@ html,body{display:flex;flex-direction:column;}
   border-top:1px solid rgba(255,255,255,.08);
 }
 
-/* ===== TRANSITIONS DE PAGE — HI-PERF TOP→DOWN =================== */
-@media (prefers-reduced-motion:no-preference){
-  :root{
-    --pl-page-in-dur:1.05s;
-    --pl-page-out-dur:.42s;
-    --pl-ease-in:cubic-bezier(.23,1,.32,1);
-    --pl-ease-out:cubic-bezier(.22,.7,.25,1);
-    --pl-dropY:48px;
-    --pl-block-in-dur:.7s;
-    --pl-block-ease:cubic-bezier(.2,.9,.2,1);
-    --pl-block-drop:18px;
-  }
-
-  .page-root{will-change:transform,opacity;contain:paint;isolation:isolate;position:relative;}
-  .from-top{will-change:transform,opacity;}
-  .page-root *, .from-top *{backface-visibility:hidden;}
-
-  .page-root.page-enter{
-    animation:plx-page-enter var(--pl-page-in-dur) var(--pl-ease-in) both;
-    animation-delay:.05s;
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
-  }
-  .page-root.page-enter::before{
-    content:"";position:fixed;inset:0;pointer-events:none;
-    background:radial-gradient(80% 60% at 50% 40%,rgba(0,0,0,.18),transparent 70%);
-    opacity:.4;mix-blend-mode:multiply;
-    animation:fadeOutAmbient .9s ease forwards .05s;
-    z-index:1;
-  }
-  @keyframes fadeOutAmbient{to{opacity:0;}}
-  @keyframes plx-page-enter{
-    0%{opacity:0;transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}
-    60%{opacity:1;transform:translate3d(0,-6px,0);}
-    100%{opacity:1;transform:translate3d(0,0,0);}
-  }
-  .page-root.page-leave{
-    animation:plx-page-leave var(--pl-page-out-dur) var(--pl-ease-out) both;
-  }
-  @keyframes plx-page-leave{
-    from{opacity:1;transform:translate3d(0,0,0);}
-    to{opacity:0;transform:translate3d(0,12px,0);}
-  }
-  .from-top{
-    opacity:0;transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);
-    animation:plx-from-top var(--pl-block-in-dur) var(--pl-block-ease) .04s both;
-  }
-  @keyframes plx-from-top{
-    0%{opacity:0;transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);}
-    72%{opacity:1;transform:translate3d(0,-2px,0);}
-    100%{opacity:1;transform:translate3d(0,0,0);}
-  }
-  .hero,.section,.grid,.page-root>*{content-visibility:visible;contain-intrinsic-size:auto;}
-}
-
-/* ===== VIEW-TRANSITIONS (anti-blanc inter-page) ================= */
-:root{view-transition-name:root;contain:paint;}
-@view-transition{navigation:auto;}
-::view-transition-old(root),
-::view-transition-new(root){
-  animation-duration:.9s;
-  animation-timing-function:cubic-bezier(.23,1,.32,1);
-}
-::view-transition-old(root){animation-name:vt-slide-out;}
-::view-transition-new(root){animation-name:vt-slide-in;}
-@keyframes vt-slide-in{
-  0%{transform:translateY(-48px);opacity:0;}
-  60%{transform:translateY(-6px);opacity:1;}
-  100%{transform:translateY(0);opacity:1;}
-}
-@keyframes vt-slide-out{
-  0%{transform:translateY(0);opacity:1;}
-  100%{transform:translateY(12px);opacity:0;}
-}
-
 /* ===== RESPONSIVE (mobile) ====================================== */
 @media (max-width:1020px){
   .site-header .header-inner{padding-inline:var(--edge-mobile)!important;}
@@ -250,42 +166,39 @@ html,body{display:flex;flex-direction:column;}
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
 }
 
-/* ===== RTL LAYOUT — LOGO À DROITE / HAMBURGER À GAUCHE ========= */
+/* ===== RTL — LOGO À DROITE / HAMBURGER À GAUCHE SYMÉTRIQUES ===== */
 html[dir="rtl"] .site-header .header-inner{
   flex-direction:row!important;
   justify-content:space-between!important;
+  padding-inline:var(--edge-desktop)!important;
   gap:18px;
 }
-html[dir="rtl"] .logo{order:3;margin-left:auto;margin-right:0;}
-html[dir="rtl"] .hamburger{order:1;margin-right:auto;margin-left:0;}
-html[dir="rtl"] .lang-switch{order:2;margin:0 12px;}
+html[dir="rtl"] .logo{
+  order:3;
+  margin-left:auto;margin-right:0;
+}
+html[dir="rtl"] .hamburger{
+  order:1;
+  margin-right:auto;margin-left:0;
+}
+html[dir="rtl"] .lang-switch{
+  order:2;
+  margin:0 12px;
+}
 
 /* Drawer RTL depuis la gauche */
 html[dir="rtl"] .drawer .panel{left:0;right:auto;transform:translateX(-24px);opacity:0;}
+
 @media (max-width:1020px){
+  html[dir="rtl"] .site-header .header-inner{
+    padding-inline:var(--edge-mobile)!important;
+  }
+  html[dir="rtl"] .logo{order:3;margin-left:auto;margin-right:0;}
+  html[dir="rtl"] .lang-switch{order:2;margin:0 10px;}
+  html[dir="rtl"] .hamburger{order:1;margin-right:auto;margin-left:0;}
   html[dir="rtl"] .drawer .panel{height:100%;border-radius:0 16px 16px 0;}
   @keyframes pl-side-enter-rtl{0%{transform:translateX(-24px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
   @keyframes pl-side-leave-rtl{0%{transform:translateX(0);opacity:1;}100%{transform:translateX(-24px);opacity:0;}}
   html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .42s cubic-bezier(.22,.9,.2,1) both;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .32s cubic-bezier(.4,.0,.2,1) both;}
-}
-
-/* === FIX FINAL : coller réellement aux bords en RTL ============ */
-/* Desktop */
-html[dir="rtl"] .site-header .header-inner{
-  padding-inline:0 !important;
-}
-html[dir="rtl"] .logo{
-  padding-right:var(--edge-desktop);
-  margin:0;
-}
-html[dir="rtl"] .hamburger{
-  padding-left:var(--edge-desktop);
-  margin:0;
-}
-/* Mobile */
-@media (max-width:1020px){
-  html[dir="rtl"] .site-header .header-inner{padding-inline:0 !important;}
-  html[dir="rtl"] .logo{padding-right:var(--edge-mobile);}
-  html[dir="rtl"] .hamburger{padding-left:var(--edge-mobile);}
 }
