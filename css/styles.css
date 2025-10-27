@@ -1,5 +1,6 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR vs RTL propre) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash) ========= */
 
+/* --- Base palette & layout tokens --- */
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
@@ -9,7 +10,9 @@
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 }
 
+/* --- Reset + backgrounds (anti flash si CSS déjà chargé) --- */
 *{box-sizing:border-box}
+html{background:#0F2A1F;}
 html,body{margin:0;padding:0}
 body{
   color:var(--white);
@@ -17,6 +20,9 @@ body{
   background:#0F2A1F;
   overflow-x:hidden;
 }
+
+/* --- Anti-flash au tout début, retiré par JS: documentElement.classList.remove('preload') --- */
+html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 
 /* ===== HEADER =================================================== */
 .site-header{
@@ -164,7 +170,7 @@ body{
   border-top:1px solid rgba(255,255,255,.08);margin-top:40px;
 }
 
-/* ===== TRANSITIONS DE PAGE (HI-PERF TOP→DOWN) ================== */
+/* ===== TRANSITIONS DE PAGE — HI-PERF TOP→DOWN =================== */
 @media (prefers-reduced-motion: no-preference){
   :root{
     --pl-page-in-dur:1.05s;
@@ -172,11 +178,13 @@ body{
     --pl-ease-in:cubic-bezier(.23,1,.32,1);
     --pl-ease-out:cubic-bezier(.22,.7,.25,1);
     --pl-dropY:48px;
+
     --pl-block-in-dur:.7s;
     --pl-block-ease:cubic-bezier(.2,.9,.2,1);
     --pl-block-drop:18px;
   }
 
+  /* Perf hints */
   .page-root{will-change:transform,opacity;contain:paint;isolation:isolate;}
   .from-top{will-change:transform,opacity;}
   .page-root *, .from-top *{backface-visibility:hidden;}
@@ -200,7 +208,7 @@ body{
     to{opacity:0;transform:translate3d(0,12px,0);}
   }
 
-  /* Bloc utilitaire */
+  /* Bloc utilitaire (à poser sur n'importe quel élément) */
   .from-top{
     opacity:0;
     transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);
@@ -212,27 +220,14 @@ body{
     100%{opacity:1;transform:translate3d(0,0,0);}
   }
 
-  /* Micro-optims */
+  /* Micro-optims : éviter l’anim des grosses ombres pendant l’entrée */
   .page-root.page-enter .card,
   .page-root.page-enter .panel,
   .page-root.page-enter [class*="shadow"]{transition:box-shadow .001s linear;}
 
-  @media (max-width:1020px){
-    :root{
-      --pl-page-in-dur:.92s;
-      --pl-page-out-dur:.36s;
-      --pl-dropY:40px;
-      --pl-block-in-dur:.58s;
-      --pl-block-drop:16px;
-    }
-  }
-
-  @supports (content-visibility:auto){
-    .section,.hero,.grid,.page-root>*{
-      content-visibility:auto;
-      contain-intrinsic-size:1px 600px;
-    }
-  }
+  /* Désactive content-visibility auto sur les éléments au-dessus de la ligne de flottaison
+     (pour éviter des trous peints tardivement sur certains mobiles) */
+  .hero,.section,.grid,.page-root>*{content-visibility:visible;contain-intrinsic-size:auto;}
 }
 
 /* ===== RESPONSIVE (mobile) ====================================== */
@@ -242,6 +237,7 @@ body{
   .hamburger{display:flex;transform:translateX(var(--burger-optical-nudge));}
   .nav{display:none;}
 
+  /* Drawer latéral mobile */
   .drawer .panel{
     top:0;bottom:0;right:0;left:auto;
     border-radius:16px 0 0 16px;
@@ -256,6 +252,7 @@ body{
 }
 
 /* ===== RTL SUPPORT — miroir propre ============================== */
+/* Objectif AR: [🇫🇷 🇬🇧 🇸🇦] [MENU] ————————— [LOGO] */
 html[dir="rtl"] .site-header .header-inner{
   flex-direction:row!important;
   justify-content:space-between!important;
