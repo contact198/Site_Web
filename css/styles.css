@@ -31,10 +31,10 @@ html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
   box-shadow:0 4px 24px rgba(0,0,0,.12);
 }
 .header-inner{
-  max-width:100%;
+  max-width:100%;                 /* pleine largeur */
   margin:0 auto;
   padding-block:10px;
-  padding-inline:var(--edge-desktop);
+  padding-inline:var(--edge-desktop); /* respirations aux bords */
   display:flex; align-items:center; gap:18px;
   justify-content:space-between;
 }
@@ -252,49 +252,45 @@ html,body{display:flex;flex-direction:column;}
 }
 
 /* ===== RTL SUPPORT ============================================== */
+/* LTR par défaut : [LOGO] ... [LANG] [HAMBURGER] (burger poussé à droite) */
+.hamburger{margin-left:auto;}
+
+/* RTL — éléments aux EXTRÉMITÉS : hamburger à GAUCHE, logo à DROITE */
 html[dir="rtl"] .site-header .header-inner{
-  flex-direction:row-reverse!important;
+  flex-direction:row!important;        /* pas de reverse, on gère par order */
   justify-content:space-between!important;
   gap:18px;
 }
 
-/* RTL — Logo à droite */
+/* LOGO à droite (dernier) */
 html[dir="rtl"] .logo{
-  order:1;
-  margin-left:auto;
+  order:3;
+  margin-left:auto;    /* colle au bord droit (avec padding) */
   margin-right:0;
 }
 
-/* RTL — Lang switch au centre */
+/* HAMBURGER à gauche (premier) */
+html[dir="rtl"] .hamburger{
+  order:1;
+  margin-right:auto;   /* colle au bord gauche (avec padding) */
+  margin-left:0;
+}
+
+/* Drapeaux au centre entre les deux */
 html[dir="rtl"] .lang-switch{
   order:2;
   margin:0 12px;
 }
 
-/* RTL — Hamburger à gauche */
-html[dir="rtl"] .hamburger{
-  order:3;
-  margin-right:auto;
-  margin-left:0;
+/* Drawer en RTL : panneau depuis la gauche */
+html[dir="rtl"] .drawer .panel{
+  left:0; right:auto; transform:translateX(-24px); opacity:0;
 }
-
-/* ===== MOBILE RTL FIX ===== */
 @media (max-width:1020px){
-  html[dir="rtl"] .site-header .header-inner{
-    flex-direction:row-reverse!important;
-  }
-  html[dir="rtl"] .logo{
-    order:1;
-    margin-left:auto;
-    margin-right:0;
-  }
-  html[dir="rtl"] .lang-switch{
-    order:2;
-    margin:0 10px;
-  }
-  html[dir="rtl"] .hamburger{
-    order:3;
-    margin-right:auto;
-    margin-left:0;
-  }
-}
+  html[dir="rtl"] .drawer .panel{height:100%;border-radius:0 16px 16px 0;}
+  html[dir="rtl"] .logo{order:3;margin-left:auto;margin-right:0;}
+  html[dir="rtl"] .lang-switch{order:2;margin:0 10px;}
+  html[dir="rtl"] .hamburger{order:1;margin-right:auto;margin-left:0;}
+  @keyframes pl-side-enter-rtl{0%{transform:translateX(-24px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
+  @keyframes pl-side-leave-rtl{0%{transform:translateX(0);opacity:1;}100%{transform:translateX(-24px);opacity:0;}}
+  html[dir="rtl"] .drawer.op
