@@ -263,3 +263,18 @@ html[dir="rtl"] .site-header .logo{order:2!important;margin:0!important;}
 html[dir="rtl"] .site-header .nav>.lang-switch{order:-1!important;margin:0 18px 0 0!important;}
 html[dir="rtl"] .nav{margin-left:0!important;}
 html[dir="rtl"] .lang-switch{margin-left:0!important;}
+
+/* ===== RTL: bugfix hamburger à droite (desktop + mobile) ======== */
+html[dir="rtl"] .hamburger{
+  /* remplacer la marge logique qui inverse en RTL */
+  margin-left:auto;   /* pousse le burger à l’extrémité droite */
+  margin-right:0;
+  order:3;            /* dernier dans la ligne */
+}
+
+/* Ordres adaptés sur mobile pour RTL */
+@media (max-width:1020px){
+  html[dir="rtl"] .logo{order:1;}
+  html[dir="rtl"] .lang-switch{order:2;margin-left:12px;}
+  html[dir="rtl"] .hamburger{order:3;margin-left:auto;margin-right:0;}
+}
