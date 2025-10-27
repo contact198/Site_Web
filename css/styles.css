@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions) ========= */
 
 /* --- Base palette & layout tokens --- */
 :root{
@@ -220,14 +220,36 @@ html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
     100%{opacity:1;transform:translate3d(0,0,0);}
   }
 
-  /* Micro-optims : éviter l’anim des grosses ombres pendant l’entrée */
+  /* Évite l’anim des grosses ombres pendant l’entrée */
   .page-root.page-enter .card,
   .page-root.page-enter .panel,
   .page-root.page-enter [class*="shadow"]{transition:box-shadow .001s linear;}
 
-  /* Désactive content-visibility auto sur les éléments au-dessus de la ligne de flottaison
-     (pour éviter des trous peints tardivement sur certains mobiles) */
+  /* Désactive content-visibility auto sur les éléments above-the-fold */
   .hero,.section,.grid,.page-root>*{content-visibility:visible;contain-intrinsic-size:auto;}
+}
+
+/* ===== View Transitions (supprime le blanc entre pages) ========= */
+:root { view-transition-name: root; }
+@view-transition { navigation: auto; }
+
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:.90s;
+  animation-timing-function:cubic-bezier(.23,1,.32,1);
+}
+
+::view-transition-old(root){ animation-name: vt-slide-out; }
+::view-transition-new(root){ animation-name: vt-slide-in; }
+
+@keyframes vt-slide-in{
+  0%{transform:translateY(-48px);opacity:0;}
+  60%{transform:translateY(-6px);opacity:1;}
+  100%{transform:translateY(0);opacity:1;}
+}
+@keyframes vt-slide-out{
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(12px);opacity:0;}
 }
 
 /* ===== RESPONSIVE (mobile) ====================================== */
