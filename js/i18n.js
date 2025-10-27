@@ -1,8 +1,10 @@
-/* ===== POWER LINK — i18n + UI + Form + Page Transitions ===== */
+/* ===== POWER LINK — i18n + UI + Form + Page Transitions (ViewTransitions) ===== */
 (function () {
+  // Anti-preload : retire la classe dès que le JS est chargé
+  try { document.documentElement.classList.remove('preload'); } catch {}
+
   /* ---------- Helpers (root + transition enter) ---------- */
   function getRoot() {
-    // Sélectionne le conteneur principal et s'assure qu'il possède .page-root
     const el = document.querySelector(".page-root") || document.querySelector("main") || document.body;
     el.classList.add("page-root");
     return el;
@@ -10,10 +12,9 @@
 
   function retriggerEnter() {
     const root = getRoot();
-    // Nettoie un éventuel état de sortie, puis rejoue l'entrée
     root.classList.remove("page-leave");
     root.classList.remove("page-enter");
-    void root.offsetWidth; // force reflow
+    void root.offsetWidth; // reflow
     root.classList.add("page-enter");
   }
 
@@ -35,17 +36,14 @@
   }
 
   function translate(dict) {
-    // text nodes
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const k = el.getAttribute("data-i18n");
       if (dict[k] != null) el.textContent = dict[k];
     });
-    // placeholders
     document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
       const k = el.getAttribute("data-i18n-placeholder");
       if (dict[k] != null) el.setAttribute("placeholder", dict[k]);
     });
-    // meta
     if (dict["meta.title"]) document.title = dict["meta.title"];
     if (dict["meta.desc"]) {
       let m = document.querySelector('meta[name="description"]');
@@ -111,64 +109,59 @@
     });
   }
 
-  /* ---------- Page transitions (premium top → down) ---------- */
+  /* ---------- Page transitions (View Transitions + fallback) ---------- */
   function bindPageTransitions() {
-    // Respecte le réglage d’accessibilité
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let navigating = false;
 
-    document.addEventListener(
-      "click",
-      (e) => {
-        if (navigating) return;
+    document.addEventListener("click", (e) => {
+      if (navigating) return;
+      if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
 
-        // pas de transition pour changement de langue / éléments marqués
-        if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
+      const a = e.target.closest("a[href]");
+      if (!a) return;
 
-        const a = e.target.closest("a[href]");
-        if (!a) return;
+      const href = a.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
 
-        const href = a.getAttribute("href");
-        if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+      const url = new URL(a.href, location.href);
+      const sameOrigin = url.origin === location.origin;
+      const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+      if (!sameOrigin || !sameTab) return;
 
-        // même origine + même onglet
-        const url = new URL(a.href, location.href);
-        const sameOrigin = url.origin === location.origin;
-        const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
-        if (!sameOrigin || !sameTab) return;
+      e.preventDefault();
+      navigating = true;
 
-        e.preventDefault();
+      const goto = () => (location.href = url.href);
 
-        const root = getRoot();
-        navigating = true;
+      // ✅ Moderne : View Transitions API (supprime le flash blanc)
+      if (document.startViewTransition) {
+        document.startViewTransition(() => goto());
+        return;
+      }
 
-        // prépare la sortie
-        root.classList.remove("page-enter");
-        void root.offsetWidth; // reflow
-        root.classList.add("page-leave");
+      // ♻️ Fallback : anim CSS existante
+      const root = getRoot();
+      root.classList.remove("page-enter");
+      void root.offsetWidth;
+      root.classList.add("page-leave");
 
-        // Navigation à la fin réelle de l'animation (pas de timer fixe)
-        const onEnd = (ev) => {
-          if (ev.target !== root) return; // ignore les anims d'enfants
-          root.removeEventListener("animationend", onEnd);
-          location.href = url.href;
-        };
-
-        // Sécurité : si pour une raison X l'anim n'est pas jouée, fallback timer
-        const fallback = setTimeout(() => {
-          root.removeEventListener("animationend", onEnd);
-          location.href = url.href;
-        }, 1200);
-
-        root.addEventListener("animationend", (ev) => {
-          if (ev.target !== root) return;
-          clearTimeout(fallback);
+      const onEnd = (ev) => {
+        if (ev.target !== root) return;
+        root.removeEventListener("animationend", onEnd);
+        goto();
+      };
+      const fallbackTimer = setTimeout(goto, 1200);
+      root.addEventListener(
+        "animationend",
+        (ev) => {
+          clearTimeout(fallbackTimer);
           onEnd(ev);
-        }, { once: true });
-      },
-      true
-    );
+        },
+        { once: true }
+      );
+    }, true);
   }
 
   /* ---------- Contact form (Formspree) ---------- */
@@ -191,7 +184,6 @@
           if (msg) msg.hidden = false;
           form.reset();
         } else {
-          // Essaye de logguer le détail pour debug
           let details = null;
           try { details = await resp.json(); } catch {}
           console.warn("Formspree error:", resp.status, details);
