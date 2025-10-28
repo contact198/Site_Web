@@ -12,7 +12,7 @@
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
   /* Transitions (tuning centralisé) */
-  --pl-page-in-dur:.58s;     /* sec et net */
+  --pl-page-in-dur:.56s;            /* sec et très propre */
   --pl-page-out-dur:.34s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
   --pl-dropY:26px;
@@ -23,7 +23,10 @@
 
 /* --- Reset + anti-flash --- */
 *{box-sizing:border-box}
-html{background:#0F2A1F;}
+html{
+  background:#0F2A1F;
+  scrollbar-gutter:stable both-edges; /* évite le "saut" quand la scrollbar apparaît/disparaît */
+}
 html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
 body{
   color:var(--white);
@@ -127,7 +130,12 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 /* ===== CONTENT STRUCTURE ======================================== */
 html,body{display:flex;flex-direction:column;}
 .site-header{min-height:var(--header-h);}
-.page-root{flex:1; contain:paint; isolation:isolate; will-change:transform,opacity;}
+.page-root{
+  flex:1;
+  contain:paint; isolation:isolate;
+  will-change:transform,opacity;
+  transform:translateZ(0);            /* hint GPU pour une frame plus stable */
+}
 .site-footer{margin-top:0;}
 
 /* CONTACT PAGE FULL HEIGHT */
