@@ -40,6 +40,10 @@ body{
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
+/* ► Anti-flash global pendant l'init i18n (évite le flash de langue) */
+html.preload body{visibility:hidden;}
+html{ background:#0F2A1F; }
+
 /* ===== HEADER =================================================== */
 .site-header{
   position:sticky; top:0; z-index:50;
