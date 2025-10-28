@@ -5,9 +5,20 @@
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
+
   --header-h:88px; --container-w:1180px; --gutter:22px;
   --edge-desktop:24px; --edge-mobile:16px;
+
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
+
+  /* Transitions (tuning centralisé) */
+  --pl-page-in-dur:.60s;
+  --pl-page-out-dur:.34s;
+  --pl-ease:cubic-bezier(.18,.84,.24,1);
+  --pl-dropY:28px;
+
+  --pl-block-in-dur:.50s;
+  --pl-block-drop:12px;
 }
 
 /* --- Reset + anti-flash --- */
@@ -21,7 +32,8 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
-/* masque avant que JS charge */
+
+/* Cache le contenu avant init JS pour éviter le flash */
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 
 /* ===== HEADER =================================================== */
@@ -96,14 +108,14 @@ html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 .drawer.open .overlay{opacity:1;pointer-events:auto}
 .drawer.open .panel{pointer-events:auto}
 @keyframes pl-lux-enter{
-  0%{opacity:0;transform:translate3d(-50%,-56px,0);}
-  100%{opacity:1;transform:translate3d(-50%,0,0);}
+  from{opacity:0;transform:translate3d(-50%,-52px,0);}
+  to  {opacity:1;transform:translate3d(-50%,0,0);}
 }
 @keyframes pl-lux-leave{
-  0%{opacity:1;transform:translate3d(-50%,0,0);}
-  100%{opacity:0;transform:translate3d(-50%,-20px,0);}
+  from{opacity:1;transform:translate3d(-50%,0,0);}
+  to  {opacity:0;transform:translate3d(-50%,-18px,0);}
 }
-.drawer.open .panel{animation:pl-lux-enter .5s cubic-bezier(.22,.8,.22,1) both;}
+.drawer.open .panel{animation:pl-lux-enter .50s cubic-bezier(.22,.8,.22,1) both;}
 .drawer.closing .panel{animation:pl-lux-leave .32s cubic-bezier(.4,0,.2,1) both;}
 .drawer-header{
   display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
@@ -120,7 +132,11 @@ html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 /* ===== CONTENT STRUCTURE ======================================== */
 html,body{display:flex;flex-direction:column;}
 .site-header{min-height:var(--header-h);}
-.page-root{flex:1; contain:paint; isolation:isolate;}
+.page-root{
+  flex:1;
+  contain:paint; isolation:isolate;
+  will-change:transform,opacity;
+}
 .site-footer{margin-top:0;}
 
 /* CONTACT PAGE FULL HEIGHT */
@@ -157,37 +173,32 @@ html,body{display:flex;flex-direction:column;}
 }
 
 /* ================================================================ */
-/* ========== PAGE TRANSITIONS — CLEAN SNAP (no overshoot) ======== */
+/* ========== PAGE TRANSITIONS — Single Source, Clean ============= */
 /* ================================================================ */
+
+/* Utilitaire pour exclure un bloc ponctuellement des VT si besoin */
+.no-vt{view-transition-name:none!important;}
+
 @media (prefers-reduced-motion:no-preference){
 
-  :root{
-    --pl-page-in-dur:.64s;     /* plus sec */
-    --pl-page-out-dur:.34s;
-    --pl-ease:cubic-bezier(.16,.84,.24,1); /* ease-out propre */
-    --pl-dropY:28px;
-    --pl-block-in-dur:.50s;
-    --pl-block-drop:12px;
-  }
-
-  .page-root, .from-top{will-change:transform,opacity; backface-visibility:hidden;}
-
-  /* ===== View Transitions (si supportées) ======================= */
+  /* ====== View Transitions (si supportées) ===================== */
   @supports (view-transition-name: root){
-    /* Par défaut, rien ne participe, sauf root explicitement */
+    /* Par défaut on exclut tout, puis on inclut root uniquement. Empêche les 'fuites'. */
     *{view-transition-name:none}
     :root{view-transition-name:root}
     @view-transition{navigation:auto;}
 
-    /* Exclure les UI fixes pour éviter le “double effet” */
+    /* Éléments d'UI fixes exclus des VT pour éviter l’illusion de “double anim” */
     .site-header, .header-inner, .nav, .lang-switch, .hamburger,
     .drawer, .drawer .panel, .drawer .overlay,
     .site-footer { view-transition-name:none !important; }
 
-    /* Pas d’autres animations quand VT actif */
-    .page-root.page-enter, .page-root.page-leave, .from-top{animation:none!important;}
+    /* Coupe toute autre anim pendant VT (pas d’empilement) */
+    .page-root.page-enter,
+    .page-root.page-leave,
+    .from-top{ animation:none !important; }
 
-    /* VT nettes sans overshoot ni glow/shadow */
+    /* VT nettes sans overshoot, sans shadow ni glow */
     ::view-transition-old(root),
     ::view-transition-new(root){
       animation-duration:var(--pl-page-in-dur);
@@ -198,7 +209,7 @@ html,body{display:flex;flex-direction:column;}
     ::view-transition-old(root){ animation-name:vt-out; }
 
     @keyframes vt-in{
-      from{transform:translateY(-28px);opacity:0;}
+      from{transform:translateY(calc(var(--pl-dropY)*-1));opacity:0;}
       to  {transform:translateY(0);opacity:1;}
     }
     @keyframes vt-out{
@@ -207,13 +218,13 @@ html,body{display:flex;flex-direction:column;}
     }
   }
 
-  /* ===== Fallback sans View Transitions ========================= */
+  /* ====== Fallback (navigateurs sans VT) ======================= */
   @supports not (view-transition-name: root){
 
     .page-root.page-enter{
       animation:pl-enter var(--pl-page-in-dur) var(--pl-ease) both;
       animation-composition:replace;
-      /* retiré: box-shadow & glow pour éviter la sensation de deuxième anim */
+      /* (PAS de box-shadow / glow ici pour éviter le “2e plan”) */
     }
     @keyframes pl-enter{
       from{opacity:0; transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}
@@ -229,11 +240,11 @@ html,body{display:flex;flex-direction:column;}
       to  {opacity:0; transform:translate3d(0,10px,0);}
     }
 
-    /* Stagger discret seulement si besoin */
+    /* Stagger léger si plusieurs éléments marqués .from-top */
     .from-top{
       opacity:0; transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);
       animation:pl-block-in var(--pl-block-in-dur) var(--pl-ease) .04s both;
-      animation-composition:replace;
+      animation-composition:replace; will-change:transform,opacity;
     }
     .from-top:nth-child(2){animation-delay:.10s}
     .from-top:nth-child(3){animation-delay:.16s}
@@ -244,6 +255,16 @@ html,body{display:flex;flex-direction:column;}
       to  {opacity:1; transform:translate3d(0,0,0);}
     }
   }
+}
+
+/* ===== Reduced motion: tout couper proprement =================== */
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+  :root{view-transition-name:none !important;}
 }
 
 /* ===== VIEW-TRANSITIONS meta (sécurité) ========================= */
@@ -262,8 +283,8 @@ html,body{display:flex;flex-direction:column;}
     width:min(86%,420px);max-width:420px;height:100%;
     transform:translateX(24px);opacity:0;
   }
-  @keyframes pl-side-enter{0%{transform:translateX(24px);opacity:0;}100%{transform:translateX(0);opacity:1;}}
-  @keyframes pl-side-leave{0%{transform:translateX(0);opacity:1;}100%{transform:translateX(24px);opacity:0;}}
+  @keyframes pl-side-enter{from{transform:translateX(24px);opacity:0;} to{transform:translateX(0);opacity:1;}}
+  @keyframes pl-side-leave{from{transform:translateX(0);opacity:1;} to{transform:translateX(24px);opacity:0;}}
   .drawer.open .panel{animation:pl-side-enter .42s cubic-bezier(.22,.9,.2,1) both;}
   .drawer.closing .panel{animation:pl-side-leave .32s cubic-bezier(.4,.0,.2,1) both;}
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
