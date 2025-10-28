@@ -6,13 +6,16 @@
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
 
-  --header-h:88px; --container-w:1180px; --gutter:22px;
+  /* Hauteur de bandeau stricte pour espace égal haut/bas */
+  --header-h:72px;
+
+  --container-w:1180px; --gutter:22px;
   --edge-desktop:24px; --edge-mobile:16px;
 
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
   /* Transitions (tuning centralisé) */
-  --pl-page-in-dur:.58s;     /* sec et net */
+  --pl-page-in-dur:.58s;
   --pl-page-out-dur:.34s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
   --pl-dropY:26px;
@@ -46,7 +49,8 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .header-inner{
   max-width:100%;
   margin:0 auto;
-  padding-block:10px;
+  /* Hauteur stricte = équilibre haut/bas */
+  block-size:var(--header-h);
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
   justify-content:space-between;
@@ -61,6 +65,8 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .nav a{
   color:#16402B;text-decoration:none;text-transform:uppercase;
   font-weight:700;letter-spacing:.4px;
+  /* garantit le centrage vertical et évite l’excès d’air */
+  line-height:1; padding-block:4px;
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
@@ -175,20 +181,16 @@ html,body{display:flex;flex-direction:column;}
   /* ====== View Transitions (si supportées) ===================== */
   @supports (view-transition-name: root){
 
-    /* Par défaut: personne ne participe → puis on autorise root explicitement */
     *{view-transition-name:none}
     :root{view-transition-name:root}
     @view-transition{navigation:auto;}
 
-    /* Éléments de chrome UI exclus (évite “double anim”) */
     .site-header, .header-inner, .nav, .lang-switch, .hamburger,
     .drawer, .drawer .panel, .drawer .overlay,
     .site-footer { view-transition-name:none !important; }
 
-    /* Pas d’autres animations pendant VT */
     .page-root.page-enter, .page-root.page-leave, .from-top{animation:none!important;}
 
-    /* VT nettes: pas d'overshoot, pas de shadow, pas de glow */
     ::view-transition-old(root),
     ::view-transition-new(root){
       animation-duration:var(--pl-page-in-dur);
@@ -214,7 +216,6 @@ html,body{display:flex;flex-direction:column;}
     .page-root.page-enter{
       animation:pl-enter var(--pl-page-in-dur) var(--pl-ease) both;
       animation-composition:replace;
-      /* pas de box-shadow/glow pour éviter le sentiment de 2e couche */
     }
     @keyframes pl-enter{
       from{opacity:0; transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}
@@ -230,7 +231,6 @@ html,body{display:flex;flex-direction:column;}
       to  {opacity:0; transform:translate3d(0,10px,0);}
     }
 
-    /* Stagger discret si besoin */
     .from-top{
       opacity:0; transform:translate3d(0,calc(var(--pl-block-drop)*-1),0);
       animation:pl-block-in var(--pl-block-in-dur) var(--pl-ease) .04s both;
