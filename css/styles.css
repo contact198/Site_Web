@@ -6,12 +6,15 @@
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
 
-  --header-h:72px; /* bandeau équilibré */
+  /* Hauteur de bandeau stricte pour espace égal haut/bas */
+  --header-h:72px;
+
   --container-w:1180px; --gutter:22px;
   --edge-desktop:24px; --edge-mobile:16px;
 
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
+  /* Transitions (tuning centralisé) */
   --pl-page-in-dur:.58s;
   --pl-page-out-dur:.34s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
@@ -32,6 +35,8 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
+
+/* Anti-flash + anti-anim pendant preload */
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
@@ -44,6 +49,7 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .header-inner{
   max-width:100%;
   margin:0 auto;
+  /* Hauteur stricte = équilibre haut/bas */
   block-size:var(--header-h);
   padding-inline:var(--edge-desktop);
   display:flex; align-items:center; gap:18px;
@@ -59,51 +65,24 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .nav a{
   color:#16402B;text-decoration:none;text-transform:uppercase;
   font-weight:700;letter-spacing:.4px;
-  line-height:1;padding-block:4px;
+  /* garantit le centrage vertical et évite l’excès d’air */
+  line-height:1; padding-block:4px;
 }
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
-/* ===== LANG SWITCH — anneau rond + rétro-compat ================= */
-.lang-switch{
-  display:flex;align-items:center;gap:14px;margin-left:24px;
-  /* évite tout débordement visuel des drapeaux */
-  overflow:visible;
-}
-
+/* ===== LANG SWITCH ============================================== */
+.lang-switch{display:flex;align-items:center;gap:14px;margin-left:24px;}
 .lang-btn{
-  position:relative;
-  width:40px;height:40px;aspect-ratio:1/1;
-  border-radius:50%;
-  display:inline-grid;place-items:center;
-  background:#fff;border:0;padding:0;line-height:0;
-  box-shadow:none;transition:transform .15s ease;
-  overflow:hidden; /* coupe ce qui dépasse dans le bouton */
+  width:40px;height:40px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:0;box-shadow:none;
+  transition:transform .15s ease;
 }
 .lang-btn:hover{transform:translateY(-1px)}
-
-/* structure moderne : <span class="flag"><img></span> */
-.lang-btn .flag{
-  width:28px;height:28px;border-radius:50%;
-  overflow:hidden;display:block;
+.lang-btn img{
+  width:28px;height:28px;border-radius:50%;aspect-ratio:1/1;object-fit:cover;display:block;
 }
-/* rétro-compat : <button class="lang-btn"><img></button> */
-.lang-btn img,
-.lang-btn .flag img{
-  width:28px;height:28px; /* force la taille quoi qu’il arrive */
-  display:block;border-radius:50%;object-fit:cover;
-  position:static !important; /* au cas où */
-}
-
-/* Anneau vert net via pseudo-élément (au lieu d’un box-shadow sur l’image) */
-.lang-btn::after{
-  content:"";position:absolute;inset:3px;border-radius:50%;
-  box-shadow:
-    0 0 0 2px #fff inset,
-    0 0 0 4px #2A6B45 inset;
-  opacity:0;transition:opacity .15s ease;
-  pointer-events:none;
-}
-.lang-btn.active::after{opacity:1}
+.lang-btn.active{box-shadow:inset 0 0 0 2px #2A6B45!important;}
 
 /* ===== HAMBURGER + DRAWER ======================================= */
 .hamburger{
@@ -193,10 +172,13 @@ html,body{display:flex;flex-direction:column;}
 /* ================================================================ */
 /* ========== PAGE TRANSITIONS — Single Source, Ultra Clean ======= */
 /* ================================================================ */
+
+/* utilitaire: exclure un bloc ponctuellement des VT */
 .no-vt{view-transition-name:none!important;}
 
 @media (prefers-reduced-motion:no-preference){
 
+  /* ====== View Transitions (si supportées) ===================== */
   @supports (view-transition-name: root){
 
     *{view-transition-name:none}
@@ -228,6 +210,7 @@ html,body{display:flex;flex-direction:column;}
     }
   }
 
+  /* ====== Fallback (sans View Transitions) ===================== */
   @supports not (view-transition-name: root){
 
     .page-root.page-enter{
@@ -264,7 +247,7 @@ html,body{display:flex;flex-direction:column;}
   }
 }
 
-/* ===== Reduced motion =========================================== */
+/* ===== Reduced motion: coupe tout proprement ==================== */
 @media (prefers-reduced-motion:reduce){
   *, *::before, *::after{
     animation:none !important;
@@ -274,11 +257,11 @@ html,body{display:flex;flex-direction:column;}
   :root{view-transition-name:none !important;}
 }
 
-/* ===== VIEW-TRANSITIONS meta ==================================== */
+/* ===== VIEW-TRANSITIONS meta (sécurité) ========================= */
 :root{contain:paint;}
 @view-transition{navigation:auto;}
 
-/* ===== RESPONSIVE =============================================== */
+/* ===== RESPONSIVE (mobile) ====================================== */
 @media (max-width:1020px){
   .site-header .header-inner{padding-inline:var(--edge-mobile)!important;}
   .site-header .logo img{height:40px!important;transform:translateX(var(--mobile-optical-nudge));}
