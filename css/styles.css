@@ -181,6 +181,7 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 
 /* ===== RESPONSIVE =============================================== */
 @media (max-width:1020px){
+  /* Layout mobile : logo à gauche, hamburger à droite */
   .header-inner{
     display:grid !important;
     grid-template-columns:auto 1fr auto !important;
@@ -189,33 +190,47 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
     gap:18px !important;
     padding-inline:var(--edge-mobile)!important;
   }
+  .logo{justify-self:start!important;}
   .site-header .logo img{height:40px!important;transform:translateX(var(--mobile-optical-nudge));}
-  .hamburger{display:flex;transform:translateX(var(--burger-optical-nudge));margin:0!important;justify-self:end!important;}
-  html[dir="rtl"] .hamburger{justify-self:start!important;}
-  
-  /* ❌ on masque les liens du menu dans le header mobile */
+
+  .hamburger{
+    display:flex;
+    transform:translateX(var(--burger-optical-nudge));
+    margin:0!important;
+    justify-self:end!important; /* ⬅ à droite dans TOUTES les langues */
+  }
+
+  /* On masque les liens menu et le switch langue dans le header mobile */
   .nav{display:none!important;}
   .lang-switch{display:none!important;}
 
-  /* Drawer mobile */
-  .drawer .panel{top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;width:min(86%,420px);max-width:420px;height:100%;transform:translateX(24px);opacity:0;}
+  /* Drawer mobile (LTR) */
+  .drawer .panel{
+    top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;
+    width:min(86%,420px);max-width:420px;height:100%;
+    transform:translateX(24px);opacity:0;
+  }
   @keyframes pl-side-enter{from{transform:translateX(24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
   @keyframes pl-side-leave{from{transform:translateX(0);opacity:1;}to{transform:translateX(24px);opacity:0;}}
   .drawer.open .panel{animation:pl-side-enter .40s cubic-bezier(.22,.9,.2,1) both;}
   .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,0,.2,1) both;}
+
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
   .contact-page .hero{padding:48px var(--edge-mobile)!important;}
 }
 
 /* ===== RTL SUPPORT ============================================== */
-html[dir="rtl"] .site-header .header-inner{flex-direction:row!important;justify-content:space-between!important;gap:18px;}
-html[dir="rtl"] .site-header .lang-switch{order:0!important;margin:0!important;}
-html[dir="rtl"] .site-header .nav{order:1!important;margin:0!important;margin-left:18px!important;text-align:right;}
-html[dir="rtl"] .site-header .logo{order:2!important;margin:0!important;}
-html[dir="rtl"] .site-header .nav>.lang-switch{order:-1!important;margin:0 18px 0 0!important;}
-html[dir="rtl"] .nav{margin-left:0!important;}
-html[dir="rtl"] .lang-switch{margin-left:0!important;}
+/* Desktop RTL : structure du header */
+@media (min-width:1021px){
+  html[dir="rtl"] .site-header .header-inner{
+    flex-direction:row!important;justify-content:space-between!important;gap:18px;
+  }
+  html[dir="rtl"] .site-header .lang-switch{order:2!important;margin:0!important;}
+  html[dir="rtl"] .site-header .nav{order:1!important;margin:0!important;margin-left:18px!important;text-align:right;}
+  html[dir="rtl"] .site-header .logo{order:0!important;margin:0!important;}
+}
 
+/* Boutons/CTA inversés en RTL */
 html[dir="rtl"] .cta-row,
 html[dir="rtl"] .btn-row,
 html[dir="rtl"] .actions{
@@ -227,13 +242,12 @@ html[dir="rtl"] .actions{
 .btn + .btn{margin-inline-start:12px;}
 html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
 
+/* Drawer RTL (mobile : sort du côté gauche) */
 @media (max-width:1020px){
   html[dir="rtl"] .drawer .panel{
-    left:0!important;
-    right:auto!important;
+    left:0!important;right:auto!important;
     border-radius:0 16px 16px 0!important;
-    transform:translateX(-24px);
-    opacity:0;
+    transform:translateX(-24px);opacity:0;
   }
   @keyframes pl-side-enter-rtl{from{transform:translateX(-24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
   @keyframes pl-side-leave-rtl{from{transform:translateX(0);opacity:1;}to{transform:translateX(-24px);opacity:0;}}
