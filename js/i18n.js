@@ -1,219 +1,301 @@
-/* ===== POWER LINK — i18n + UI + Form + Page Transitions (ViewTransitions) ===== */
-(function () {
-  // Anti-preload : retire la classe dès que le JS est chargé
-  try { document.documentElement.classList.remove('preload'); } catch {}
+/* ========= POWER LINK — i18n + Drawer + Anti-Double-Transition (VT Guard) ========= */
 
-  /* ---------- Helpers (root + transition enter) ---------- */
-  function getRoot() {
-    const el = document.querySelector(".page-root") || document.querySelector("main") || document.body;
-    el.classList.add("page-root");
-    return el;
+(() => {
+  // ---- Config ----
+  const SUPPORTED = ['fr','en','ar'];
+  const RTL_SET   = new Set(['ar']);
+  const DEFAULT   = 'en';
+
+  // ---- State ----
+  let currentLang = DEFAULT;
+  let switching   = false;          // anti double-clic
+  let dictCache   = new Map();      // cache des dictionnaires
+
+  // ---- Utils ----
+  const $  = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  function clampToSupported(lang){
+    lang = (lang || '').toLowerCase().slice(0,2);
+    return SUPPORTED.includes(lang) ? lang : DEFAULT;
   }
 
-  function retriggerEnter() {
-    const root = getRoot();
-    root.classList.remove("page-leave");
-    root.classList.remove("page-enter");
-    void root.offsetWidth; // reflow
-    root.classList.add("page-enter");
+  function getInitialLang(){
+    const u = new URL(location.href);
+    const fromUrl = u.searchParams.get('lang');
+    if(fromUrl) return clampToSupported(fromUrl);
+
+    const fromLS = localStorage.getItem('lang');
+    if(fromLS) return clampToSupported(fromLS);
+
+    const fromNav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    return clampToSupported(fromNav);
   }
 
-  /* ---------- I18N ---------- */
-  const SUPPORTED = ["en", "fr", "ar"];
-  const DEFAULT = localStorage.getItem("lang") || "en";
-  const queryLang = new URL(location.href).searchParams.get("lang");
-  const START = SUPPORTED.includes(queryLang || "") ? queryLang : DEFAULT;
-
-  async function loadDict(lang) {
-    const res = await fetch("/i18n/" + lang + ".json", { cache: "no-cache" });
-    return res.json();
+  function applyRTL(lang){
+    const root = document.documentElement;
+    const isRTL = RTL_SET.has(lang);
+    root.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+    root.setAttribute('lang', lang);
   }
 
-  function applyRTL(lang) {
-    const rtl = lang === "ar";
-    document.documentElement.lang = lang;
-    document.documentElement.dir = rtl ? "rtl" : "ltr";
-  }
+  // Lecture de dictionnaire :
+  // 1) <script type="application/json" id="i18n-xx">…</script>
+  // 2) window.I18N_DICTIONARIES?.xx
+  async function loadDict(lang){
+    if(dictCache.has(lang)) return dictCache.get(lang);
 
-  function translate(dict) {
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const k = el.getAttribute("data-i18n");
-      if (dict[k] != null) el.textContent = dict[k];
-    });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-      const k = el.getAttribute("data-i18n-placeholder");
-      if (dict[k] != null) el.setAttribute("placeholder", dict[k]);
-    });
-    if (dict["meta.title"]) document.title = dict["meta.title"];
-    if (dict["meta.desc"]) {
-      let m = document.querySelector('meta[name="description"]');
-      if (!m) {
-        m = document.createElement("meta");
-        m.name = "description";
-        document.head.appendChild(m);
+    // 1) Script inline
+    const node = document.getElementById(`i18n-${lang}`);
+    if(node && node.tagName === 'SCRIPT'){
+      try{
+        const json = JSON.parse(node.textContent || '{}');
+        dictCache.set(lang, json);
+        return json;
+      }catch(e){
+        console.warn('[i18n] JSON invalide dans #i18n-' + lang, e);
       }
-      m.content = dict["meta.desc"];
+    }
+
+    // 2) Objet global (optionnel)
+    if(window.I18N_DICTIONARIES && window.I18N_DICTIONARIES[lang]){
+      dictCache.set(lang, window.I18N_DICTIONARIES[lang]);
+      return window.I18N_DICTIONARIES[lang];
+    }
+
+    // 3) Fallback vide
+    const empty = {};
+    dictCache.set(lang, empty);
+    return empty;
+  }
+
+  function translate(dict){
+    // Traduction par data-i18n-key
+    $$('[data-i18n-key]').forEach(el => {
+      const key = el.getAttribute('data-i18n-key');
+      if(!key) return;
+      const val = getDeep(dict, key);
+      if(val == null) return;
+
+      if(el.hasAttribute('data-i18n-attr')){
+        const attr = el.getAttribute('data-i18n-attr');
+        el.setAttribute(attr, String(val));
+      }else{
+        el.textContent = String(val);
+      }
+    });
+
+    // Traduction placeholders
+    $$('[data-i18n-ph]').forEach(el => {
+      const key = el.getAttribute('data-i18n-ph');
+      const val = getDeep(dict, key);
+      if(val == null) return;
+      el.setAttribute('placeholder', String(val));
+    });
+
+    // Traduction titres
+    $$('[data-i18n-title]').forEach(el => {
+      const key = el.getAttribute('data-i18n-title');
+      const val = getDeep(dict, key);
+      if(val == null) return;
+      el.setAttribute('title', String(val));
+    });
+
+    // <title> du document
+    const titleKey = document.querySelector('meta[name="i18n:title"]')?.getAttribute('content');
+    if(titleKey){
+      const t = getDeep(dict, titleKey);
+      if(t) document.title = String(t);
     }
   }
 
-  function activateFlag(lang) {
-    document.querySelectorAll(".lang-btn").forEach((b) => {
-      const active = b.dataset.lang === lang;
-      b.classList.toggle("active", active);
-      b.setAttribute("aria-current", active ? "true" : "false");
+  function getDeep(obj, path){
+    return String(path).split('.').reduce((o,k)=> (o && k in o) ? o[k] : undefined, obj);
+  }
+
+  function activateFlag(lang){
+    $$('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+      btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
     });
   }
 
-  async function setLang(lang, push = true) {
-    if (!SUPPORTED.includes(lang)) lang = "en";
-    localStorage.setItem("lang", lang);
-    applyRTL(lang);
-    const dict = await loadDict(lang);
-    translate(dict);
-    activateFlag(lang);
-    retriggerEnter(); // rejoue l'entrée après traduction
-    if (push) {
-      const u = new URL(location.href);
-      u.searchParams.set("lang", lang);
-      history.replaceState({}, "", u);
+  // ---- Anti-double VT guard autour du switch de langue ----
+  async function setLang(lang, push=true){
+    if(switching) return;      // anti double-clic
+    switching = true;
+
+    lang = clampToSupported(lang);
+    const root = document.documentElement;
+
+    // Couper *toute* View Transition pendant les gros changements
+    root.classList.add('no-vt');
+
+    try{
+      localStorage.setItem('lang', lang);
+      applyRTL(lang);
+
+      const dict = await loadDict(lang);
+      translate(dict);
+      activateFlag(lang);
+      currentLang = lang;
+
+      if(push){
+        const u = new URL(location.href);
+        u.searchParams.set('lang', lang);
+        history.replaceState({lang}, '', u);
+      }
+    } catch (e){
+      console.error('[i18n] setLang error:', e);
+    } finally {
+      // Réactiver VT proprement au prochain frame
+      requestAnimationFrame(() => {
+        root.classList.remove('no-vt');
+        switching = false;
+      });
     }
   }
 
-  // Expose pour éventuels handlers inline
-  window.setLanguage = setLang;
+  // ---- Drawer (hamburger) ----
+  const Drawer = (() => {
+    let open = false;
+    let closing = false;
+    const root   = $('.drawer');
+    if(!root) return { open:()=>{}, close:()=>{} };
 
-  /* ---------- UI (drawer, flags, esc) ---------- */
-  function bindUI() {
-    const drawer = document.querySelector(".drawer");
+    const overlay = $('.drawer .overlay');
+    const panel   = $('.drawer .panel');
+    const burger  = $('.hamburger');
+    const btnClose= $('.drawer-close');
 
-    document.addEventListener(
-      "click",
-      (e) => {
-        const openBtn = e.target.closest(".hamburger, .menu-toggle");
-        const closeBtn = e.target.closest(".drawer-close, .overlay");
-        const flag = e.target.closest(".lang-btn");
+    function onKey(e){
+      if(e.key === 'Escape') close();
+    }
 
-        if (openBtn) drawer?.classList.add("open");
-        if (closeBtn) drawer?.classList.remove("open");
-        if (flag) {
-          e.preventDefault();
-          e.stopPropagation();
-          setLang(flag.dataset.lang);
-        }
-      },
-      true
-    );
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") drawer?.classList.remove("open");
-    });
-  }
-
-  /* ---------- Page transitions (View Transitions + fallback) ---------- */
-  function bindPageTransitions() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let navigating = false;
-
-    document.addEventListener("click", (e) => {
-      if (navigating) return;
-      if (e.target.closest(".lang-btn") || e.target.closest("[data-no-transition]")) return;
-
-      const a = e.target.closest("a[href]");
-      if (!a) return;
-
-      const href = a.getAttribute("href");
-      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
-
-      const url = new URL(a.href, location.href);
-      const sameOrigin = url.origin === location.origin;
-      const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
-      if (!sameOrigin || !sameTab) return;
-
-      e.preventDefault();
-      navigating = true;
-
-      const goto = () => (location.href = url.href);
-
-      // ✅ Moderne : View Transitions API (supprime le flash blanc)
-      if (document.startViewTransition) {
-        document.startViewTransition(() => goto());
-        return;
+    function lockScroll(lock){
+      if(lock){
+        document.body.style.overflow = 'hidden';
+      }else{
+        document.body.style.overflow = '';
       }
+    }
 
-      // ♻️ Fallback : anim CSS existante
-      const root = getRoot();
-      root.classList.remove("page-enter");
-      void root.offsetWidth;
-      root.classList.add("page-leave");
+    function openFn(){
+      if(open || closing) return;
+      root.classList.add('open');
+      open = true; closing = false;
+      lockScroll(true);
+      document.addEventListener('keydown', onKey);
+      // focus trap minimal
+      panel?.setAttribute('tabindex','-1');
+      panel?.focus({preventScroll:true});
+    }
 
-      const onEnd = (ev) => {
-        if (ev.target !== root) return;
-        root.removeEventListener("animationend", onEnd);
-        goto();
+    function close(){
+      if(!open || closing) return;
+      closing = true;
+      root.classList.add('closing');
+      root.classList.remove('open');
+
+      const done = () => {
+        root.classList.remove('closing');
+        open = false; closing = false;
+        lockScroll(false);
+        document.removeEventListener('keydown', onKey);
       };
-      const fallbackTimer = setTimeout(goto, 1200);
-      root.addEventListener(
-        "animationend",
-        (ev) => {
-          clearTimeout(fallbackTimer);
-          onEnd(ev);
-        },
-        { once: true }
-      );
-    }, true);
-  }
 
-  /* ---------- Contact form (Formspree) ---------- */
-  function bindContactForm() {
-    const form = document.getElementById("contact-form");
-    if (!form) return;
+      // attendre la fin de l’anim CSS
+      const dur = 320;
+      setTimeout(done, dur);
+    }
 
-    form.addEventListener("submit", async (e) => {
+    burger?.addEventListener('click', e => {
       e.preventDefault();
-      const msg = document.getElementById("contact-success");
+      openFn();
+    });
+    overlay?.addEventListener('click', close);
+    btnClose?.addEventListener('click', close);
 
-      try {
-        const resp = await fetch(form.action, {
-          method: form.method || "POST",
-          body: new FormData(form),
-          headers: { Accept: "application/json" },
+    return { open: openFn, close };
+  })();
+
+  // ---- View Transition helper (optionnel pour liens) ----
+  // Utilise la VT pour les liens [data-vt-link], sinon navigation classique.
+  function enhanceLinks(){
+    const supportsVT = !!document.startViewTransition;
+    if(!supportsVT) return;
+
+    $$('a[data-vt-link]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const url = a.getAttribute('href');
+        if(!url || url.startsWith('#') || a.target === '_blank') return;
+
+        e.preventDefault();
+        // fermer le drawer si ouvert
+        Drawer.close?.();
+
+        document.startViewTransition(() => {
+          window.location.href = url;
         });
-
-        if (resp.ok) {
-          if (msg) msg.hidden = false;
-          form.reset();
-        } else {
-          let details = null;
-          try { details = await resp.json(); } catch {}
-          console.warn("Formspree error:", resp.status, details);
-          alert("Une erreur est survenue. Merci de réessayer.");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Réseau indisponible. Vérifiez votre connexion puis réessayez.");
-      }
+      }, {capture:true});
     });
   }
 
-  /* ---------- Boot ---------- */
-  function boot() {
-    bindUI();
-    bindPageTransitions();
-    bindContactForm();
+  // ---- Bind UI (drapeaux & synchronisation historique) ----
+  function bindUI(){
+    // drapeaux
+    $$('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const lang = btn.dataset.lang;
+        if(!lang || lang === currentLang) return;
+        // On **ne** déclenche pas de VT ici : le switch est encapsulé par html.no-vt
+        await setLang(lang, true);
+        // fermer le drawer si le tap vient de là
+        const inDrawer = btn.closest('.drawer');
+        if(inDrawer) Drawer.close();
+      });
+    });
+
+    // retour arrière/avant
+    window.addEventListener('popstate', () => {
+      const u = new URL(location.href);
+      const lang = clampToSupported(u.searchParams.get('lang') || currentLang);
+      setLang(lang, false);
+    });
+
+    enhanceLinks();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-        boot();
-        setLang(START, false); // charge la langue et joue l'entrée
-      },
-      { once: true }
-    );
-  } else {
-    boot();
-    setLang(START, false);
-  }
+  // ---- Boot ----
+  document.addEventListener('DOMContentLoaded', async () => {
+    const init = getInitialLang();
+    // Empêche une VT initiale si le HTML/CSS l’active très tôt
+    document.documentElement.classList.add('no-vt');
+    applyRTL(init);
+
+    try{
+      const dict = await loadDict(init);
+      translate(dict);
+      activateFlag(init);
+      currentLang = init;
+
+      // Sync URL (si manquante)
+      const u = new URL(location.href);
+      if(!u.searchParams.get('lang')){
+        u.searchParams.set('lang', init);
+        history.replaceState({lang:init}, '', u);
+      }
+    } finally {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('no-vt');
+      });
+    }
+
+    bindUI();
+
+    // Expose API globale (utile pour debug)
+    window.I18N_API = { get lang(){return currentLang}, setLang, loadDict, translate };
+  });
+
 })();
