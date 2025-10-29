@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + PERFECT SYMMETRY) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -35,7 +35,6 @@ body{
   display:flex;
   flex-direction:column;
 }
-
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
@@ -73,10 +72,10 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .hamburger{
   display:none;width:40px;height:40px;border-radius:12px;
   border:1px solid #E5E7EB;background:#fff;
-  align-items:center;justify-content:center;margin-inline-start:auto;
+  align-items:center;justify-content:center;margin:0;
 }
-.hamburger span, .hamburger span::before, .hamburger span::after{
-  display:block;width:20px;height:2px;background:#1D5336; content:"";position:relative;
+.hamburger span,.hamburger span::before,.hamburger span::after{
+  display:block;width:20px;height:2px;background:#1D5336;content:"";position:relative;
 }
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
@@ -126,21 +125,14 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 .contact-page [class*="inner"],
 .contact-page [class*="content"],
 .contact-page form{
-  max-width:none !important;
-  width:100% !important;
-  margin:0 !important;
+  max-width:none!important;width:100%!important;margin:0!important;
 }
 .contact-page .hero{
-  padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px !important;
+  padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px!important;
 }
 .contact-page form > *,
-.contact-page .form,
-.contact-page .form-row,
-.contact-page .form-group{width:100%!important;max-width:none!important;}
-.contact-page input,
-.contact-page textarea,
-.contact-page select,
-.contact-page button{width:100%!important;}
+.contact-page .form,.contact-page .form-row,.contact-page .form-group{width:100%!important;max-width:none!important;}
+.contact-page input, .contact-page textarea, .contact-page select, .contact-page button{width:100%!important;}
 
 /* ===== BUTTON =================================================== */
 .btn{
@@ -179,31 +171,37 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
   :root{view-transition-name:none!important;}
 }
 
-/* ===== RESPONSIVE =============================================== */
+/* ===== RESPONSIVE (symmetry fix) ================================ */
 @media (max-width:1020px){
+  /* neutralise les “nudges” pour une symétrie parfaite */
+  :root{ --mobile-optical-nudge:0; --burger-optical-nudge:0; }
+
   .header-inner{
-    display:grid !important;
-    grid-template-columns:auto 1fr auto !important;
-    align-items:center !important;
-    justify-content:normal !important;
-    gap:0 !important;
-    padding-inline:var(--edge-mobile)!important;
+    display:grid!important;
+    grid-template-columns:auto 1fr auto!important;
+    align-items:center!important;
+    justify-content:normal!important;
+    gap:0!important;
+
+    /* padding équilibré + safe-area iPhone */
+    padding-left: max(var(--edge-mobile), env(safe-area-inset-left)) !important;
+    padding-right:max(var(--edge-mobile), env(safe-area-inset-right)) !important;
   }
 
-  /* symétrie parfaite : logo et burger même marge latérale */
-  .logo{justify-self:start!important;margin-inline-start:var(--edge-mobile)!important;}
-  .site-header .logo img{height:40px!important;transform:translateX(var(--mobile-optical-nudge));}
+  /* pas de marge, pas de transform -> vraie symétrie */
+  .logo{justify-self:start!important;margin:0!important;}
+  .site-header .logo img{height:40px!important;transform:none!important;}
 
   .hamburger{
-    display:flex;
-    transform:none;
-    margin-inline-end:var(--edge-mobile)!important;
-    justify-self:end!important;
+    display:flex;justify-self:end!important;
+    margin:0!important;transform:none!important;
   }
 
+  /* menu/lang cachés en mobile */
   .nav{display:none!important;}
   .lang-switch{display:none!important;}
 
+  /* Drawer mobile LTR */
   .drawer .panel{
     top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;
     width:min(86%,420px);max-width:420px;height:100%;
@@ -232,9 +230,7 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 html[dir="rtl"] .cta-row,
 html[dir="rtl"] .btn-row,
 html[dir="rtl"] .actions{
-  display:flex;
-  flex-direction:row-reverse;
-  gap:12px;
+  display:flex;flex-direction:row-reverse;gap:12px;
 }
 .btn{margin:0;}
 .btn + .btn{margin-inline-start:12px;}
