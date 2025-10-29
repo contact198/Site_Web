@@ -1,4 +1,4 @@
-/* ========= POWER LINK — i18n + Drawer + Anti-Double-Transition (VT Guard) ========= */
+/* ========= POWER LINK — i18n + Drawer + Anti-Double-Transition (VT Guard) — FULL ========= */
 
 (() => {
   // ---- Config ----
@@ -15,8 +15,16 @@
   const $  = (sel, root=document) => root.querySelector(sel);
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
+  function normalizeLang(code){
+    const c = (code || '').toLowerCase();
+    if (c === 'gb' || c === 'uk' || c === 'en' || c === 'en-us' || c === 'en-gb') return 'en';
+    if (c === 'fr' || c === 'fr-fr') return 'fr';
+    if (c === 'sa' || c === 'ar' || c === 'arabic' || c === 'ar-sa' || c === 'ar-ae') return 'ar';
+    return c;
+  }
+
   function clampToSupported(lang){
-    lang = (lang || '').toLowerCase().slice(0,2);
+    lang = normalizeLang((lang || '').toLowerCase().slice(0,2));
     return SUPPORTED.includes(lang) ? lang : DEFAULT;
   }
 
@@ -43,6 +51,7 @@
   // 1) <script type="application/json" id="i18n-xx">…</script>
   // 2) window.I18N_DICTIONARIES?.xx
   async function loadDict(lang){
+    lang = normalizeLang(lang);
     if(dictCache.has(lang)) return dictCache.get(lang);
 
     // 1) Script inline
@@ -63,14 +72,13 @@
       return window.I18N_DICTIONARIES[lang];
     }
 
-    // 3) Fallback vide
     const empty = {};
     dictCache.set(lang, empty);
     return empty;
   }
 
   function translate(dict){
-    // Traduction par data-i18n-key
+    // data-i18n-key
     $$('[data-i18n-key]').forEach(el => {
       const key = el.getAttribute('data-i18n-key');
       if(!key) return;
@@ -85,7 +93,7 @@
       }
     });
 
-    // Traduction placeholders
+    // placeholders
     $$('[data-i18n-ph]').forEach(el => {
       const key = el.getAttribute('data-i18n-ph');
       const val = getDeep(dict, key);
@@ -93,7 +101,7 @@
       el.setAttribute('placeholder', String(val));
     });
 
-    // Traduction titres
+    // titles
     $$('[data-i18n-title]').forEach(el => {
       const key = el.getAttribute('data-i18n-title');
       const val = getDeep(dict, key);
@@ -101,7 +109,7 @@
       el.setAttribute('title', String(val));
     });
 
-    // <title> du document
+    // <title> doc
     const titleKey = document.querySelector('meta[name="i18n:title"]')?.getAttribute('content');
     if(titleKey){
       const t = getDeep(dict, titleKey);
@@ -114,22 +122,25 @@
   }
 
   function activateFlag(lang){
-    $$('.lang-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.lang === lang);
-      btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+    const norm = normalizeLang(lang);
+    $$('.lang-btn,[data-lang]').forEach(btn => {
+      const bLang = normalizeLang(btn.dataset.lang);
+      const act = bLang === norm;
+      btn.classList.toggle('active', act);
+      if(btn.classList.contains('lang-btn')) btn.setAttribute('aria-pressed', String(act));
     });
   }
 
   // ---- Anti-double VT guard autour du switch de langue ----
   async function setLang(lang, push=true){
-    if(switching) return;      // anti double-clic
+    if(switching) return;
     switching = true;
 
-    lang = clampToSupported(lang);
-    const root = document.documentElement;
+    lang = normalizeLang(lang);
+    if(!SUPPORTED.includes(lang)) lang = DEFAULT;
 
-    // Couper *toute* View Transition pendant les gros changements
-    root.classList.add('no-vt');
+    const root = document.documentElement;
+    root.classList.add('no-vt'); // couper VT pendant les gros changements
 
     try{
       localStorage.setItem('lang', lang);
@@ -148,7 +159,6 @@
     } catch (e){
       console.error('[i18n] setLang error:', e);
     } finally {
-      // Réactiver VT proprement au prochain frame
       requestAnimationFrame(() => {
         root.classList.remove('no-vt');
         switching = false;
@@ -173,11 +183,7 @@
     }
 
     function lockScroll(lock){
-      if(lock){
-        document.body.style.overflow = 'hidden';
-      }else{
-        document.body.style.overflow = '';
-      }
+      document.body.style.overflow = lock ? 'hidden' : '';
     }
 
     function openFn(){
@@ -186,7 +192,6 @@
       open = true; closing = false;
       lockScroll(true);
       document.addEventListener('keydown', onKey);
-      // focus trap minimal
       panel?.setAttribute('tabindex','-1');
       panel?.focus({preventScroll:true});
     }
@@ -204,15 +209,10 @@
         document.removeEventListener('keydown', onKey);
       };
 
-      // attendre la fin de l’anim CSS
-      const dur = 320;
-      setTimeout(done, dur);
+      setTimeout(done, 320); // durée de l'anim CSS
     }
 
-    burger?.addEventListener('click', e => {
-      e.preventDefault();
-      openFn();
-    });
+    burger?.addEventListener('click', e => { e.preventDefault(); openFn(); });
     overlay?.addEventListener('click', close);
     btnClose?.addEventListener('click', close);
 
@@ -220,7 +220,6 @@
   })();
 
   // ---- View Transition helper (optionnel pour liens) ----
-  // Utilise la VT pour les liens [data-vt-link], sinon navigation classique.
   function enhanceLinks(){
     const supportsVT = !!document.startViewTransition;
     if(!supportsVT) return;
@@ -231,33 +230,33 @@
         if(!url || url.startsWith('#') || a.target === '_blank') return;
 
         e.preventDefault();
-        // fermer le drawer si ouvert
         Drawer.close?.();
-
-        document.startViewTransition(() => {
-          window.location.href = url;
-        });
+        document.startViewTransition(() => { window.location.href = url; });
       }, {capture:true});
     });
   }
 
-  // ---- Bind UI (drapeaux & synchronisation historique) ----
+  // ---- Bind UI (drapeaux & historique) ----
   function bindUI(){
-    // drapeaux
-    $$('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const lang = btn.dataset.lang;
-        if(!lang || lang === currentLang) return;
-        // On **ne** déclenche pas de VT ici : le switch est encapsulé par html.no-vt
-        await setLang(lang, true);
-        // fermer le drawer si le tap vient de là
-        const inDrawer = btn.closest('.drawer');
-        if(inDrawer) Drawer.close();
-      });
+    // Délégation globale : tout élément avec data-lang fonctionne
+    document.addEventListener('click', async (e) => {
+      const trg = e.target.closest('[data-lang]');
+      if(!trg) return;
+
+      e.preventDefault();
+      const lang = normalizeLang(trg.dataset.lang);
+      if(!lang || lang === currentLang) return;
+
+      await setLang(lang, true);
+
+      // fermer le drawer si le clic vient de l'intérieur
+      const inDrawer = trg.closest('.drawer');
+      if(inDrawer){
+        document.querySelector('.drawer-close')?.click();
+      }
     });
 
-    // retour arrière/avant
+    // popstate (retour/avant)
     window.addEventListener('popstate', () => {
       const u = new URL(location.href);
       const lang = clampToSupported(u.searchParams.get('lang') || currentLang);
@@ -270,6 +269,7 @@
   // ---- Boot ----
   document.addEventListener('DOMContentLoaded', async () => {
     const init = getInitialLang();
+
     // Empêche une VT initiale si le HTML/CSS l’active très tôt
     document.documentElement.classList.add('no-vt');
     applyRTL(init);
@@ -294,7 +294,7 @@
 
     bindUI();
 
-    // Expose API globale (utile pour debug)
+    // Expose API pour debug
     window.I18N_API = { get lang(){return currentLang}, setLang, loadDict, translate };
   });
 
