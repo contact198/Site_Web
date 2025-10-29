@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + MOBILE PATCH) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + PERFECT SYMMETRY) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -181,30 +181,29 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 
 /* ===== RESPONSIVE =============================================== */
 @media (max-width:1020px){
-  /* Layout mobile : logo à gauche, hamburger à droite */
   .header-inner{
     display:grid !important;
     grid-template-columns:auto 1fr auto !important;
     align-items:center !important;
     justify-content:normal !important;
-    gap:18px !important;
+    gap:0 !important;
     padding-inline:var(--edge-mobile)!important;
   }
-  .logo{justify-self:start!important;}
+
+  /* symétrie parfaite : logo et burger même marge latérale */
+  .logo{justify-self:start!important;margin-inline-start:var(--edge-mobile)!important;}
   .site-header .logo img{height:40px!important;transform:translateX(var(--mobile-optical-nudge));}
 
   .hamburger{
     display:flex;
-    transform:translateX(var(--burger-optical-nudge));
-    margin:0!important;
-    justify-self:end!important; /* ⬅ à droite dans TOUTES les langues */
+    transform:none;
+    margin-inline-end:var(--edge-mobile)!important;
+    justify-self:end!important;
   }
 
-  /* On masque les liens menu et le switch langue dans le header mobile */
   .nav{display:none!important;}
   .lang-switch{display:none!important;}
 
-  /* Drawer mobile (LTR) */
   .drawer .panel{
     top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;
     width:min(86%,420px);max-width:420px;height:100%;
@@ -220,7 +219,6 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
 }
 
 /* ===== RTL SUPPORT ============================================== */
-/* Desktop RTL : structure du header */
 @media (min-width:1021px){
   html[dir="rtl"] .site-header .header-inner{
     flex-direction:row!important;justify-content:space-between!important;gap:18px;
@@ -230,7 +228,7 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
   html[dir="rtl"] .site-header .logo{order:0!important;margin:0!important;}
 }
 
-/* Boutons/CTA inversés en RTL */
+/* Boutons RTL */
 html[dir="rtl"] .cta-row,
 html[dir="rtl"] .btn-row,
 html[dir="rtl"] .actions{
@@ -242,7 +240,6 @@ html[dir="rtl"] .actions{
 .btn + .btn{margin-inline-start:12px;}
 html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
 
-/* Drawer RTL (mobile : sort du côté gauche) */
 @media (max-width:1020px){
   html[dir="rtl"] .drawer .panel{
     left:0!important;right:auto!important;
