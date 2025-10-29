@@ -38,6 +38,10 @@ body{
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
+/* ===== Anti-double VT guard (activé par le JS pendant setLang) ===== */
+html.no-vt{view-transition-name:none!important;}
+html.no-vt *{view-transition-name:none!important;}
+
 /* ===== HEADER =================================================== */
 .site-header{
   position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.12);
@@ -157,8 +161,16 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
     ::view-transition-new(root){animation-name:vt-in;}
     ::view-transition-old(root){animation-name:vt-out;}
     @keyframes vt-in{from{transform:translateY(calc(var(--pl-dropY)*-1));opacity:0;}to{transform:translateY(0);opacity:1;}}
-    @keyframes vt-out{from{transform:translateY(0);opacity:1;}to{transform:translateY(10px);opacity:0;}}
+    @keyframes vt-out{from{transform:translateY(0);opacity:1);}to{transform:translateY(10px);opacity:0;}}
+
+  /* Empêcher les fallbacks d’entrer en conflit quand VT est actif */
+  @supports (view-transition-name: root){
+    html:not(.no-vt) .page-root.page-enter,
+    html:not(.no-vt) .page-root.page-leave{
+      animation:none!important;
+    }
   }
+
   @supports not (view-transition-name: root){
     .page-root.page-enter{animation:pl-enter var(--pl-page-in-dur) var(--pl-ease) both;}
     @keyframes pl-enter{from{opacity:0;transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}to{opacity:1;transform:translate3d(0,0,0);}}
@@ -208,7 +220,7 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
     transform:translateX(24px);opacity:0;
   }
   @keyframes pl-side-enter{from{transform:translateX(24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-  @keyframes pl-side-leave{from{transform:translateX(0);opacity:1;}to{transform:translateX(24px);opacity:0;}}
+  @keyframes pl-side-leave{from{transform:translateX(0);opacity:1);}to{transform:translateX(24px);opacity:0;}}
   .drawer.open .panel{animation:pl-side-enter .40s cubic-bezier(.22,.9,.2,1) both;}
   .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,0,.2,1) both;}
 
@@ -243,7 +255,7 @@ html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
     transform:translateX(-24px);opacity:0;
   }
   @keyframes pl-side-enter-rtl{from{transform:translateX(-24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-  @keyframes pl-side-leave-rtl{from{transform:translateX(0);opacity:1;}to{transform:translateX(-24px);opacity:0;}}
+  @keyframes pl-side-leave-rtl{from{transform:translateX(0);opacity:1);}to{transform:translateX(-24px);opacity:0;}}
   html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .40s cubic-bezier(.22,.9,.2,1) both;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .30s cubic-bezier(.4,0,.2,1) both;}
 }
