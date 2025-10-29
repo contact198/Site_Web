@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v2) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -48,8 +48,13 @@ html.no-vt *{view-transition-name:none!important;}
 }
 .header-inner{
   max-width:100%;margin:0 auto;block-size:var(--header-h);
-  padding-inline:var(--edge-desktop);
-  display:flex;align-items:center;gap:18px;justify-content:space-between;
+
+  /* padding parfaitement symétrique + prise en compte des encoches */
+  padding-left:  max(var(--edge-desktop), env(safe-area-inset-left));
+  padding-right: max(var(--edge-desktop), env(safe-area-inset-right));
+
+  display:flex;align-items:center;gap:22px;
+  justify-content:space-between;
 }
 
 /* === LOGO ======================================================= */
@@ -57,12 +62,21 @@ html.no-vt *{view-transition-name:none!important;}
 .logo img{height:48px;width:auto;display:block;}
 
 /* ===== NAV ====================================================== */
-.nav{display:flex;align-items:center;gap:26px;margin-left:auto;}
-.nav a{color:#16402B;text-decoration:none;text-transform:uppercase;font-weight:700;letter-spacing:.4px;line-height:1;padding-block:4px;}
+.nav{
+  display:flex;align-items:center;gap:26px;
+  margin:0!important; /* <— suppression des auto-margins qui cassaient la symétrie */
+}
+.nav a{
+  color:#16402B;text-decoration:none;text-transform:uppercase;font-weight:700;
+  letter-spacing:.4px;line-height:1;padding-block:4px;
+}
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
 /* ===== LANG SWITCH ============================================== */
-.lang-switch{display:flex;align-items:center;gap:14px;margin-left:24px;}
+.lang-switch{
+  display:flex;align-items:center;gap:14px;
+  margin:0!important; /* <— supprime l’ancien margin-left */
+}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -162,6 +176,7 @@ html.no-vt *{view-transition-name:none!important;}
     ::view-transition-old(root){animation-name:vt-out;}
     @keyframes vt-in{from{transform:translateY(calc(var(--pl-dropY)*-1));opacity:0;}to{transform:translateY(0);opacity:1;}}
     @keyframes vt-out{from{transform:translateY(0);opacity:1);}to{transform:translateY(10px);opacity:0;}}
+  }
 
   /* Empêcher les fallbacks d’entrer en conflit quand VT est actif */
   @supports (view-transition-name: root){
@@ -181,6 +196,25 @@ html.no-vt *{view-transition-name:none!important;}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
   :root{view-transition-name:none!important;}
+}
+
+/* ===== LAYOUT DESKTOP (ordre + symétrie stricte) ================ */
+@media (min-width:1021px){
+  /* Ordre LTR: [lang-switch][nav] ............. [logo] */
+  html[dir="ltr"] .site-header .header-inner{
+    flex-direction:row;align-items:center;gap:22px;justify-content:space-between;
+  }
+  html[dir="ltr"] .site-header .lang-switch{order:0;margin:0!important;}
+  html[dir="ltr"] .site-header .nav{order:1;margin:0!important;text-align:left;}
+  html[dir="ltr"] .site-header .logo{order:2;margin:0!important;}
+
+  /* Ordre RTL: [logo] ............. [nav][lang-switch] */
+  html[dir="rtl"] .site-header .header-inner{
+    flex-direction:row;align-items:center;gap:22px;justify-content:space-between;
+  }
+  html[dir="rtl"] .site-header .logo{order:0;margin:0!important;}
+  html[dir="rtl"] .site-header .nav{order:1;margin:0!important;text-align:right;}
+  html[dir="rtl"] .site-header .lang-switch{order:2;margin:0!important;}
 }
 
 /* ===== RESPONSIVE (symmetry fix) ================================ */
@@ -228,26 +262,7 @@ html.no-vt *{view-transition-name:none!important;}
   .contact-page .hero{padding:48px var(--edge-mobile)!important;}
 }
 
-/* ===== RTL SUPPORT ============================================== */
-@media (min-width:1021px){
-  html[dir="rtl"] .site-header .header-inner{
-    flex-direction:row!important;justify-content:space-between!important;gap:18px;
-  }
-  html[dir="rtl"] .site-header .lang-switch{order:2!important;margin:0!important;}
-  html[dir="rtl"] .site-header .nav{order:1!important;margin:0!important;margin-left:18px!important;text-align:right;}
-  html[dir="rtl"] .site-header .logo{order:0!important;margin:0!important;}
-}
-
-/* Boutons RTL */
-html[dir="rtl"] .cta-row,
-html[dir="rtl"] .btn-row,
-html[dir="rtl"] .actions{
-  display:flex;flex-direction:row-reverse;gap:12px;
-}
-.btn{margin:0;}
-.btn + .btn{margin-inline-start:12px;}
-html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
-
+/* ===== RTL SUPPORT (mobile drawer sens inverse) ================= */
 @media (max-width:1020px){
   html[dir="rtl"] .drawer .panel{
     left:0!important;right:auto!important;
@@ -265,3 +280,13 @@ html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
   .logo img{ transform:translateX(1px); }     /* léger centrage visuel */
   .hamburger{ transform:translateX(-1px); }   /* compensation opposée */
 }
+
+/* ===== Boutons RTL (CTA, etc.) ================================= */
+html[dir="rtl"] .cta-row,
+html[dir="rtl"] .btn-row,
+html[dir="rtl"] .actions{
+  display:flex;flex-direction:row-reverse;gap:12px;
+}
+.btn{margin:0;}
+.btn + .btn{margin-inline-start:12px;}
+html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
