@@ -1,6 +1,12 @@
-/* ========= POWER LINK — i18n + Drawer + Anti-Double-Transition (VT Guard) — FULL ========= */
+/* ========= POWER LINK — i18n + Drawer + VT Guard — DEBUG READY ========= */
 
 (() => {
+  // ---- Debug (mets à false pour couper les logs) ----
+  const DEBUG = true;
+  const log = (...a)=>DEBUG&&console.log('[PL]',...a);
+  const warn= (...a)=>DEBUG&&console.warn('[PL]',...a);
+  const err = (...a)=>console.error('[PL]',...a);
+
   // ---- Config ----
   const SUPPORTED = ['fr','en','ar'];
   const RTL_SET   = new Set(['ar']);
@@ -8,8 +14,8 @@
 
   // ---- State ----
   let currentLang = DEFAULT;
-  let switching   = false;          // anti double-clic
-  let dictCache   = new Map();      // cache des dictionnaires
+  let switching   = false;
+  let dictCache   = new Map();
 
   // ---- Utils ----
   const $  = (sel, root=document) => root.querySelector(sel);
@@ -22,9 +28,8 @@
     if (c === 'sa' || c === 'ar' || c === 'arabic' || c === 'ar-sa' || c === 'ar-ae') return 'ar';
     return c;
   }
-
   function clampToSupported(lang){
-    lang = normalizeLang((lang || '').toLowerCase().slice(0,2));
+    lang = normalizeLang((lang||'').slice(0,2));
     return SUPPORTED.includes(lang) ? lang : DEFAULT;
   }
 
@@ -47,14 +52,11 @@
     root.setAttribute('lang', lang);
   }
 
-  // Lecture de dictionnaire :
-  // 1) <script type="application/json" id="i18n-xx">…</script>
-  // 2) window.I18N_DICTIONARIES?.xx
   async function loadDict(lang){
     lang = normalizeLang(lang);
     if(dictCache.has(lang)) return dictCache.get(lang);
 
-    // 1) Script inline
+    // 1) <script id="i18n-en" type="application/json">…</script>
     const node = document.getElementById(`i18n-${lang}`);
     if(node && node.tagName === 'SCRIPT'){
       try{
@@ -62,35 +64,42 @@
         dictCache.set(lang, json);
         return json;
       }catch(e){
-        console.warn('[i18n] JSON invalide dans #i18n-' + lang, e);
+        warn('JSON invalide dans #i18n-'+lang, e);
       }
     }
 
-    // 2) Objet global (optionnel)
+    // 2) objet global facultatif
     if(window.I18N_DICTIONARIES && window.I18N_DICTIONARIES[lang]){
       dictCache.set(lang, window.I18N_DICTIONARIES[lang]);
       return window.I18N_DICTIONARIES[lang];
     }
 
+    // 3) fallback vide
     const empty = {};
     dictCache.set(lang, empty);
     return empty;
   }
 
+  function getDeep(obj, path){
+    return String(path).split('.').reduce((o,k)=> (o && k in o) ? o[k] : undefined, obj);
+  }
+
   function translate(dict){
-    // data-i18n-key
+    let count = 0;
+
+    // data-i18n-key → innerText
     $$('[data-i18n-key]').forEach(el => {
       const key = el.getAttribute('data-i18n-key');
       if(!key) return;
       const val = getDeep(dict, key);
       if(val == null) return;
-
       if(el.hasAttribute('data-i18n-attr')){
         const attr = el.getAttribute('data-i18n-attr');
         el.setAttribute(attr, String(val));
       }else{
         el.textContent = String(val);
       }
+      count++;
     });
 
     // placeholders
@@ -99,6 +108,7 @@
       const val = getDeep(dict, key);
       if(val == null) return;
       el.setAttribute('placeholder', String(val));
+      count++;
     });
 
     // titles
@@ -107,18 +117,17 @@
       const val = getDeep(dict, key);
       if(val == null) return;
       el.setAttribute('title', String(val));
+      count++;
     });
 
-    // <title> doc
+    // <title> du doc
     const titleKey = document.querySelector('meta[name="i18n:title"]')?.getAttribute('content');
     if(titleKey){
       const t = getDeep(dict, titleKey);
-      if(t) document.title = String(t);
+      if(t){ document.title = String(t); count++; }
     }
-  }
 
-  function getDeep(obj, path){
-    return String(path).split('.').reduce((o,k)=> (o && k in o) ? o[k] : undefined, obj);
+    log('Traductions appliquées:', count);
   }
 
   function activateFlag(lang){
@@ -127,20 +136,23 @@
       const bLang = normalizeLang(btn.dataset.lang);
       const act = bLang === norm;
       btn.classList.toggle('active', act);
-      if(btn.classList.contains('lang-btn')) btn.setAttribute('aria-pressed', String(act));
+      if(btn.classList.contains('lang-btn')){
+        btn.setAttribute('aria-pressed', String(act));
+      }
     });
   }
 
-  // ---- Anti-double VT guard autour du switch de langue ----
+  // ---- Switch langue (avec garde VT) ----
   async function setLang(lang, push=true){
     if(switching) return;
     switching = true;
 
     lang = normalizeLang(lang);
     if(!SUPPORTED.includes(lang)) lang = DEFAULT;
+    log('setLang →', lang);
 
     const root = document.documentElement;
-    root.classList.add('no-vt'); // couper VT pendant les gros changements
+    root.classList.add('no-vt');
 
     try{
       localStorage.setItem('lang', lang);
@@ -157,7 +169,7 @@
         history.replaceState({lang}, '', u);
       }
     } catch (e){
-      console.error('[i18n] setLang error:', e);
+      err('[i18n] setLang error:', e);
     } finally {
       requestAnimationFrame(() => {
         root.classList.remove('no-vt');
@@ -178,13 +190,8 @@
     const burger  = $('.hamburger');
     const btnClose= $('.drawer-close');
 
-    function onKey(e){
-      if(e.key === 'Escape') close();
-    }
-
-    function lockScroll(lock){
-      document.body.style.overflow = lock ? 'hidden' : '';
-    }
+    function onKey(e){ if(e.key === 'Escape') close(); }
+    const lockScroll = (lock)=> document.body.style.overflow = lock ? 'hidden' : '';
 
     function openFn(){
       if(open || closing) return;
@@ -201,15 +208,12 @@
       closing = true;
       root.classList.add('closing');
       root.classList.remove('open');
-
-      const done = () => {
+      setTimeout(() => {
         root.classList.remove('closing');
         open = false; closing = false;
         lockScroll(false);
         document.removeEventListener('keydown', onKey);
-      };
-
-      setTimeout(done, 320); // durée de l'anim CSS
+      }, 320);
     }
 
     burger?.addEventListener('click', e => { e.preventDefault(); openFn(); });
@@ -219,7 +223,7 @@
     return { open: openFn, close };
   })();
 
-  // ---- View Transition helper (optionnel pour liens) ----
+  // ---- VT helper (facultatif) ----
   function enhanceLinks(){
     const supportsVT = !!document.startViewTransition;
     if(!supportsVT) return;
@@ -238,28 +242,42 @@
 
   // ---- Bind UI (drapeaux & historique) ----
   function bindUI(){
-    // Délégation globale : tout élément avec data-lang fonctionne
+    // 1) délégation globale — TOUT élément avec data-lang marche
     document.addEventListener('click', async (e) => {
       const trg = e.target.closest('[data-lang]');
       if(!trg) return;
 
-      e.preventDefault();
+      // Ne pas laisser un <a href="#"> faire un scroll-top
+      if(trg.tagName === 'A') e.preventDefault();
+
       const lang = normalizeLang(trg.dataset.lang);
+      log('click flag:', lang, trg);
       if(!lang || lang === currentLang) return;
 
       await setLang(lang, true);
 
-      // fermer le drawer si le clic vient de l'intérieur
+      // fermer le drawer si clic depuis le drawer
       const inDrawer = trg.closest('.drawer');
       if(inDrawer){
         document.querySelector('.drawer-close')?.click();
       }
     });
 
-    // popstate (retour/avant)
+    // 2) binding direct au cas où tes drapeaux n’auraient pas data-lang
+    //    Exemple d’IDs fréquents (#flag-en, #flag-fr, #flag-ar)
+    [['#flag-en','en'],['#flag-fr','fr'],['#flag-ar','ar']].forEach(([sel, lang])=>{
+      const el = document.querySelector(sel);
+      if(el){
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', (e)=>{ e.preventDefault(); setLang(lang,true); });
+      }
+    });
+
+    // 3) navigateur back/forward
     window.addEventListener('popstate', () => {
       const u = new URL(location.href);
       const lang = clampToSupported(u.searchParams.get('lang') || currentLang);
+      log('popstate →', lang);
       setLang(lang, false);
     });
 
@@ -268,10 +286,10 @@
 
   // ---- Boot ----
   document.addEventListener('DOMContentLoaded', async () => {
-    const init = getInitialLang();
-
-    // Empêche une VT initiale si le HTML/CSS l’active très tôt
+    log('boot…');
     document.documentElement.classList.add('no-vt');
+
+    const init = getInitialLang();
     applyRTL(init);
 
     try{
@@ -280,12 +298,14 @@
       activateFlag(init);
       currentLang = init;
 
-      // Sync URL (si manquante)
+      // Sync URL si absent
       const u = new URL(location.href);
       if(!u.searchParams.get('lang')){
         u.searchParams.set('lang', init);
         history.replaceState({lang:init}, '', u);
       }
+    } catch (e){
+      err('init error', e);
     } finally {
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('no-vt');
@@ -294,8 +314,13 @@
 
     bindUI();
 
-    // Expose API pour debug
+    // Expose API
     window.I18N_API = { get lang(){return currentLang}, setLang, loadDict, translate };
+    log('ready, lang=', currentLang);
   });
 
+  // Alerte si une erreur JS empêche l’init
+  window.addEventListener('error', (e)=>{
+    err('JS error global:', e.message, '\n', e.filename+':'+e.lineno+':'+e.colno);
+  });
 })();
