@@ -247,3 +247,9 @@ html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
   html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .40s cubic-bezier(.22,.9,.2,1) both;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .30s cubic-bezier(.4,0,.2,1) both;}
 }
+
+/* === MICRO ALIGNEMENT OPTIQUE HEADER MOBILE =================== */
+@media (max-width:1020px){
+  .logo img{ transform:translateX(1px); }     /* léger centrage visuel */
+  .hamburger{ transform:translateX(-1px); }   /* compensation opposée */
+}
