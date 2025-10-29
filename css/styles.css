@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + MOBILE PATCH) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -6,7 +6,7 @@
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
 
-  /* Hauteur de bandeau stricte pour espace égal haut/bas */
+  /* Hauteur de bandeau stricte */
   --header-h:72px;
 
   --container-w:1180px; --gutter:22px;
@@ -14,7 +14,7 @@
 
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
-  /* Transitions (tuning centralisé) */
+  /* Transitions */
   --pl-page-in-dur:.58s;
   --pl-page-out-dur:.34s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
@@ -134,13 +134,9 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
   width:100% !important;
   margin:0 !important;
 }
-
-/* padding horizontal fluide */
 .contact-page .hero{
   padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px !important;
 }
-
-/* champs full width */
 .contact-page form > *,
 .contact-page .form,
 .contact-page .form-row,
@@ -187,17 +183,28 @@ html.preload *, html.preload *::before, html.preload *::after{animation:none!imp
   :root{view-transition-name:none!important;}
 }
 
-/* ===== RESPONSIVE =============================================== */
+/* ===== RESPONSIVE + MOBILE PATCH =============================================== */
 @media (max-width:1020px){
-  .site-header .header-inner{padding-inline:var(--edge-mobile)!important;}
+  /* === Nouveau layout header : grille pour burger collé au bord === */
+  .header-inner{
+    display:grid !important;
+    grid-template-columns:auto 1fr auto !important;
+    align-items:center !important;
+    justify-content:normal !important;
+    gap:18px !important;
+    padding-inline:var(--edge-mobile)!important;
+  }
   .site-header .logo img{height:40px!important;transform:translateX(var(--mobile-optical-nudge));}
-  .hamburger{display:flex;transform:translateX(var(--burger-optical-nudge));}
-  .nav{display:none;}
+  .hamburger{display:flex;transform:translateX(var(--burger-optical-nudge));margin:0!important;justify-self:end!important;}
+  html[dir="rtl"] .hamburger{justify-self:start!important;}
+  .lang-switch{display:none!important;}
+
+  /* Drawer mobile */
   .drawer .panel{top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;width:min(86%,420px);max-width:420px;height:100%;transform:translateX(24px);opacity:0;}
   @keyframes pl-side-enter{from{transform:translateX(24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
   @keyframes pl-side-leave{from{transform:translateX(0);opacity:1;}to{transform:translateX(24px);opacity:0;}}
   .drawer.open .panel{animation:pl-side-enter .40s cubic-bezier(.22,.9,.2,1) both;}
-  .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,.0,.2,1) both;}
+  .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,0,.2,1) both;}
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
   .contact-page .hero{padding:48px var(--edge-mobile)!important;}
 }
@@ -210,3 +217,30 @@ html[dir="rtl"] .site-header .logo{order:2!important;margin:0!important;}
 html[dir="rtl"] .site-header .nav>.lang-switch{order:-1!important;margin:0 18px 0 0!important;}
 html[dir="rtl"] .nav{margin-left:0!important;}
 html[dir="rtl"] .lang-switch{margin-left:0!important;}
+
+/* === Boutons et CTA inversés en RTL ============================= */
+html[dir="rtl"] .cta-row,
+html[dir="rtl"] .btn-row,
+html[dir="rtl"] .actions{
+  display:flex;
+  flex-direction:row-reverse;
+  gap:12px;
+}
+.btn{margin:0;}
+.btn + .btn{margin-inline-start:12px;}
+html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
+
+/* === Drawer RTL (sort du côté gauche) =========================== */
+@media (max-width:1020px){
+  html[dir="rtl"] .drawer .panel{
+    left:0!important;
+    right:auto!important;
+    border-radius:0 16px 16px 0!important;
+    transform:translateX(-24px);
+    opacity:0;
+  }
+  @keyframes pl-side-enter-rtl{from{transform:translateX(-24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+  @keyframes pl-side-leave-rtl{from{transform:translateX(0);opacity:1;}to{transform:translateX(-24px);opacity:0;}}
+  html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .40s cubic-bezier(.22,.9,.2,1) both;}
+  html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .30s cubic-bezier(.4,0,.2,1) both;}
+}
