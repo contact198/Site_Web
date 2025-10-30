@@ -9,12 +9,9 @@
 </head>
 
 <body class="page-enter">
-  <!-- Header (inchangé) -->
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="/index.html">
-        <img src="/assets/logo.jpg" alt="Power Link">
-      </a>
+      <a class="logo" href="/index.html"><img src="/assets/logo.jpg" alt="Power Link"></a>
 
       <nav class="nav">
         <a href="/index.html" data-i18n="nav.home">Home</a>
@@ -24,15 +21,9 @@
         <a href="/contact.html" data-i18n="nav.contact">Contact</a>
 
         <div class="lang-switch">
-          <button class="lang-btn" data-lang="fr" aria-label="Français">
-            <img src="/assets/flags/fr.svg" alt="">
-          </button>
-          <button class="lang-btn active" data-lang="en" aria-label="English">
-            <img src="/assets/flags/gb.svg" alt="">
-          </button>
-          <button class="lang-btn" data-lang="ar" aria-label="العربية">
-            <img src="/assets/flags/sa.svg" alt="">
-          </button>
+          <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+          <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+          <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
         </div>
       </nav>
 
@@ -40,22 +31,15 @@
     </div>
   </header>
 
-  <!-- Drawer mobile (inchangé) -->
   <aside class="drawer" aria-hidden="true">
     <div class="overlay"></div>
     <div class="panel">
       <div class="drawer-header">
         <h3 class="drawer-title" data-i18n="nav.home">Main Menu</h3>
         <div class="lang-switch">
-          <button class="lang-btn" data-lang="fr" aria-label="Français">
-            <img src="/assets/flags/fr.svg" alt="">
-          </button>
-          <button class="lang-btn active" data-lang="en" aria-label="English">
-            <img src="/assets/flags/gb.svg" alt="">
-          </button>
-          <button class="lang-btn" data-lang="ar" aria-label="العربية">
-            <img src="/assets/flags/sa.svg" alt="">
-          </button>
+          <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+          <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+          <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
         </div>
         <button class="drawer-close" aria-label="Close menu">✕</button>
       </div>
@@ -70,37 +54,42 @@
     </div>
   </aside>
 
-  <!-- Contenu TEAM -->
   <main class="page-root" id="main-content">
-    <section class="team" aria-labelledby="team-title" style="max-width: 1180px; margin: 0 auto; padding: 2rem 1rem;">
-      <header style="text-align:center; margin-bottom: 2rem;">
+    <section class="team" aria-labelledby="team-title" style="max-width:1180px;margin:0 auto;padding:2rem 1rem;">
+      <header style="text-align:center;margin-bottom:2rem;">
         <h1 id="team-title" data-i18n="team.title" style="margin:0;">TEAM</h1>
       </header>
 
-      <div class="team-members" style="display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items:start;">
-        <!-- Membre 1 -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow: 0 8px 24px rgba(0,0,0,.08); text-align:center;">
+      <div class="team-members" style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:start;">
+        <!-- Ryad -->
+        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.25rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
-            <img src="/assets/team/ryad.jpg" alt="Ryad Mansouri" loading="lazy" itemprop="image" style="width:200px; height:200px; object-fit:cover; border-radius:50%; display:inline-block;">
+            <img src="/assets/team/ryad.jpg" alt="Ryad Mansouri" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
-          <h2 itemprop="name" class="member-name" data-i18n="team.ryad.name" style="margin:1rem 0 .25rem; font-size:1.25rem;">
+          <!-- Lignes demandées -->
+          <h2 itemprop="name" data-i18n="team.ryad.name"
+              style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
             Ryad Mansouri
           </h2>
-          <p class="member-role" data-i18n="team.ryad.role" itemprop="jobTitle" style="margin:0; font-weight:600;">
-            CEO / SITE MANAGER
+          <p itemprop="jobTitle" data-i18n="team.ryad.role"
+             style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
+            CEO/SITE MANAGER
           </p>
         </article>
 
-        <!-- Membre 2 -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow: 0 8px 24px rgba(0,0,0,.08); text-align:center;">
+        <!-- Sullivan -->
+        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.25rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
-            <img src="/assets/team/sullivan.jpg" alt="Sullivan Armougom" loading="lazy" itemprop="image" style="width:200px; height:200px; object-fit:cover; border-radius:50%; display:inline-block;">
+            <img src="/assets/team/sullivan.jpg" alt="Sullivan Armougom" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
-          <h2 itemprop="name" class="member-name" data-i18n="team.sullivan.name" style="margin:1rem 0 .25rem; font-size:1.25rem;">
+          <!-- Lignes demandées -->
+          <h2 itemprop="name" data-i18n="team.sullivan.name"
+              style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
             Sullivan Armougom
           </h2>
-          <p class="member-role" data-i18n="team.sullivan.role" itemprop="jobTitle" style="margin:0; font-weight:600;">
-            CEO / ENGINEER
+          <p itemprop="jobTitle" data-i18n="team.sullivan.role"
+             style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
+            CEO/ENGINEER
           </p>
         </article>
       </div>
@@ -108,8 +97,6 @@
   </main>
 
   <footer class="site-footer">© 2025 Power Link</footer>
-
-  <!-- JS i18n existant -->
   <script src="/js/i18n.js"></script>
 </body>
 </html>
