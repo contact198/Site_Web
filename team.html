@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Anti-flash : cache le rendu tant que la page est en preload -->
+  <style>
+    html.preload body { visibility: hidden; }
+    html.preload { background: #0F2A1F; } /* même couleur que ton fond pour éviter un flash blanc */
+  </style>
+
   <!-- Language bootstrap — évite le flash anglais -->
   <script>
   (function () {
