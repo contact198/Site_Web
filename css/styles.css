@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash Global + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX + MENU TITLE FIX) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash Global + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX + MENU TITLE FIX + CLICK FIX) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -35,23 +35,25 @@ body{
   display:flex;
   flex-direction:column;
 }
-
-/* 🔒 Anti-flash global */
 html.preload body{opacity:0;}
-html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important;}
+html.preload *,html.preload *::before,html.preload *::after{animation:none!important;transition:none!important;}
 html.preload{view-transition-name:none!important;}
 html.no-vt{view-transition-name:none!important;}
 html.no-vt *{view-transition-name:none!important;}
 
 /* ===== HEADER =================================================== */
 .site-header{
-  position:sticky;top:0;z-index:50;background:#fff;
+  position:sticky;top:0;
+  z-index:4000; /* ✅ au-dessus de tout */
+  background:#fff;
   box-shadow:0 4px 24px rgba(0,0,0,.12);
+  pointer-events:auto;
 }
 .header-inner{
   max-width:100%;margin:0 auto;block-size:var(--header-h);
   padding-inline:max(var(--edge-desktop),env(safe-area-inset-left)) max(var(--edge-desktop),env(safe-area-inset-right));
   display:flex;align-items:center;gap:22px;justify-content:space-between;
+  position:relative;z-index:1;
 }
 
 /* === LOGO ======================================================= */
@@ -67,19 +69,18 @@ html.no-vt *{view-transition-name:none!important;}
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
 /* ===== LANG SWITCH ============================================== */
-.lang-switch{
-  display:flex;align-items:center;gap:14px;margin:0!important;
-}
+.lang-switch{display:flex;align-items:center;gap:14px;margin:0!important;}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
   background:transparent;border:0;box-shadow:none;
   transition:transform .15s ease;
-  cursor:pointer; /* ✅ Cliquable */
+  cursor:pointer; /* ✅ cliquable */
 }
 .lang-btn:hover{transform:translateY(-1px)}
 .lang-btn img{
   width:28px;height:28px;border-radius:50%;aspect-ratio:1/1;object-fit:cover;display:block;
+  pointer-events:none; /* clic capté par le parent */
 }
 .lang-btn.active{box-shadow:inset 0 0 0 2px #2A6B45!important;}
 
@@ -88,7 +89,11 @@ html.no-vt *{view-transition-name:none!important;}
   display:none;width:40px;height:40px;border-radius:12px;
   border:1px solid #E5E7EB;background:#fff;
   align-items:center;justify-content:center;margin:0;
+  min-width:44px;min-height:44px;
+  -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
 }
+.hamburger *{pointer-events:none;} /* ✅ clic sur tout le bouton */
 .hamburger span,.hamburger span::before,.hamburger span::after{
   display:block;width:20px;height:2px;background:#1D5336;
   content:"";position:relative;
@@ -96,7 +101,7 @@ html.no-vt *{view-transition-name:none!important;}
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
 
-.drawer{position:fixed;inset:0;z-index:3000;pointer-events:none;overflow:hidden;}
+.drawer{position:fixed;inset:0;z-index:5000;pointer-events:none;overflow:hidden;}
 .drawer .overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.35);
   opacity:0;transition:opacity .28s ease;pointer-events:none;
@@ -143,7 +148,8 @@ html.no-vt *{view-transition-name:none!important;}
 }
 
 /* ===== STRUCTURE ================================================ */
-.page-root{flex:1;contain:paint;isolation:isolate;will-change:transform,opacity;}
+.page-root{flex:1;contain:paint;isolation:isolate;will-change:transform,opacity;position:relative;z-index:0;}
+.hero{position:relative;z-index:auto;}
 .site-footer{margin-top:0;}
 
 /* ===== PAGE CONTACT ============================================= */
@@ -213,7 +219,6 @@ html.no-vt *{view-transition-name:none!important;}
   @keyframes vt-in{from{transform:translateY(calc(var(--pl-dropY)*-1));opacity:0;}to{transform:translateY(0);opacity:1;}}
   @keyframes vt-out{from{transform:translateY(0);opacity:1);}to{transform:translateY(10px);opacity:0;}}
 }
-
 @supports not (view-transition-name: root){
   .page-root.page-enter{animation:pl-enter var(--pl-page-in-dur) var(--pl-ease) both;}
   @keyframes pl-enter{from{opacity:0;transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}to{opacity:1;transform:translate3d(0,0,0);}}
