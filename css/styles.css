@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash Global + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -20,7 +20,7 @@
   --pl-block-drop:10px;
 }
 
-/* --- Reset + anti-flash --- */
+/* --- Reset + anti-flash (GLOBAL) --- */
 *{box-sizing:border-box}
 html{background:#0F2A1F;}
 html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
@@ -35,8 +35,14 @@ body{
   display:flex;
   flex-direction:column;
 }
+
+/* 🔒 Anti-flash global: masque tout pendant preload (pas seulement .page-root) */
+html.preload body{opacity:0;}
+html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important;}
+html.preload{view-transition-name:none!important;}
+
+/* (peut rester, mais devient redondant grâce au masque global) */
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
-html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
 /* ===== Anti-double VT guard (activé par le JS pendant setLang) ===== */
 html.no-vt{view-transition-name:none!important;}
@@ -148,7 +154,7 @@ html.no-vt *{view-transition-name:none!important;}
   padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px!important;
 }
 
-/* ✅ Correctif : scoping au formulaire uniquement */
+/* ✅ Correctif : scoping au formulaire uniquement (évite d’élargir le hamburger) */
 .contact-page form > *,
 .contact-page form .form,
 .contact-page form .form-row,
