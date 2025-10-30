@@ -1,4 +1,4 @@
-/* ===== POWER LINK — i18n (compat data-i18n + /i18n/*.json) + Drawer + VT Guard ===== */
+/* ===== POWER LINK — i18n (compat data-i18n + /i18n/*.json) + Drawer + VT Guard + No-Flash + Link Decorator ===== */
 (function () {
   // --- Debug (mettre false pour couper les logs) ---
   const DEBUG = false;
@@ -6,8 +6,18 @@
   const warn= (...a)=>DEBUG&&console.warn('[PL]',...a);
   const err = (...a)=>console.error('[PL]',...a);
 
-  // Retire preload si présent
-  try { document.documentElement.classList.remove('preload'); } catch {}
+  /* ---------- Anti-flash très tôt : fixer lang/dir + bloquer le paint ---------- */
+  (function earlyGuard(){
+    try{
+      const urlLangEarly = new URL(location.href).searchParams.get("lang");
+      const storeEarly   = localStorage.getItem("lang") || "en";
+      const raw          = (urlLangEarly || storeEarly || "en").toLowerCase();
+      const EARLY = raw.startsWith("fr") ? "fr" : raw.startsWith("ar") ? "ar" : "en";
+      document.documentElement.lang = EARLY;
+      document.documentElement.dir  = EARLY === "ar" ? "rtl" : "ltr";
+      document.documentElement.classList.add("preload");   // on ne l’enlève plus ici
+    }catch(e){}
+  })();
 
   /* ---------- Helpers (root + transition enter) ---------- */
   function getRoot() {
@@ -25,11 +35,12 @@
 
   /* ---------- I18N ---------- */
   const SUPPORTED = ["en", "fr", "ar"];
-  const DEFAULT   = localStorage.getItem("lang") || "en";
   const queryLang = new URL(location.href).searchParams.get("lang");
+  const DEFAULT   = localStorage.getItem("lang") || "en";
   const START     = SUPPORTED.includes((queryLang||"").toLowerCase()) ? queryLang.toLowerCase() : DEFAULT;
 
   let switching = false; // anti double-clic
+  let CURRENT   = (START || "en").toLowerCase();
 
   function normalizeLang(code){
     const c = (code || "").toLowerCase();
@@ -56,10 +67,7 @@
     document.documentElement.dir  = rtl ? "rtl" : "ltr";
   }
 
-  // Compat avec ton HTML historique:
-  //  - data-i18n -> innerText
-  //  - data-i18n-placeholder -> placeholder
-  //  - meta.title -> <title>, meta.desc -> <meta name="description">
+  // data-i18n -> textContent, data-i18n-placeholder -> placeholder, meta.title/meta.desc
   function translate(dict) {
     let count = 0;
 
@@ -93,11 +101,26 @@
     });
   }
 
+  /* --- Ajout/maintien automatique de ?lang=... sur TOUS les liens internes --- */
+  function decorateLinks(lang){
+    const sel = 'a[href^="/"], a[href^="./"], a[href^="../"]';
+    document.querySelectorAll(sel).forEach(a=>{
+      try{
+        const u = new URL(a.href, location.origin);
+        if (u.origin !== location.origin) return;                  // externes ignorés
+        if (u.hash && u.pathname === location.pathname) return;    // ancres locales inchangées
+        u.searchParams.set("lang", lang);
+        a.href = u.toString();
+      }catch{}
+    });
+  }
+
   async function setLang(lang, push = true) {
     if (switching) return;
     switching = true;
 
     lang = normalizeLang(lang);
+    CURRENT = lang;
     const root = document.documentElement;
     root.classList.add("no-vt"); // coupe View Transitions pendant les gros changements
 
@@ -107,7 +130,9 @@
       const dict = await loadDict(lang);
       translate(dict);
       activateFlag(lang);
+      decorateLinks(lang);
       retriggerEnter(); // rejoue l'anim d'entrée après traduction
+
       if (push) {
         const u = new URL(location.href);
         u.searchParams.set("lang", lang);
@@ -118,6 +143,8 @@
     } finally {
       requestAnimationFrame(() => {
         root.classList.remove("no-vt");
+        // ✅ On retire le masque seulement quand la langue est appliquée
+        root.classList.remove("preload");
         switching = false;
       });
     }
@@ -178,6 +205,9 @@
       const sameOrigin = url.origin === location.origin;
       const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
       if (!sameOrigin || !sameTab) return;
+
+      // ✅ Assure la conservation de la langue lors de la nav interne
+      url.searchParams.set("lang", CURRENT);
 
       e.preventDefault();
       navigating = true;
@@ -255,7 +285,7 @@
       "DOMContentLoaded",
       () => {
         boot();
-        setLang(START, false); // charge la langue choisie
+        setLang(START, false); // charge/applique la langue choisie puis enlève preload
       },
       { once: true }
     );
