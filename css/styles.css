@@ -12,8 +12,8 @@
 
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
-  --pl-page-in-dur:.7s;
-  --pl-page-out-dur:.34s;
+  --pl-page-in-dur:1s;
+  --pl-page-out-dur:.7s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
   --pl-dropY:26px;
   --pl-block-in-dur:.48s;
@@ -283,12 +283,3 @@ html[dir="rtl"] .actions{
 .btn{margin:0;}
 .btn + .btn{margin-inline-start:12px;}
 html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
-/* --- Ajustement titre page Contact --- */
-.contact h1,
-section.contact header h1 {
-  text-transform: uppercase;     /* met en majuscules */
-  text-align: center;            /* centre le texte */
-  font-weight: 800;              /* plus marqué */
-  letter-spacing: 0.5px;         /* légère aération */
-}
-
