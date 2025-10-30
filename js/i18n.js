@@ -1,12 +1,15 @@
-/* ===== POWER LINK — i18n (compat data-i18n + /i18n/*.json) + Drawer + VT Guard + No-Flash + Link Decorator ===== */
+/* ===== POWER LINK — i18n (data-i18n + /i18n/*.json) + Drawer + VT Guard + No-Flash + Link Decorator (strict) ===== */
 (function () {
   // --- Debug (mettre false pour couper les logs) ---
   const DEBUG = false;
-  const log = (...a)=>DEBUG&&console.log('[PL]',...a);
-  const warn= (...a)=>DEBUG&&console.warn('[PL]',...a);
-  const err = (...a)=>console.error('[PL]',...a);
+  const log  = (...a)=>DEBUG&&console.log('[PL]',...a);
+  const warn = (...a)=>DEBUG&&console.warn('[PL]',...a);
+  const err  = (...a)=>console.error('[PL]',...a);
 
-  /* ---------- Anti-flash très tôt : fixer lang/dir + bloquer le paint ---------- */
+  /* ---------------------------------------------------------------
+   *  Anti-flash très tôt : fixer lang/dir + bloquer le paint
+   *  (NB : garde aussi le micro-script inline dans <head> AVANT les CSS)
+   * ------------------------------------------------------------- */
   (function earlyGuard(){
     try{
       const urlLangEarly = new URL(location.href).searchParams.get("lang");
@@ -15,7 +18,8 @@
       const EARLY = raw.startsWith("fr") ? "fr" : raw.startsWith("ar") ? "ar" : "en";
       document.documentElement.lang = EARLY;
       document.documentElement.dir  = EARLY === "ar" ? "rtl" : "ltr";
-      document.documentElement.classList.add("preload");   // on ne l’enlève plus ici
+      // On ne retire .preload que quand la traduction est appliquée
+      document.documentElement.classList.add("preload");
     }catch(e){}
   })();
 
@@ -142,9 +146,16 @@
       err("[i18n] setLang error:", e);
     } finally {
       requestAnimationFrame(() => {
-        root.classList.remove("no-vt");
-        // ✅ On retire le masque seulement quand la langue est appliquée
-        root.classList.remove("preload");
+        // Garde stricte : ne retire preload que si la langue appliquée correspond bien
+        if (document.documentElement.lang === CURRENT) {
+          root.classList.remove("no-vt");
+          root.classList.remove("preload");
+        } else {
+          requestAnimationFrame(() => {
+            root.classList.remove("no-vt");
+            root.classList.remove("preload");
+          });
+        }
         switching = false;
       });
     }
@@ -285,7 +296,7 @@
       "DOMContentLoaded",
       () => {
         boot();
-        setLang(START, false); // charge/applique la langue choisie puis enlève preload
+        setLang(START, false); // charge/applique la langue puis enlève preload dans finally
       },
       { once: true }
     );
