@@ -1,5 +1,5 @@
 <script>
-/* ===== POWER LINK — i18n + UI + Drawer + Smooth language switch ===== */
+/* ===== POWER LINK — i18n + UI + Drawer + Robust language switch ===== */
 (function () {
   /* ---------- Anti-preload ---------- */
   try { document.documentElement.classList.remove('preload'); } catch {}
@@ -10,14 +10,10 @@
     el.classList.add('page-root'); return el;
   }
   function playEnterWAAPI(){
-    // Petite anim à chaque changement de langue, compatible VT
     const root = getRoot();
     try{
       root.animate(
-        [
-          {opacity:0, transform:'translateY(-10px)'},
-          {opacity:1, transform:'translateY(0)'}
-        ],
+        [{opacity:0, transform:'translateY(-10px)'}, {opacity:1, transform:'translateY(0)'}],
         {duration:420, easing:'cubic-bezier(.18,.84,.24,1)', fill:'both'}
       );
     }catch{}
@@ -60,12 +56,11 @@
       if(!m){m=document.createElement('meta');m.name='description';document.head.appendChild(m);}
       m.content = dict['meta.desc'];
     }
-    // Titre du menu
     const t=document.querySelector('.drawer-title');
     if(t) t.textContent = dict['menu.title'] ?? 'Menu';
   }
   function activateFlag(lang){
-    document.querySelectorAll('.lang-btn').forEach(b=>{
+    document.querySelectorAll('[data-lang]').forEach(b=>{
       const on = b.dataset.lang === lang;
       b.classList.toggle('active', on);
       b.setAttribute('aria-current', on ? 'true' : 'false');
@@ -82,7 +77,7 @@
       h.className = 'drawer-title';
       header.insertBefore(h, header.firstChild);
     }
-    h.textContent = 'Menu';                 // valeur par défaut
+    h.textContent = 'Menu';
     h.setAttribute('data-i18n','menu.title');
   }
 
@@ -90,34 +85,43 @@
   async function setLang(lang, push=true){
     if(!SUPPORTED.includes(lang)) lang = 'en';
     localStorage.setItem('lang', lang);
-
-    // 1) Mettre l’orientation (pas d’anim ici)
     applyRTL(lang);
-
-    // 2) Charger et appliquer la traduction
     const dict = await loadDict(lang);
     translate(dict);
     activateFlag(lang);
-
-    // 3) Ajuster l’URL (state propre)
     if(push){
       const u = new URL(location.href);
       u.searchParams.set('lang', lang);
       history.replaceState({},'',u);
     }
-
-    // 4) Jouer l’animation d’entrée (compatible VT)
     playEnterWAAPI();
   }
 
-  /* ---------- UI events ---------- */
-  // Changement de langue (drapeaux header + tiroir)
+  /* ---------- Robust events (click + clavier) ---------- */
+  function handleLangTrigger(target){
+    const el = target.closest('[data-lang]');   // marche pour .lang-btn et ses enfants
+    if(!el) return false;
+    const lang = el.dataset.lang || el.getAttribute('lang');
+    if(!lang) return false;
+    setLang(lang);
+    return true;
+  }
+
   document.addEventListener('click', e=>{
-    const b = e.target.closest('.lang-btn');
-    if(b){ setLang(b.dataset.lang); }
+    if(handleLangTrigger(e.target)){
+      e.preventDefault();
+      e.stopPropagation();
+    }
   });
 
-  // Ouverture / fermeture du tiroir
+  document.addEventListener('keydown', e=>{
+    if((e.key === 'Enter' || e.key === ' ') && handleLangTrigger(e.target)){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+
+  /* ---------- Drawer open/close ---------- */
   const drawer = document.querySelector('.drawer');
   document.querySelector('.hamburger')?.addEventListener('click', ()=>{
     ensureDrawerTitle();
@@ -144,7 +148,7 @@
 
   /* ---------- Boot ---------- */
   ensureDrawerTitle();
-  setLang(START,false);        // init i18n sans animer
-  playEnterWAAPI();            // petite entrée au premier rendu
+  setLang(START,false);
+  playEnterWAAPI();
 })();
 </script>
