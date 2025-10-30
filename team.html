@@ -1,8 +1,26 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" class="preload">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Language bootstrap — évite le flash anglais -->
+  <script>
+  (function () {
+    var SUPPORTED = ['en','fr','ar'];
+    var q = new URL(location.href).searchParams.get('lang');
+    var saved = localStorage.getItem('lang');
+    var L = SUPPORTED.includes(q||'') ? q : (SUPPORTED.includes(saved||'') ? saved : 'en');
+
+    // applique la langue avant rendu
+    document.documentElement.setAttribute('lang', L);
+    document.documentElement.setAttribute('dir', L === 'ar' ? 'rtl' : 'ltr');
+
+    // optionnel pour ton script i18n.js
+    window.__PL_START_LANG__ = L;
+  })();
+  </script>
+
   <title data-i18n="nav.team">Team — Power Link</title>
   <meta name="description" content="Meet the Power Link team.">
   <link rel="stylesheet" href="/css/styles.css">
