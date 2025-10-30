@@ -1,22 +1,31 @@
 {
   "meta.title": "Power Link — énergie propre & élégante",
   "meta.desc": "Systèmes photovoltaïques et bornes EV.",
+
   "nav.home": "Accueil",
   "nav.about": "À propos",
   "nav.services": "Services",
   "nav.team": "Équipe",
   "nav.contact": "Contact",
+
   "hero.title": "Power Link — une énergie propre élégante et très performante.",
   "hero.lead": "Systèmes photovoltaïques et bornes de recharge intelligentes. Du conseil et design à l'installation et la maintenance longue durée.",
   "cta.discover": "Découvrir Power Link",
   "cta.quote": "Obtenir un devis",
+
   "contact.title": "Contactez-nous",
   "contact.label.name": "Nom complet",
   "contact.label.email": "E-mail",
   "contact.label.message": "Message",
   "contact.placeholder.name": "Votre nom",
-  "contact.placeholder.email": "Votre e‑mail",
+  "contact.placeholder.email": "Votre e-mail",
   "contact.placeholder.message": "Votre message…",
   "contact.send": "Envoyer",
-  "contact.success": "Merci, votre message a bien été envoyé. Nos équipes vous répondront dès que possible."
+  "contact.success": "Merci, votre message a bien été envoyé. Nos équipes vous répondront dès que possible.",
+
+  "team.title": "ÉQUIPE",
+  "team.ryad.name": "Ryad Mansouri",
+  "team.ryad.role": "PDG / Conducteur de travaux",
+  "team.sullivan.name": "Sullivan Armougom",
+  "team.sullivan.role": "PDG / Ingénieur"
 }
