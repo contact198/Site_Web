@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v4) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -38,7 +38,7 @@ body{
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important}
 
-/* ===== Anti-double VT guard (activé par le JS pendant setLang) ===== */
+/* ===== Anti-double VT guard ===== */
 html.no-vt{view-transition-name:none!important;}
 html.no-vt *{view-transition-name:none!important;}
 
@@ -48,13 +48,10 @@ html.no-vt *{view-transition-name:none!important;}
 }
 .header-inner{
   max-width:100%;margin:0 auto;block-size:var(--header-h);
-
-  /* padding parfaitement symétrique + prise en compte des encoches */
   padding-left:  max(var(--edge-desktop), env(safe-area-inset-left));
   padding-right: max(var(--edge-desktop), env(safe-area-inset-right));
-
-  display:flex;align-items:center;gap:22px;
-  justify-content:space-between;
+  display:flex;align-items:center;gap:22px;justify-content:space-between;
+  background:transparent;border-radius:0; /* empêche l'effet “pill” */
 }
 
 /* === LOGO ======================================================= */
@@ -63,8 +60,7 @@ html.no-vt *{view-transition-name:none!important;}
 
 /* ===== NAV ====================================================== */
 .nav{
-  display:flex;align-items:center;gap:26px;
-  margin:0!important; /* pas d'auto-margins */
+  display:flex;align-items:center;gap:26px;margin:0!important;
 }
 .nav a{
   color:#16402B;text-decoration:none;text-transform:uppercase;font-weight:700;
@@ -73,10 +69,7 @@ html.no-vt *{view-transition-name:none!important;}
 .nav a:hover,.nav a.active{color:var(--green-500)}
 
 /* ===== LANG SWITCH ============================================== */
-.lang-switch{
-  display:flex;align-items:center;gap:14px;
-  margin:0!important;
-}
+.lang-switch{display:flex;align-items:center;gap:14px;margin:0!important;}
 .lang-btn{
   width:40px;height:40px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -148,9 +141,21 @@ html.no-vt *{view-transition-name:none!important;}
 .contact-page .hero{
   padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px!important;
 }
-.contact-page form > *,
-.contact-page .form,.contact-page .form-row,.contact-page .form-group{width:100%!important;max-width:none!important;}
-.contact-page input, .contact-page textarea, .contact-page select, .contact-page button{width:100%!important;}
+.contact-page .form, 
+.contact-page .form-row,
+.contact-page .form-group{width:100%!important;max-width:none!important;}
+.contact-page input, 
+.contact-page textarea, 
+.contact-page select, 
+.contact-page button{width:100%!important;}
+
+/* Inputs (mobiles) */
+.contact-page input,
+.contact-page textarea,
+.contact-page select{
+  font-size:16px; /* évite le zoom iOS */
+  display:block;
+}
 
 /* ===== BUTTON =================================================== */
 .btn{
@@ -177,15 +182,10 @@ html.no-vt *{view-transition-name:none!important;}
     @keyframes vt-in{from{transform:translateY(calc(var(--pl-dropY)*-1));opacity:0;}to{transform:translateY(0);opacity:1;}}
     @keyframes vt-out{from{transform:translateY(0);opacity:1);}to{transform:translateY(10px);opacity:0;}}
   }
-
-  /* Empêcher les fallbacks d’entrer en conflit quand VT est actif */
   @supports (view-transition-name: root){
     html:not(.no-vt) .page-root.page-enter,
-    html:not(.no-vt) .page-root.page-leave{
-      animation:none!important;
-    }
+    html:not(.no-vt) .page-root.page-leave{animation:none!important;}
   }
-
   @supports not (view-transition-name: root){
     .page-root.page-enter{animation:pl-enter var(--pl-page-in-dur) var(--pl-ease) both;}
     @keyframes pl-enter{from{opacity:0;transform:translate3d(0,calc(var(--pl-dropY)*-1),0);}to{opacity:1;transform:translate3d(0,0,0);}}
@@ -198,9 +198,8 @@ html.no-vt *{view-transition-name:none!important;}
   :root{view-transition-name:none!important;}
 }
 
-/* ===== LAYOUT DESKTOP (ordre + symétrie stricte) ================ */
+/* ===== LAYOUT DESKTOP =========================================== */
 @media (min-width:1021px){
-  /* LTR = [LOGO] ......... [NAV][LANG] (logo à gauche) */
   html[dir="ltr"] .site-header .header-inner{
     flex-direction:row;align-items:center;gap:22px;justify-content:space-between;
   }
@@ -208,7 +207,6 @@ html.no-vt *{view-transition-name:none!important;}
   html[dir="ltr"] .site-header .nav{order:1;margin:0!important;text-align:left;}
   html[dir="ltr"] .site-header .lang-switch{order:2;margin:0!important;}
 
-  /* RTL = [LOGO] ......... [NAV][LANG] (logo à gauche visuel car RTL inverse la lecture) */
   html[dir="rtl"] .site-header .header-inner{
     flex-direction:row;align-items:center;gap:22px;justify-content:space-between;
   }
@@ -217,26 +215,27 @@ html.no-vt *{view-transition-name:none!important;}
   html[dir="rtl"] .site-header .lang-switch{order:2;margin:0!important;}
 }
 
-/* ===== RESPONSIVE (symmetry fix) ================================ */
+/* ===== RESPONSIVE (true symmetry + no-pill) ===================== */
 @media (max-width:1020px){
   :root{ --mobile-optical-nudge:0; --burger-optical-nudge:0; }
 
   .header-inner{
     display:grid!important;
-    grid-template-columns:auto 1fr auto!important;
+    grid-template-columns:auto 1fr auto!important; /* logo | spacer | burger */
     align-items:center!important;
     justify-content:normal!important;
     gap:0!important;
     padding-left: max(var(--edge-mobile), env(safe-area-inset-left)) !important;
     padding-right:max(var(--edge-mobile), env(safe-area-inset-right)) !important;
+    background:transparent!important;border-radius:0!important; /* supprime l'effet “pill” */
   }
 
-  .logo{justify-self:start!important;margin:0!important;}
-  .site-header .logo img{height:40px!important;transform:none!important;}
+  .header-inner > *{margin:0!important;}       /* enlève les marges parasites */
+  .logo{justify-self:start!important;}
+  .site-header .logo img{height:40px!important;}
 
   .hamburger{
-    display:flex;justify-self:end!important;
-    margin:0!important;transform:none!important;
+    display:flex;justify-self:end!important;  /* colle le burger à droite */
   }
 
   .nav{display:none!important;}
@@ -254,14 +253,22 @@ html.no-vt *{view-transition-name:none!important;}
   .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,0,.2,1) both;}
 
   .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
-  .contact-page .hero{padding:48px var(--edge-mobile)!important;}
+
+  /* Contact: paddings & true full-width */
+  .contact-page .hero{padding:40px var(--edge-mobile) 32px!important;}
+  .contact-page form{margin:0!important;width:100%!important;}
+  .contact-page form > *{width:100%!important;max-width:none!important;}
+  .contact-page button[type="submit"], .contact-page .btn{width:100%!important;display:block;}
+
+  /* micro-alignement optique */
+  .logo img{ transform:translateX(1px); }
+  .hamburger{ transform:translateX(-1px); }
 }
 
-/* ===== RTL SUPPORT (mobile drawer sens inverse) ================= */
+/* ===== RTL drawer sens inverse ================================= */
 @media (max-width:1020px){
   html[dir="rtl"] .drawer .panel{
-    left:0!important;right:auto!important;
-    border-radius:0 16px 16px 0!important;
+    left:0!important;right:auto!important;border-radius:0 16px 16px 0!important;
     transform:translateX(-24px);opacity:0;
   }
   @keyframes pl-side-enter-rtl{from{transform:translateX(-24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
@@ -270,18 +277,10 @@ html.no-vt *{view-transition-name:none!important;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .30s cubic-bezier(.4,0,.2,1) both;}
 }
 
-/* === MICRO ALIGNEMENT OPTIQUE HEADER MOBILE =================== */
-@media (max-width:1020px){
-  .logo img{ transform:translateX(1px); }     /* léger centrage visuel */
-  .hamburger{ transform:translateX(-1px); }   /* compensation opposée */
-}
-
-/* ===== Boutons RTL (CTA, etc.) ================================= */
+/* ===== Boutons RTL ============================================== */
 html[dir="rtl"] .cta-row,
 html[dir="rtl"] .btn-row,
-html[dir="rtl"] .actions{
-  display:flex;flex-direction:row-reverse;gap:12px;
-}
+html[dir="rtl"] .actions{display:flex;flex-direction:row-reverse;gap:12px;}
 .btn{margin:0;}
 .btn + .btn{margin-inline-start:12px;}
 html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
