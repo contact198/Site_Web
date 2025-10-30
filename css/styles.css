@@ -13,7 +13,7 @@
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
 
   --pl-page-in-dur:1s;
-  --pl-page-out-dur:.7s;
+  --pl-page-out-dur:.3s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
   --pl-dropY:26px;
   --pl-block-in-dur:.48s;
