@@ -6,9 +6,6 @@
   const warn= (...a)=>DEBUG&&console.warn('[PL]',...a);
   const err = (...a)=>console.error('[PL]',...a);
 
-  // Retire preload si présent
-  try { document.documentElement.classList.remove('preload'); } catch {}
-
   /* ---------- Helpers (root + transition enter) ---------- */
   function getRoot() {
     const el = document.querySelector(".page-root") || document.querySelector("main") || document.body;
@@ -25,9 +22,13 @@
 
   /* ---------- I18N ---------- */
   const SUPPORTED = ["en", "fr", "ar"];
-  const DEFAULT   = localStorage.getItem("lang") || "en";
+  // priorité : langue forcée depuis le script du <head>, puis ?lang, puis localStorage
+  const bootLang = window.__PL_START_LANG__ || null;
   const queryLang = new URL(location.href).searchParams.get("lang");
-  const START     = SUPPORTED.includes((queryLang||"").toLowerCase()) ? queryLang.toLowerCase() : DEFAULT;
+  const savedLang = localStorage.getItem("lang");
+  const START = SUPPORTED.includes((bootLang || queryLang || savedLang || "en").toLowerCase())
+    ? (bootLang || queryLang || savedLang || "en").toLowerCase()
+    : "en";
 
   let switching = false; // anti double-clic
 
@@ -119,11 +120,12 @@
       requestAnimationFrame(() => {
         root.classList.remove("no-vt");
         switching = false;
+        root.classList.remove("preload"); // <-- on retire la classe après traduction
       });
     }
   }
 
-  // Expose (au cas où tu l'appelles en inline)
+  // Expose pour usage externe éventuel
   window.setLanguage = setLang;
 
   /* ---------- UI (drawer, flags, esc) ---------- */
