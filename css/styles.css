@@ -36,15 +36,13 @@ body{
   flex-direction:column;
 }
 
-/* 🔒 Anti-flash global: masque tout pendant preload (pas seulement .page-root) */
+/* 🔒 Anti-flash global */
 html.preload body{opacity:0;}
 html.preload *, html.preload *::before, html.preload *::after{animation:none!important;transition:none!important;}
 html.preload{view-transition-name:none!important;}
-
-/* (peut rester, mais devient redondant grâce au masque global) */
 html.preload .page-root{opacity:0;transform:translate3d(0,-1px,0)}
 
-/* ===== Anti-double VT guard (activé par le JS pendant setLang) ===== */
+/* ===== Anti-double VT guard ===== */
 html.no-vt{view-transition-name:none!important;}
 html.no-vt *{view-transition-name:none!important;}
 
@@ -120,8 +118,21 @@ html.no-vt *{view-transition-name:none!important;}
 .drawer.open .panel{animation:pl-lux-enter .44s cubic-bezier(.22,.8,.22,1) both;}
 .drawer.closing .panel{animation:pl-lux-leave .30s cubic-bezier(.4,0,.2,1) both;}
 
-.drawer-header{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding-block:14px;padding-inline:var(--edge-mobile);}
-.drawer-close{background:#fff;border:1px solid #E5E7EB;border-radius:999px;width:38px;height:38px;}
+/* ------- Drawer header (titre "Menu" + drapeaux + close) -------- */
+.drawer-header{
+  display:grid;
+  grid-template-columns:auto 1fr auto; /* [Menu] [flags] [X] */
+  align-items:center;gap:10px;
+  padding-block:14px;padding-inline:var(--edge-mobile);
+}
+.drawer-title{
+  margin:0;color:#0F2A1F;font-weight:800;
+  font-size:22px;letter-spacing:.2px;line-height:1.1;
+}
+.drawer-header .lang-switch{justify-self:center}
+.drawer-close{
+  background:#fff;border:1px solid #E5E7EB;border-radius:999px;width:38px;height:38px;
+}
 .drawer-list a{display:block;color:#374151;text-decoration:none;padding:16px;border-top:1px solid #F0F2F4;text-transform:uppercase;font-weight:700;}
 
 /* ===== STRUCTURE ================================================ */
@@ -154,7 +165,7 @@ html.no-vt *{view-transition-name:none!important;}
   padding:80px clamp(var(--edge-mobile),4vw,var(--edge-desktop)) 56px!important;
 }
 
-/* ✅ Correctif : scoping au formulaire uniquement (évite d’élargir le hamburger) */
+/* ✅ Scoping correct pour n’élargir que le formulaire */
 .contact-page form > *,
 .contact-page form .form,
 .contact-page form .form-row,
@@ -213,7 +224,7 @@ html.no-vt *{view-transition-name:none!important;}
   :root{view-transition-name:none!important;}
 }
 
-/* ===== LAYOUT DESKTOP (ordre + symétrie stricte) ================ */
+/* ===== LAYOUT DESKTOP =========================================== */
 @media (min-width:1021px){
   html[dir="ltr"] .site-header .header-inner{
     flex-direction:row;align-items:center;gap:22px;justify-content:space-between;
@@ -272,6 +283,13 @@ html.no-vt *{view-transition-name:none!important;}
   @keyframes pl-side-leave-rtl{from{transform:translateX(0);opacity:1);}to{transform:translateX(-24px);opacity:0;}}
   html[dir="rtl"] .drawer.open .panel{animation:pl-side-enter-rtl .40s cubic-bezier(.22,.9,.2,1) both;}
   html[dir="rtl"] .drawer.closing .panel{animation:pl-side-leave-rtl .30s cubic-bezier(.4,0,.2,1) both;}
+
+  /* Header du tiroir en RTL : ordre [X] [drapeaux] [Menu] */
+  html[dir="rtl"] .drawer-header{
+    direction:rtl;
+    grid-template-columns:auto 1fr auto; /* visuellement identique mais mirroring logique */
+  }
+  html[dir="rtl"] .drawer-title{text-align:right;}
 }
 
 /* === MICRO ALIGNEMENT OPTIQUE HEADER MOBILE =================== */
