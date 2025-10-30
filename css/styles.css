@@ -283,3 +283,12 @@ html[dir="rtl"] .actions{
 .btn{margin:0;}
 .btn + .btn{margin-inline-start:12px;}
 html[dir="rtl"] .btn + .btn{margin-inline-start:0;margin-inline-end:12px;}
+/* --- Ajustement titre page Contact --- */
+.contact h1,
+section.contact header h1 {
+  text-transform: uppercase;     /* met en majuscules */
+  text-align: center;            /* centre le texte */
+  font-weight: 800;              /* plus marqué */
+  letter-spacing: 0.5px;         /* légère aération */
+}
+
