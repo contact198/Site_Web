@@ -1,4 +1,4 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v4) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v5) ========= */
 
 /* --- Tokens --- */
 :root{
@@ -51,7 +51,6 @@ html.no-vt *{view-transition-name:none!important;}
   padding-left:  max(var(--edge-desktop), env(safe-area-inset-left));
   padding-right: max(var(--edge-desktop), env(safe-area-inset-right));
   display:flex;align-items:center;gap:22px;justify-content:space-between;
-  background:transparent;border-radius:0; /* empêche l'effet “pill” */
 }
 
 /* === LOGO ======================================================= */
@@ -148,14 +147,9 @@ html.no-vt *{view-transition-name:none!important;}
 .contact-page textarea, 
 .contact-page select, 
 .contact-page button{width:100%!important;}
-
-/* Inputs (mobiles) */
 .contact-page input,
 .contact-page textarea,
-.contact-page select{
-  font-size:16px; /* évite le zoom iOS */
-  display:block;
-}
+.contact-page select{font-size:16px;}
 
 /* ===== BUTTON =================================================== */
 .btn{
@@ -215,54 +209,42 @@ html.no-vt *{view-transition-name:none!important;}
   html[dir="rtl"] .site-header .lang-switch{order:2;margin:0!important;}
 }
 
-/* ===== RESPONSIVE (true symmetry + no-pill) ===================== */
+/* ===== RESPONSIVE — HAMBURGER FIX =============================== */
 @media (max-width:1020px){
-  :root{ --mobile-optical-nudge:0; --burger-optical-nudge:0; }
+  :root{--mobile-optical-nudge:0;--burger-optical-nudge:0;}
 
-  .header-inner{
+  .site-header .header-inner{
     display:grid!important;
-    grid-template-columns:auto 1fr auto!important; /* logo | spacer | burger */
+    grid-template-columns:auto 1fr auto!important;
     align-items:center!important;
-    justify-content:normal!important;
     gap:0!important;
-    padding-left: max(var(--edge-mobile), env(safe-area-inset-left)) !important;
-    padding-right:max(var(--edge-mobile), env(safe-area-inset-right)) !important;
-    background:transparent!important;border-radius:0!important; /* supprime l'effet “pill” */
+    padding-left:max(var(--edge-mobile),env(safe-area-inset-left))!important;
+    padding-right:max(var(--edge-mobile),env(safe-area-inset-right))!important;
+    background:transparent!important;
+    border-radius:0!important;
+    box-shadow:none!important;
   }
 
-  .header-inner > *{margin:0!important;}       /* enlève les marges parasites */
-  .logo{justify-self:start!important;}
+  .site-header .header-inner > *:not(.logo):not(.hamburger){
+    display:contents!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    border-radius:0!important;
+    padding:0!important;
+  }
+
+  .site-header .logo{justify-self:start!important;margin:0!important;}
   .site-header .logo img{height:40px!important;}
-
-  .hamburger{
-    display:flex;justify-self:end!important;  /* colle le burger à droite */
+  .site-header .hamburger{
+    display:flex!important;
+    justify-self:end!important;
+    margin:0!important;
+    transform:none!important;
   }
 
-  .nav{display:none!important;}
-  .lang-switch{display:none!important;}
-
-  /* Drawer mobile LTR */
-  .drawer .panel{
-    top:0;bottom:0;right:0;left:auto;border-radius:16px 0 0 16px;
-    width:min(86%,420px);max-width:420px;height:100%;
-    transform:translateX(24px);opacity:0;
-  }
-  @keyframes pl-side-enter{from{transform:translateX(24px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-  @keyframes pl-side-leave{from{transform:translateX(0);opacity:1);}to{transform:translateX(24px);opacity:0;}}
-  .drawer.open .panel{animation:pl-side-enter .40s cubic-bezier(.22,.9,.2,1) both;}
-  .drawer.closing .panel{animation:pl-side-leave .30s cubic-bezier(.4,0,.2,1) both;}
-
-  .drawer .lang-switch{display:flex!important;gap:10px;align-items:center;}
-
-  /* Contact: paddings & true full-width */
-  .contact-page .hero{padding:40px var(--edge-mobile) 32px!important;}
-  .contact-page form{margin:0!important;width:100%!important;}
-  .contact-page form > *{width:100%!important;max-width:none!important;}
-  .contact-page button[type="submit"], .contact-page .btn{width:100%!important;display:block;}
-
-  /* micro-alignement optique */
-  .logo img{ transform:translateX(1px); }
-  .hamburger{ transform:translateX(-1px); }
+  .site-header .nav,
+  .site-header .lang-switch{display:none!important;}
 }
 
 /* ===== RTL drawer sens inverse ================================= */
