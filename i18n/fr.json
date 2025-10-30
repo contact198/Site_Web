@@ -27,5 +27,7 @@
   "team.ryad.name": "Ryad Mansouri",
   "team.ryad.role": "PDG / Conducteur de travaux",
   "team.sullivan.name": "Sullivan Armougom",
-  "team.sullivan.role": "PDG / Ingénieur"
+  "team.sullivan.role": "PDG / Ingénieur",*
+  "team.ryad.exp": "3 ans d'expérience en tant que conducteur de travaux",
+"team.sullivan.exp": "2 ans d'expérience dans le domaine des énergies renouvelables"
 }
