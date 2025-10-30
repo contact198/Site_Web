@@ -1,15 +1,11 @@
 /* ===== POWER LINK — i18n (data-i18n + /i18n/*.json) + Drawer + VT Guard + No-Flash + Link Decorator (strict) ===== */
 (function () {
-  // --- Debug (mettre false pour couper les logs) ---
   const DEBUG = false;
   const log  = (...a)=>DEBUG&&console.log('[PL]',...a);
   const warn = (...a)=>DEBUG&&console.warn('[PL]',...a);
   const err  = (...a)=>console.error('[PL]',...a);
 
-  /* ---------------------------------------------------------------
-   *  Anti-flash très tôt : fixer lang/dir + bloquer le paint
-   *  (NB : garde aussi le micro-script inline dans <head> AVANT les CSS)
-   * ------------------------------------------------------------- */
+  /* Anti-flash très tôt: lang/dir + .preload (le mini-script inline <head> doit rester AVANT les CSS) */
   (function earlyGuard(){
     try{
       const urlLangEarly = new URL(location.href).searchParams.get("lang");
@@ -18,12 +14,11 @@
       const EARLY = raw.startsWith("fr") ? "fr" : raw.startsWith("ar") ? "ar" : "en";
       document.documentElement.lang = EARLY;
       document.documentElement.dir  = EARLY === "ar" ? "rtl" : "ltr";
-      // On ne retire .preload que quand la traduction est appliquée
       document.documentElement.classList.add("preload");
     }catch(e){}
   })();
 
-  /* ---------- Helpers (root + transition enter) ---------- */
+  /* Helpers (root + transition enter) */
   function getRoot() {
     const el = document.querySelector(".page-root") || document.querySelector("main") || document.body;
     el.classList.add("page-root");
@@ -33,17 +28,17 @@
     const root = getRoot();
     root.classList.remove("page-leave");
     root.classList.remove("page-enter");
-    void root.offsetWidth; // reflow
+    void root.offsetWidth;
     root.classList.add("page-enter");
   }
 
-  /* ---------- I18N ---------- */
+  /* I18N */
   const SUPPORTED = ["en", "fr", "ar"];
   const queryLang = new URL(location.href).searchParams.get("lang");
   const DEFAULT   = localStorage.getItem("lang") || "en";
   const START     = SUPPORTED.includes((queryLang||"").toLowerCase()) ? queryLang.toLowerCase() : DEFAULT;
 
-  let switching = false; // anti double-clic
+  let switching = false;
   let CURRENT   = (START || "en").toLowerCase();
 
   function normalizeLang(code){
@@ -71,10 +66,8 @@
     document.documentElement.dir  = rtl ? "rtl" : "ltr";
   }
 
-  // data-i18n -> textContent, data-i18n-placeholder -> placeholder, meta.title/meta.desc
   function translate(dict) {
     let count = 0;
-
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const k = el.getAttribute("data-i18n");
       if (dict[k] != null) { el.textContent = dict[k]; count++; }
@@ -83,13 +76,11 @@
       const k = el.getAttribute("data-i18n-placeholder");
       if (dict[k] != null) { el.setAttribute("placeholder", dict[k]); count++; }
     });
-
     if (dict["meta.title"]) { document.title = dict["meta.title"]; count++; }
     if (dict["meta.desc"]) {
       let m = document.querySelector('meta[name="description"]');
       if (!m) { m = document.createElement("meta"); m.name = "description"; document.head.appendChild(m); }
-      m.content = dict["meta.desc"];
-      count++;
+      m.content = dict["meta.desc"]; count++;
     }
     log("Traductions appliquées:", count);
   }
@@ -105,14 +96,14 @@
     });
   }
 
-  /* --- Ajout/maintien automatique de ?lang=... sur TOUS les liens internes --- */
+  /* Ajoute/maintient ?lang=... sur tous les liens internes */
   function decorateLinks(lang){
     const sel = 'a[href^="/"], a[href^="./"], a[href^="../"]';
     document.querySelectorAll(sel).forEach(a=>{
       try{
         const u = new URL(a.href, location.origin);
-        if (u.origin !== location.origin) return;                  // externes ignorés
-        if (u.hash && u.pathname === location.pathname) return;    // ancres locales inchangées
+        if (u.origin !== location.origin) return;
+        if (u.hash && u.pathname === location.pathname) return;
         u.searchParams.set("lang", lang);
         a.href = u.toString();
       }catch{}
@@ -126,7 +117,7 @@
     lang = normalizeLang(lang);
     CURRENT = lang;
     const root = document.documentElement;
-    root.classList.add("no-vt"); // coupe View Transitions pendant les gros changements
+    root.classList.add("no-vt");
 
     try {
       localStorage.setItem("lang", lang);
@@ -135,7 +126,7 @@
       translate(dict);
       activateFlag(lang);
       decorateLinks(lang);
-      retriggerEnter(); // rejoue l'anim d'entrée après traduction
+      retriggerEnter();
 
       if (push) {
         const u = new URL(location.href);
@@ -146,10 +137,9 @@
       err("[i18n] setLang error:", e);
     } finally {
       requestAnimationFrame(() => {
-        // Garde stricte : ne retire preload que si la langue appliquée correspond bien
         if (document.documentElement.lang === CURRENT) {
           root.classList.remove("no-vt");
-          root.classList.remove("preload");
+          root.classList.remove("preload");   // 🔓 on démasque seulement après traduction
         } else {
           requestAnimationFrame(() => {
             root.classList.remove("no-vt");
@@ -161,42 +151,35 @@
     }
   }
 
-  // Expose (au cas où tu l'appelles en inline)
   window.setLanguage = setLang;
 
-  /* ---------- UI (drawer, flags, esc) ---------- */
+  /* UI (drawer, flags, esc) */
   function bindUI() {
     const drawer = document.querySelector(".drawer");
 
-    document.addEventListener(
-      "click",
-      (e) => {
-        const openBtn = e.target.closest(".hamburger, .menu-toggle");
-        const closeBtn = e.target.closest(".drawer-close, .overlay");
-        const flagEl   = e.target.closest(".lang-btn,[data-lang],#flag-en,#flag-fr,#flag-ar");
+    document.addEventListener("click",(e)=>{
+      const openBtn = e.target.closest(".hamburger, .menu-toggle");
+      const closeBtn = e.target.closest(".drawer-close, .overlay");
+      const flagEl   = e.target.closest(".lang-btn,[data-lang],#flag-en,#flag-fr,#flag-ar");
 
-        if (openBtn) drawer?.classList.add("open");
-        if (closeBtn) drawer?.classList.remove("open");
+      if (openBtn) drawer?.classList.add("open");
+      if (closeBtn) drawer?.classList.remove("open");
 
-        if (flagEl) {
-          e.preventDefault();
-          e.stopPropagation();
-          const attrLang =
-            flagEl.dataset?.lang ||
-            (flagEl.id === "flag-en" ? "en" : flagEl.id === "flag-fr" ? "fr" : flagEl.id === "flag-ar" ? "ar" : "");
-          const lang = normalizeLang(attrLang);
-          setLang(lang);
-        }
-      },
-      true
-    );
+      if (flagEl) {
+        e.preventDefault(); e.stopPropagation();
+        const attrLang =
+          flagEl.dataset?.lang ||
+          (flagEl.id === "flag-en" ? "en" : flagEl.id === "flag-fr" ? "fr" : flagEl.id === "flag-ar" ? "ar" : "");
+        setLang(attrLang);
+      }
+    }, true);
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") drawer?.classList.remove("open");
     });
   }
 
-  /* ---------- Page transitions (View Transitions + fallback) ---------- */
+  /* Page transitions (View Transitions + fallback) */
   function bindPageTransitions() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -217,8 +200,7 @@
       const sameTab = a.target !== "_blank" && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
       if (!sameOrigin || !sameTab) return;
 
-      // ✅ Assure la conservation de la langue lors de la nav interne
-      url.searchParams.set("lang", CURRENT);
+      url.searchParams.set("lang", CURRENT); // conserve la langue
 
       e.preventDefault();
       navigating = true;
@@ -241,18 +223,14 @@
         goto();
       };
       const fallbackTimer = setTimeout(goto, 1200);
-      root.addEventListener(
-        "animationend",
-        (ev) => {
-          clearTimeout(fallbackTimer);
-          onEnd(ev);
-        },
-        { once: true }
-      );
+      root.addEventListener("animationend",(ev)=>{
+        clearTimeout(fallbackTimer);
+        onEnd(ev);
+      },{ once:true });
     }, true);
   }
 
-  /* ---------- Contact form (Formspree) ---------- */
+  /* Contact form (Formspree) */
   function bindContactForm() {
     const form = document.getElementById("contact-form");
     if (!form) return;
@@ -272,8 +250,7 @@
           if (msg) msg.hidden = false;
           form.reset();
         } else {
-          let details = null;
-          try { details = await resp.json(); } catch {}
+          let details=null; try{details=await resp.json();}catch{}
           console.warn("Formspree error:", resp.status, details);
           alert("Une erreur est survenue. Merci de réessayer.");
         }
@@ -284,7 +261,7 @@
     });
   }
 
-  /* ---------- Boot ---------- */
+  /* Boot */
   function boot() {
     bindUI();
     bindPageTransitions();
@@ -292,14 +269,10 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-        boot();
-        setLang(START, false); // charge/applique la langue puis enlève preload dans finally
-      },
-      { once: true }
-    );
+    document.addEventListener("DOMContentLoaded", () => {
+      boot();
+      setLang(START, false); // applique la langue puis enlève preload (dans finally)
+    }, { once: true });
   } else {
     boot();
     setLang(START, false);
