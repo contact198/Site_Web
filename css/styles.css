@@ -1,18 +1,23 @@
-/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash Global + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX + MENU TITLE + CLICK FIX) ========= */
+/* ========= POWER LINK — HI-PERF PREMIUM (LTR/RTL + Anti-Flash Global + ViewTransitions + Full-Height + FULL WIDTH CONTACT + SYMMETRY-FIX v3 + CONTACT FORM FIX + MENU TITLE + HARD CLICK FIX) ========= */
 
 /* --- Tokens --- */
 :root{
   --green-900:#0F2A1F; --green-800:#123223; --green-700:#16402B;
   --green-600:#1D5336; --green-500:#2A6B45; --green-300:#69B779; --green-200:#BDEBC7;
   --white:#fff; --muted:#C8D6CE;
+
   --header-h:72px;
   --container-w:1180px; --gutter:22px;
   --edge-desktop:24px; --edge-mobile:16px;
+
   --mobile-optical-nudge:-3px; --burger-optical-nudge:1px;
-  --pl-page-in-dur:.58s; --pl-page-out-dur:.34s;
+
+  --pl-page-in-dur:.58s;
+  --pl-page-out-dur:.34s;
   --pl-ease:cubic-bezier(.18,.84,.24,1);
   --pl-dropY:26px;
-  --pl-block-in-dur:.48s; --pl-block-drop:10px;
+  --pl-block-in-dur:.48s;
+  --pl-block-drop:10px;
 }
 
 /* --- Reset + anti-flash (GLOBAL) --- */
@@ -33,11 +38,14 @@ html.preload{view-transition-name:none!important;}
 html.no-vt,html.no-vt *{view-transition-name:none!important;}
 *[hidden]{display:none!important;} /* sécurité */
 
-/* ===== HEADER =================================================== */
+/* (Anti-élément qui recouvre tout le site par des pseudos) */
+.page-root::before,.page-root::after{pointer-events:none!important;}
+
+/* ===== HEADER (Toujours cliquable) ============================== */
 .site-header{
   position:sticky; top:0; background:#fff;
   box-shadow:0 4px 24px rgba(0,0,0,.12);
-  z-index:4000; pointer-events:auto;
+  z-index:9999; pointer-events:auto; /* tout en haut */
 }
 .header-inner{
   max-width:100%; margin:0 auto; block-size:var(--header-h);
@@ -45,6 +53,7 @@ html.no-vt,html.no-vt *{view-transition-name:none!important;}
   display:flex; align-items:center; gap:22px; justify-content:space-between;
   position:relative; z-index:1;
 }
+.site-header *{pointer-events:auto;} /* rien ne bloque les clics dans le header */
 
 /* === LOGO ======================================================= */
 .logo,.logo a{display:inline-flex;align-items:center;}
@@ -89,7 +98,7 @@ html.no-vt,html.no-vt *{view-transition-name:none!important;}
 .hamburger span::before{position:absolute;transform:translateY(-6px)}
 .hamburger span::after{position:absolute;transform:translateY(6px)}
 
-.drawer{position:fixed;inset:0;z-index:5000;pointer-events:none;overflow:hidden;}
+.drawer{position:fixed;inset:0;z-index:10000;pointer-events:none;overflow:hidden;}
 .drawer .overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.35);
   opacity:0;transition:opacity .28s ease; pointer-events:none;
