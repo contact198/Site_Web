@@ -4,25 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Anti-flash : cache le rendu tant que la page est en preload -->
   <style>
     html.preload body { visibility: hidden; }
-    html.preload { background: #0F2A1F; } /* même couleur que ton fond pour éviter un flash blanc */
+    html.preload { background: #0F2A1F; }
   </style>
 
-  <!-- Language bootstrap — évite le flash anglais -->
   <script>
   (function () {
     var SUPPORTED = ['en','fr','ar'];
     var q = new URL(location.href).searchParams.get('lang');
     var saved = localStorage.getItem('lang');
     var L = SUPPORTED.includes(q||'') ? q : (SUPPORTED.includes(saved||'') ? saved : 'en');
-
-    // applique la langue avant rendu
     document.documentElement.setAttribute('lang', L);
     document.documentElement.setAttribute('dir', L === 'ar' ? 'rtl' : 'ltr');
-
-    // optionnel pour ton script i18n.js
     window.__PL_START_LANG__ = L;
   })();
   </script>
@@ -79,14 +73,18 @@
   </aside>
 
   <main class="page-root" id="main-content">
-    <section class="team" aria-labelledby="team-title" style="max-width:1180px;margin:0 auto;padding:2rem 1rem;">
-      <header style="text-align:center;margin-bottom:2rem;">
-        <h1 id="team-title" data-i18n="team.title" style="margin:0;">TEAM</h1>
+    <section class="team" aria-labelledby="team-title" style="max-width:1180px;margin:0 auto;padding:2.5rem 1rem;text-align:center;">
+      <header style="margin-bottom:2rem;">
+        <h1 id="team-title" data-i18n="team.title"
+            style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
+          ÉQUIPE
+        </h1>
+        <div style="width:80px;height:3px;background:var(--green-300);margin:0 auto 1.5em;border-radius:2px;"></div>
       </header>
 
-      <div class="team-members" style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:start;">
+      <div class="team-members" style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start;">
         <!-- Ryad -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.25rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
+        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
             <img src="/assets/team/ryad.jpg" alt="Ryad Mansouri" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
@@ -94,15 +92,15 @@
             Ryad Mansouri
           </h2>
           <p itemprop="jobTitle" data-i18n="team.ryad.role" style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
-            CEO / SITE MANAGER
+            PDG / Conducteur de travaux
           </p>
           <p data-i18n="team.ryad.exp" style="margin-top:.5rem;font-weight:500;color:#16402B;">
-            3 years of experience as a site manager
+            3 ans d'expérience en tant que conducteur de travaux
           </p>
         </article>
 
         <!-- Sullivan -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.25rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
+        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
             <img src="/assets/team/sullivan.jpg" alt="Sullivan Armougom" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
@@ -110,10 +108,10 @@
             Sullivan Armougom
           </h2>
           <p itemprop="jobTitle" data-i18n="team.sullivan.role" style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
-            CEO / ENGINEER
+            PDG / Ingénieur
           </p>
           <p data-i18n="team.sullivan.exp" style="margin-top:.5rem;font-weight:500;color:#16402B;">
-            2 years of experience in renewable energy
+            2 ans d'expérience dans les énergies renouvelables
           </p>
         </article>
       </div>
