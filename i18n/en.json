@@ -26,8 +26,29 @@
   "team.title": "TEAM",
   "team.ryad.name": "Ryad Mansouri",
   "team.ryad.role": "CEO / SITE MANAGER",
+  "team.ryad.exp": "3 years of experience as a site manager",
   "team.sullivan.name": "Sullivan Armougom",
   "team.sullivan.role": "CEO / ENGINEER",
-"team.sullivan.exp": "2 years of experience in renewable energy",
-"team.ryad.exp": "3 years of experience as a site manager"
+  "team.sullivan.exp": "2 years of experience in renewable energy",
+
+  "services.title": "SERVICES",
+  "services.lead": "Power Link offers complete solar and charging solutions, from system design to installation and long-term maintenance. Our expert team ensures every project delivers maximum efficiency, sustainability, and return on investment.",
+  "services.blockTitle": "Our Service",
+  "services.blockText1": "We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and goals.",
+  "services.blockText2": "From initial consultation and feasibility to financing options and long-term care, we deliver end-to-end value.",
+
+  "services.install.title": "Installation and Mounting",
+  "services.install.desc": "Turn-key PV installation for rooftops and ground sites with optimized yield, safety, and aesthetics.",
+
+  "services.maintenance.title": "Maintenance and Care",
+  "services.maintenance.desc": "Preventive and corrective maintenance, monitoring, and performance tuning to protect your investment.",
+
+  "services.consult.title": "Consultation and Planning",
+  "services.consult.desc": "Site audits, feasibility studies, system sizing, and permitting support for a smooth project journey.",
+
+  "services.finance.title": "Financing",
+  "services.finance.desc": "Flexible financing models (CAPEX/OPEX, PPA, leasing) to accelerate adoption and improve ROI.",
+
+  "services.ctaQuote": "Get a custom quote",
+  "services.ctaLearn": "Learn more about us"
 }
