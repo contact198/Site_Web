@@ -1,60 +1,117 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power Link</title><link rel="stylesheet" href="/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="contact.title">Contact Us</title>
+  <link rel="stylesheet" href="/css/styles.css" />
 </head>
-<body class="contact-page" class="page-enter">
-<header class="site-header">
-  <div class="header-inner">
-    <a class="logo" href="/index.html"><img src="/assets/logo.jpg" alt="Power Link"></a>
-    <nav class="nav">
-      <a href="/index.html" data-i18n="nav.home">Home</a>
-      <a href="/about.html" data-i18n="nav.about">About Us</a>
-      <a href="/services.html" data-i18n="nav.services">Services</a>
-      <a href="/team.html" data-i18n="nav.team">Team</a>
-      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
-      <div class="lang-switch">
-        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
-        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
-        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
-      </div>
-    </nav>
-    <button class="hamburger" aria-label="Open menu"><span></span></button>
-  </div>
-</header>
-<aside class="drawer" aria-hidden="true">
-  <div class="overlay"></div>
-  <div class="panel">
-    <div class="drawer-header">
-      <h3 class="drawer-title" data-i18n="nav.home">Main Menu</h3>
-      <div class="lang-switch">
-        <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
-        <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
-        <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
-      </div>
-      <button class="drawer-close" aria-label="Close menu">✕</button>
+<body class="page-enter" style="overflow-x:hidden;">
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="/index.html"><img src="/assets/logo.jpg" alt="Power Link" /></a>
+
+      <nav class="nav">
+        <a href="/index.html" data-i18n="nav.home">Home</a>
+        <a href="/about.html" data-i18n="nav.about">About Us</a>
+        <a href="/services.html" data-i18n="nav.services">Services</a>
+        <a href="/team.html" data-i18n="nav.team">Team</a>
+        <a href="/contact.html" data-i18n="nav.contact" class="active">Contact</a>
+
+        <div class="lang-switch">
+          <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+          <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+          <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
+        </div>
+      </nav>
+
+      <button class="hamburger" aria-label="Open menu"><span></span></button>
     </div>
-    <nav class="drawer-list">
-      <a href="/index.html" data-i18n="nav.home">Home</a>
-      <a href="/about.html" data-i18n="nav.about">About Us</a>
-      <a href="/services.html" data-i18n="nav.services">Services</a>
-      <a href="/team.html" data-i18n="nav.team">Team</a>
-      <a href="/contact.html" data-i18n="nav.contact">Contact</a>
-    </nav>
-  </div>
-</aside>
-<section class="hero"><h1 data-i18n="contact.title">Contact Us</h1>
-<form id="contact-form" action="https://formspree.io/f/mpwygqdv" method="POST" style="max-width:640px">
-<label for="name" data-i18n="contact.label.name">Full name</label>
-<input id="name" name="name" required data-i18n-placeholder="contact.placeholder.name" placeholder="Your name" style="width:100%;padding:14px;border-radius:14px;border:1px solid #E6ECE8;margin:6px 0 12px">
-<label for="email" data-i18n="contact.label.email">Email</label>
-<input id="email" name="email" type="email" required data-i18n-placeholder="contact.placeholder.email" placeholder="Your email" style="width:100%;padding:14px;border-radius:14px;border:1px solid #E6ECE8;margin:6px 0 12px">
-<label for="message" data-i18n="contact.label.message">Message</label>
-<textarea id="message" name="message" rows="6" required data-i18n-placeholder="contact.placeholder.message" placeholder="Your message…" style="width:100%;padding:14px;border-radius:14px;border:1px solid #E6ECE8;margin:6px 0 12px"></textarea>
-<button class="btn" data-i18n="contact.send" type="submit">Send</button>
-<p id="contact-success" hidden data-i18n="contact.success" style="margin-top:12px;color:#BDEBC7">Thanks! Your message has been sent. Our team will get back to you as soon as possible.</p>
-</form></section>
-<footer class="site-footer">© 2025 Power Link</footer>
-<script src="/js/i18n.js"></script>
-</body></html>
+  </header>
+
+  <!-- Drawer (mobile) -->
+  <aside class="drawer" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="panel">
+      <div class="drawer-header">
+        <h3 class="drawer-title" data-i18n="drawer.title">Menu</h3>
+        <div class="lang-switch">
+          <button class="lang-btn" data-lang="fr" aria-label="Français"><img src="/assets/flags/fr.svg" alt=""></button>
+          <button class="lang-btn active" data-lang="en" aria-label="English"><img src="/assets/flags/gb.svg" alt=""></button>
+          <button class="lang-btn" data-lang="ar" aria-label="العربية"><img src="/assets/flags/sa.svg" alt=""></button>
+        </div>
+        <button class="drawer-close" aria-label="Close menu">✕</button>
+      </div>
+
+      <nav class="drawer-list">
+        <a href="/index.html" data-i18n="nav.home">Home</a>
+        <a href="/about.html" data-i18n="nav.about">About Us</a>
+        <a href="/services.html" data-i18n="nav.services">Services</a>
+        <a href="/team.html" data-i18n="nav.team">Team</a>
+        <a href="/contact.html" data-i18n="nav.contact">Contact</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Contact Section -->
+  <section class="hero" id="contact" style="text-align:center;max-width:900px;margin:0 auto;padding:60px 20px;">
+    <!-- Premium Title -->
+    <h1 data-i18n="contact.title"
+        style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
+      Contact Us
+    </h1>
+    <div style="width:80px;height:3px;background:var(--green-300);margin:0 auto 1.5em;border-radius:2px;"></div>
+
+    <!-- Form -->
+    <form id="contact-form"
+          action="https://formspree.io/f/mpwygqdv"
+          method="POST"
+          style="
+            background:#103522;
+            padding:40px 30px;
+            border-radius:18px;
+            box-shadow:0 8px 24px rgba(0,0,0,.3);
+            max-width:640px;
+            margin:0 auto;
+            text-align:left;
+          ">
+
+      <label for="name" data-i18n="contact.label.name"
+             style="font-weight:600;color:#fff;display:block;margin-bottom:6px;">Full name</label>
+      <input id="name" name="name" required
+             data-i18n-placeholder="contact.placeholder.name"
+             placeholder="Your name"
+             style="width:100%;padding:14px;border-radius:12px;border:1px solid #E6ECE8;margin:6px 0 18px;">
+
+      <label for="email" data-i18n="contact.label.email"
+             style="font-weight:600;color:#fff;display:block;margin-bottom:6px;">Email</label>
+      <input id="email" name="email" type="email" required
+             data-i18n-placeholder="contact.placeholder.email"
+             placeholder="Your email"
+             style="width:100%;padding:14px;border-radius:12px;border:1px solid #E6ECE8;margin:6px 0 18px;">
+
+      <label for="message" data-i18n="contact.label.message"
+             style="font-weight:600;color:#fff;display:block;margin-bottom:6px;">Message</label>
+      <textarea id="message" name="message" rows="6" required
+                data-i18n-placeholder="contact.placeholder.message"
+                placeholder="Your message…"
+                style="width:100%;padding:14px;border-radius:12px;border:1px solid #E6ECE8;margin:6px 0 24px;"></textarea>
+
+      <button class="btn" data-i18n="contact.send" type="submit"
+              style="width:100%;font-weight:600;letter-spacing:0.4px;">
+        Send
+      </button>
+
+      <p id="contact-success" hidden data-i18n="contact.success"
+         style="margin-top:16px;color:#BDEBC7;text-align:center;">
+        Thanks! Your message has been sent. Our team will get back to you as soon as possible.
+      </p>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">© 2025 Power Link</footer>
+  <script src="/js/i18n.js"></script>
+</body>
+</html>
