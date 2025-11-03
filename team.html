@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Anti-flash -->
   <style>
     html.preload body { visibility: hidden; }
-    html.preload { background: #0F2A1F; }
+    html.preload { background:#0F2A1F; }
   </style>
 
+  <!-- Bootstrap langue (comme ailleurs) -->
   <script>
   (function () {
     var SUPPORTED = ['en','fr','ar'];
@@ -27,6 +29,7 @@
 </head>
 
 <body class="page-enter">
+  <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
       <a class="logo" href="/index.html"><img src="/assets/logo.jpg" alt="Power Link"></a>
@@ -49,6 +52,7 @@
     </div>
   </header>
 
+  <!-- Drawer -->
   <aside class="drawer" aria-hidden="true">
     <div class="overlay"></div>
     <div class="panel">
@@ -72,26 +76,35 @@
     </div>
   </aside>
 
+  <!-- Contenu -->
   <main class="page-root" id="main-content">
-    <section class="team" aria-labelledby="team-title" style="max-width:1180px;margin:0 auto;padding:2.5rem 1rem;text-align:center;">
+    <!-- Même gabarit que SERVICES : largeur, espacement, soulignement -->
+    <section class="team" aria-labelledby="team-title"
+             style="max-width:1400px;margin:0 auto;padding:40px 24px 32px;text-align:center;">
       <header style="margin-bottom:2rem;">
         <h1 id="team-title" data-i18n="team.title"
-            style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
+            style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:.02em;margin-bottom:.3em;">
           ÉQUIPE
         </h1>
         <div style="width:80px;height:3px;background:var(--green-300);margin:0 auto 1.5em;border-radius:2px;"></div>
       </header>
 
-      <div class="team-members" style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start;">
+      <!-- Cartes membres (largeur alignée avec Services) -->
+      <div class="team-members"
+           style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));align-items:start;">
         <!-- Ryad -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
+        <article class="member-card" itemscope itemtype="https://schema.org/Person"
+                 style="background:#fff;border-radius:16px;padding:1.75rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
-            <img src="/assets/team/ryad.jpg" alt="Ryad Mansouri" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
+            <img src="/assets/team/ryad.jpg" alt="Ryad Mansouri" loading="lazy" itemprop="image"
+                 style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
-          <h2 itemprop="name" data-i18n="team.ryad.name" style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
+          <h2 itemprop="name" data-i18n="team.ryad.name"
+              style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
             Ryad Mansouri
           </h2>
-          <p itemprop="jobTitle" data-i18n="team.ryad.role" style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
+          <p itemprop="jobTitle" data-i18n="team.ryad.role"
+             style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
             PDG / Conducteur de travaux
           </p>
           <p data-i18n="team.ryad.exp" style="margin-top:.5rem;font-weight:500;color:#16402B;">
@@ -100,14 +113,18 @@
         </article>
 
         <!-- Sullivan -->
-        <article class="member-card" itemscope itemtype="https://schema.org/Person" style="background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
+        <article class="member-card" itemscope itemtype="https://schema.org/Person"
+                 style="background:#fff;border-radius:16px;padding:1.75rem;box-shadow:0 8px 24px rgba(0,0,0,.08);text-align:center;">
           <figure style="margin:0;">
-            <img src="/assets/team/sullivan.jpg" alt="Sullivan Armougom" loading="lazy" itemprop="image" style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
+            <img src="/assets/team/sullivan.jpg" alt="Sullivan Armougom" loading="lazy" itemprop="image"
+                 style="width:200px;height:200px;object-fit:cover;border-radius:50%;display:inline-block;">
           </figure>
-          <h2 itemprop="name" data-i18n="team.sullivan.name" style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
+          <h2 itemprop="name" data-i18n="team.sullivan.name"
+              style="margin:1rem 0 .25rem;font-size:1.5rem;line-height:1.2;font-weight:800;color:#16402B;">
             Sullivan Armougom
           </h2>
-          <p itemprop="jobTitle" data-i18n="team.sullivan.role" style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
+          <p itemprop="jobTitle" data-i18n="team.sullivan.role"
+             style="margin:0;font-weight:700;letter-spacing:.5px;color:#16402B;">
             PDG / Ingénieur
           </p>
           <p data-i18n="team.sullivan.exp" style="margin-top:.5rem;font-weight:500;color:#16402B;">
