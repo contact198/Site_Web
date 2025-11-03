@@ -26,8 +26,29 @@
   "team.title": "ÉQUIPE",
   "team.ryad.name": "Ryad Mansouri",
   "team.ryad.role": "PDG / Conducteur de travaux",
+  "team.ryad.exp": "3 ans d'expérience en tant que conducteur de travaux",
   "team.sullivan.name": "Sullivan Armougom",
   "team.sullivan.role": "PDG / Ingénieur",
   "team.sullivan.exp": "2 ans d'expérience dans les énergies renouvelables",
-"team.ryad.exp": "3 ans d'expérience en tant que conducteur de travaux"
+
+  "services.title": "SERVICES",
+  "services.lead": "Power Link propose des solutions complètes solaires et de recharge, du design système à l’installation et à la maintenance de long terme. Notre équipe d’experts garantit, pour chaque projet, performance, durabilité et retour sur investissement.",
+  "services.blockTitle": "Nos services",
+  "services.blockText1": "Nous concevons, installons et maintenons des systèmes photovoltaïques et des infrastructures de recharge pour véhicules électriques adaptés à votre site et vos besoins.",
+  "services.blockText2": "De la consultation initiale et des études de faisabilité aux options de financement et au suivi long terme, nous apportons une solution complète et durable.",
+
+  "services.install.title": "Installation et montage",
+  "services.install.desc": "Installation clé en main de systèmes photovoltaïques sur toitures ou au sol, avec un rendement, une sécurité et une esthétique optimisés.",
+
+  "services.maintenance.title": "Maintenance et entretien",
+  "services.maintenance.desc": "Maintenance préventive et corrective, supervision et optimisation des performances pour garantir la pérennité de vos installations.",
+
+  "services.consult.title": "Conseil et planification",
+  "services.consult.desc": "Audits de site, études de faisabilité, dimensionnement et accompagnement administratif pour un projet fluide et conforme.",
+
+  "services.finance.title": "Financement",
+  "services.finance.desc": "Modèles de financement flexibles (CAPEX/OPEX, PPA, leasing) pour accélérer l’adoption et améliorer votre retour sur investissement.",
+
+  "services.ctaQuote": "Demander un devis personnalisé",
+  "services.ctaLearn": "En savoir plus sur nous"
 }
