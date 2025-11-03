@@ -6,7 +6,7 @@
   <title data-i18n="services.title">Services</title>
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
-<body class="page-enter">
+<body class="page-enter" style="overflow-x:hidden;">
   <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
@@ -54,7 +54,7 @@
   </aside>
 
   <!-- Hero / Services -->
-  <section class="hero" id="services" style="text-align:center;max-width:1400px;margin:0 auto;padding-top:40px;">
+  <section class="hero" id="services" style="text-align:center;max-width:1400px;margin:0 auto;padding-top:40px;padding-left:16px;padding-right:16px;">
     <h1 data-i18n="services.title"
         style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
       SERVICES
@@ -77,20 +77,21 @@
       </p>
     </div>
 
-    <!-- 4 cartes -->
+    <!-- Responsive cards: 4 → 2 → 1 (sans CSS externe) -->
     <section id="catalog" aria-label="Services catalog"
       style="
-        margin-top:50px;
+        margin-top:40px;
         display:flex;
         justify-content:center;
         align-items:stretch;
-        gap:32px;
-        flex-wrap:nowrap;
+        gap:24px;
+        flex-wrap:wrap;              /* ✅ permet le retour à la ligne sur mobile */
         max-width:1400px;
         margin-inline:auto;
       ">
 
-      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:300px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <!-- Chaque carte utilise width:clamp() pour s’adapter -->
+      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:clamp(260px, 45vw, 320px);display:flex;flex-direction:column;align-items:center;text-align:center;">
         <img src="/assets/services/installation.jpg" alt="Installation and Mounting"
              style="width:100%;height:180px;object-fit:cover;display:block;">
         <div style="padding:20px 18px 22px;">
@@ -101,7 +102,7 @@
         </div>
       </article>
 
-      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:300px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:clamp(260px, 45vw, 320px);display:flex;flex-direction:column;align-items:center;text-align:center;">
         <img src="/assets/services/maintenance.jpg" alt="Maintenance and Care"
              style="width:100%;height:180px;object-fit:cover;display:block;">
         <div style="padding:20px 18px 22px;">
@@ -112,7 +113,7 @@
         </div>
       </article>
 
-      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:300px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:clamp(260px, 45vw, 320px);display:flex;flex-direction:column;align-items:center;text-align:center;">
         <img src="/assets/services/consulting.jpg" alt="Consultation and Planning"
              style="width:100%;height:180px;object-fit:cover;display:block;">
         <div style="padding:20px 18px 22px;">
@@ -123,20 +124,20 @@
         </div>
       </article>
 
-      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:300px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <article style="background:#103522;border-radius:18px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35);width:clamp(260px, 45vw, 320px);display:flex;flex-direction:column;align-items:center;text-align:center;">
         <img src="/assets/services/financing.jpg" alt="Financing"
              style="width:100%;height:180px;object-fit:cover;display:block;">
         <div style="padding:20px 18px 22px;">
           <h3 data-i18n="services.finance.title" style="margin:0;font-size:21px;">Financing</h3>
           <p data-i18n="services.finance.desc" style="margin:8px 0 0;color:#CFE3D6;font-size:15px;line-height:1.5;">
-            Flexible financing models (CAPEX/OPEX, PPA, leasing) to accelerate adoption and improve ROI.
+            Flexible financing models to accelerate adoption and improve ROI.
           </p>
         </div>
       </article>
     </section>
 
     <!-- Boutons -->
-    <div style="margin-top:44px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <div style="margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
       <a class="btn" href="/contact.html" data-i18n="services.ctaQuote">Get a custom quote</a>
       <a class="btn" href="/about.html" data-i18n="services.ctaLearn">Learn more about us</a>
     </div>
