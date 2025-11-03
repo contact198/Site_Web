@@ -47,8 +47,7 @@
   "services.consult.desc": "Audits de site, études de faisabilité, dimensionnement et accompagnement administratif pour un projet fluide et conforme.",
 
   "services.finance.title": "Financement",
-  "services.finance.desc": "Modèles de financement flexibles (CAPEX/OPEX, PPA, leasing) pour accélérer l’adoption et améliorer votre retour sur investissement.",
-
+  "services.finance.desc": "Modèles de financement flexibles pour accélérer l’adoption et améliorer votre retour sur investissement.",
   "services.ctaQuote": "Demander un devis personnalisé",
   "services.ctaLearn": "En savoir plus sur nous"
 }
