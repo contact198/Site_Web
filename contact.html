@@ -57,14 +57,14 @@
   <!-- Contact Section -->
   <section class="hero" id="contact"
            style="text-align:center;width:100%;max-width:1400px;margin:0 auto;padding-top:40px;padding-left:24px;padding-right:24px;">
-    <!-- Titre identique à SERVICES -->
+    <!-- Title -->
     <h1 data-i18n="contact.title"
         style="text-transform:uppercase;font-size:2.5rem;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
       CONTACT US
     </h1>
     <div style="width:80px;height:3px;background:var(--green-300);margin:0 auto 2.2em;border-radius:2px;"></div>
 
-    <!-- Bloc formulaire étendu -->
+    <!-- Form -->
     <div style="
       display:flex;
       justify-content:center;
@@ -110,16 +110,21 @@
           Send
         </button>
 
-        <p id="contact-success" hidden data-i18n="contact.success"
-            style="margin-top:16px;color:#BDEBC7;text-align:center;">
-          Thanks! Your message has been sent. Our team will get back to you as soon as possible.
-        </p>
+        <!-- Centrage parfait du message -->
+        <div style="text-align:center;display:flex;justify-content:center;">
+          <p id="contact-success" hidden data-i18n="contact.success"
+             style="margin-top:18px;color:#BDEBC7;text-align:center;max-width:800px;line-height:1.6;">
+            Thanks! Your message has been sent. Our team will get back to you as soon as possible.
+          </p>
+        </div>
+
       </form>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="site-footer">© 2025 Power Link</footer>
+
   <script src="/js/i18n.js"></script>
 </body>
 </html>
