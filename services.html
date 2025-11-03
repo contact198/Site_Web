@@ -53,9 +53,9 @@
     </div>
   </aside>
 
-  <!-- Hero / Intro -->
-  <section class="hero" id="services">
-    <h1 data-i18n="services.title">Services</h1>
+  <!-- Hero / Services -->
+  <section class="hero" id="services" style="text-align:center;max-width:1000px;margin:0 auto;">
+    <h1 data-i18n="services.title" style="text-transform:uppercase;">SERVICES</h1>
     <p data-i18n="services.lead">
       Power Link offers complete solar and charging solutions, from system design to installation and long-term maintenance.
       Our expert team ensures every project delivers maximum efficiency, sustainability, and return on investment.
@@ -63,81 +63,65 @@
 
     <a href="#catalog" class="btn" data-i18n="services.cta">Explore our services</a>
 
-    <!-- Two-column intro (texte + image), full responsive, sans toucher au CSS global -->
-    <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:28px;margin-top:32px;align-items:start">
-      <div>
-        <h2 style="margin:0 0 10px;font-size:clamp(22px,2.6vw,32px);font-weight:800" data-i18n="services.blockTitle">
-          Our Service
-        </h2>
-        <p style="margin:0 0 10px;color:#CFE3D6" data-i18n="services.blockText1">
-          We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and goals.
-        </p>
-        <p style="margin:0 0 16px;color:#CFE3D6" data-i18n="services.blockText2">
-          From initial consultation and feasibility to financing options and long-term care, we deliver end-to-end value.
-        </p>
-      </div>
-
-      <!-- Grande image d’accroche (remplace le src par ton visuel) -->
-      <figure style="margin:0;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35)">
-        <img src="/assets/services/hero-install.jpg" alt="Rooftop solar installation" style="width:100%;height:auto;display:block">
-      </figure>
+    <div style="margin-top:48px;">
+      <h2 style="margin:0 0 10px;font-size:clamp(22px,2.6vw,32px);font-weight:800;" data-i18n="services.blockTitle">
+        Our Service
+      </h2>
+      <p style="margin:0 0 10px;color:#CFE3D6;" data-i18n="services.blockText1">
+        We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and goals.
+      </p>
+      <p style="margin:0 0 16px;color:#CFE3D6;" data-i18n="services.blockText2">
+        From initial consultation and feasibility to financing options and long-term care, we deliver end-to-end value.
+      </p>
     </div>
 
-    <!-- Grille de services -->
+    <!-- Grille centrée -->
     <section id="catalog" aria-label="Services catalog"
-      style="margin-top:34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px">
+      style="margin-top:34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;justify-items:center;text-align:left;">
 
-      <!-- Card 1 -->
-      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35)">
-        <img src="/assets/services/installation.jpg" alt="Technicians installing solar panels"
-             style="width:100%;height:auto;display:block">
-        <div style="padding:16px 16px 18px">
-          <h3 style="margin:0 0 6px;font-size:20px" data-i18n="services.install.title">Installation and Mounting</h3>
-          <p style="margin:0;color:#CFE3D6" data-i18n="services.install.desc">
+      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);max-width:260px;">
+        <img src="/assets/services/installation.jpg" alt="Installation and Mounting" style="width:100%;height:auto;display:block;">
+        <div style="padding:16px;">
+          <h3 style="margin:0 0 6px;font-size:20px;">Installation and Mounting</h3>
+          <p style="margin:0;color:#CFE3D6;">
             Turn-key PV installation for rooftops and ground sites with optimized yield, safety, and aesthetics.
           </p>
         </div>
       </article>
 
-      <!-- Card 2 -->
-      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35)">
-        <img src="/assets/services/maintenance.jpg" alt="EV chargers and wind turbines"
-             style="width:100%;height:auto;display:block">
-        <div style="padding:16px 16px 18px">
-          <h3 style="margin:0 0 6px;font-size:20px" data-i18n="services.maintenance.title">Maintenance and Care</h3>
-          <p style="margin:0;color:#CFE3D6" data-i18n="services.maintenance.desc">
+      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);max-width:260px;">
+        <img src="/assets/services/maintenance.jpg" alt="Maintenance and Care" style="width:100%;height:auto;display:block;">
+        <div style="padding:16px;">
+          <h3 style="margin:0 0 6px;font-size:20px;">Maintenance and Care</h3>
+          <p style="margin:0;color:#CFE3D6;">
             Preventive and corrective maintenance, monitoring, and performance tuning to protect your investment.
           </p>
         </div>
       </article>
 
-      <!-- Card 3 -->
-      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35)">
-        <img src="/assets/services/consulting.jpg" alt="Consultation and project planning"
-             style="width:100%;height:auto;display:block">
-        <div style="padding:16px 16px 18px">
-          <h3 style="margin:0 0 6px;font-size:20px" data-i18n="services.consult.title">Consultation and Planning</h3>
-          <p style="margin:0;color:#CFE3D6" data-i18n="services.consult.desc">
+      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);max-width:260px;">
+        <img src="/assets/services/consulting.jpg" alt="Consultation and Planning" style="width:100%;height:auto;display:block;">
+        <div style="padding:16px;">
+          <h3 style="margin:0 0 6px;font-size:20px;">Consultation and Planning</h3>
+          <p style="margin:0;color:#CFE3D6;">
             Site audits, feasibility studies, system sizing, and permitting support for a smooth project journey.
           </p>
         </div>
       </article>
 
-      <!-- Card 4 -->
-      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35)">
-        <img src="/assets/services/financing.jpg" alt="Green energy financing"
-             style="width:100%;height:auto;display:block">
-        <div style="padding:16px 16px 18px">
-          <h3 style="margin:0 0 6px;font-size:20px" data-i18n="services.finance.title">Financing</h3>
-          <p style="margin:0;color:#CFE3D6" data-i18n="services.finance.desc">
+      <article style="background:#103522;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);max-width:260px;">
+        <img src="/assets/services/financing.jpg" alt="Financing" style="width:100%;height:auto;display:block;">
+        <div style="padding:16px;">
+          <h3 style="margin:0 0 6px;font-size:20px;">Financing</h3>
+          <p style="margin:0;color:#CFE3D6;">
             Flexible financing models (CAPEX/OPEX, PPA, leasing) to accelerate adoption and improve ROI.
           </p>
         </div>
       </article>
     </section>
 
-    <!-- Bandeau d’accroche bas de page -->
-    <div style="margin-top:40px;display:flex;gap:14px;flex-wrap:wrap">
+    <!-- Boutons centrés -->
+    <div style="margin-top:40px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
       <a class="btn" href="/contact.html" data-i18n="services.ctaQuote">Get a custom quote</a>
       <a class="btn" href="/about.html" data-i18n="services.ctaLearn">Learn more about us</a>
     </div>
@@ -146,7 +130,7 @@
   <!-- Footer -->
   <footer class="site-footer">© 2025 Power Link</footer>
 
-  <!-- JS (inchangé) -->
+  <!-- JS -->
   <script src="/js/i18n.js"></script>
 </body>
 </html>
