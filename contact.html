@@ -6,27 +6,24 @@
   <title data-i18n="contact.title">Contact Us</title>
   <link rel="stylesheet" href="/css/styles.css" />
 
-  <!-- Tweaks mobile only (pas de changement sur desktop) -->
+  <!-- Responsive + uniformisation du style du titre -->
   <style>
-    /* largeur utile cohérente sur petits écrans */
     .hero { padding-left:24px; padding-right:24px; }
-    /* Mobile breakpoints */
+
+    /* --- Responsive ajustements --- */
     @media (max-width: 640px){
-      /* Titre un peu plus compact */
       .hero h1{
         font-size: 2.05rem !important;
         margin-bottom: .2em !important;
       }
       .hero .underline{ margin: 0 auto 1.25em !important; }
 
-      /* Carte du formulaire : padding et rayon plus doux */
       .contact-card{
         padding: 22px 20px !important;
         border-radius: 18px !important;
         box-shadow: 0 10px 30px rgba(0,0,0,.22) !important;
       }
 
-      /* Champs : padding raisonnable et marges harmonisées */
       .contact-input,
       .contact-textarea{
         padding: 16px !important;
@@ -35,7 +32,6 @@
       }
       .contact-textarea{ min-height: 160px !important; }
 
-      /* Bouton plein écran confortable au pouce */
       .contact-btn{
         width: 100% !important;
         padding: 14px !important;
@@ -43,7 +39,6 @@
         letter-spacing: .3px !important;
       }
 
-      /* Message de succès bien lisible mais compact */
       #contact-success{
         margin-top: 14px !important;
         font-size: .98rem !important;
@@ -105,12 +100,21 @@
   <!-- Contact Section -->
   <section class="hero" id="contact"
            style="text-align:center;width:100%;max-width:1400px;margin:0 auto;padding-top:40px;">
-    <!-- Title -->
+
+    <!-- Title identical to “SERVICES” -->
     <h1 data-i18n="contact.title"
-        style="text-transform:uppercase;font-weight:700;letter-spacing:0.02em;margin-bottom:0.3em;">
+        style="
+          text-transform:uppercase;
+          font-size:2.3rem;
+          font-weight:700;
+          letter-spacing:0.02em;
+          margin-bottom:0.3em;
+          line-height:1.1;
+        ">
       CONTACT US
     </h1>
-    <div class="underline" style="width:80px;height:3px;background:var(--green-300);margin:0 auto 2em;border-radius:2px;"></div>
+    <div class="underline"
+         style="width:80px;height:3px;background:var(--green-300);margin:0 auto 1.8em;border-radius:2px;"></div>
 
     <!-- Form -->
     <div style="display:flex;justify-content:center;align-items:flex-start;width:100%;">
