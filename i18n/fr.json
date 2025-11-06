@@ -1,17 +1,33 @@
 {
   "meta.title": "Power Link — énergie propre & élégante",
-  "meta.desc": "Systèmes photovoltaïques et bornes EV.",
+  "meta.desc": "Solutions photovoltaïques et bornes de recharge haute performance.",
 
+  "nav.menu": "Menu",
   "nav.home": "Accueil",
   "nav.about": "À propos",
   "nav.services": "Services",
   "nav.team": "Équipe",
   "nav.contact": "Contact",
 
-  "hero.title": "Power Link — une énergie propre élégante et très performante.",
-  "hero.lead": "Systèmes photovoltaïques et bornes de recharge intelligentes. Du conseil et design à l'installation et la maintenance longue durée.",
-  "cta.discover": "Découvrir Power Link",
-  "cta.quote": "Obtenir un devis",
+  "hero.title": "Power Link — une énergie propre, un design intelligent et des performances supérieures.",
+  "hero.slogan": "Énergie pure. Design intelligent.",
+  "hero.lead": "Systèmes photovoltaïques et bornes de recharge intelligentes. Du conseil et design à l’installation et la maintenance longue durée.",
+  "cta.primary": "Découvrir nos services",
+
+  "home.value.title": "Pourquoi Power Link",
+  "home.value.perf": "Rendement optimisé avec des composants fiables et un dimensionnement précis.",
+  "home.value.design": "Intégration esthétique sur toitures et façades, chemins de câbles soignés.",
+  "home.value.rel": "Suivi, maintenance et garanties solides pour une tranquillité d’esprit totale.",
+
+  "home.projects.title": "Projets réalisés",
+  "home.projects.lead": "Une sélection d’installations illustrant notre exigence en matière de performance, de sécurité et de qualité de finition.",
+  "home.projects.rooftop": "Toiture commerciale — 120 kWc",
+  "home.projects.ev": "Station de recharge — 8 points DC",
+  "home.projects.ground": "Installation au sol — 300 kWc",
+
+  "home.cta.title": "Prêt à démarrer votre projet ?",
+  "home.cta.lead": "Obtenez un devis personnalisé ou échangez avec nos ingénieurs.",
+  "home.cta.btn": "Nous contacter",
 
   "contact.title": "Contactez-nous",
   "contact.label.name": "Nom complet",
@@ -21,33 +37,33 @@
   "contact.placeholder.email": "Votre e-mail",
   "contact.placeholder.message": "Votre message…",
   "contact.send": "Envoyer",
-  "contact.success": "Merci, votre message a bien été envoyé. Nos équipes vous répondront dès que possible.",
+  "contact.success": "Merci ! Votre message a bien été envoyé. Notre équipe vous répondra dans les plus brefs délais.",
 
-  "team.title": "ÉQUIPE",
+  "team.title": "Équipe",
   "team.ryad.name": "Ryad Mansouri",
   "team.ryad.role": "PDG / Conducteur de travaux",
-  "team.ryad.exp": "3 ans d'expérience en tant que conducteur de travaux",
+  "team.ryad.exp": "3 ans d’expérience en gestion de projets photovoltaïques.",
   "team.sullivan.name": "Sullivan Armougom",
   "team.sullivan.role": "PDG / Ingénieur",
-  "team.sullivan.exp": "2 ans d'expérience dans les énergies renouvelables",
+  "team.sullivan.exp": "2 ans d’expérience dans les énergies renouvelables.",
 
-  "services.title": "SERVICES",
-  "services.lead": "Power Link propose des solutions complètes solaires et de recharge, du design système à l’installation et à la maintenance de long terme. Notre équipe d’experts garantit, pour chaque projet, performance, durabilité et retour sur investissement.",
+  "services.title": "Services",
+  "services.lead": "Power Link propose des solutions complètes pour le solaire et la recharge électrique, du design à la maintenance de long terme. Notre équipe garantit performance, durabilité et rentabilité sur chaque projet.",
   "services.blockTitle": "Nos services",
-  "services.blockText1": "Nous concevons, installons et maintenons des systèmes photovoltaïques et des infrastructures de recharge pour véhicules électriques adaptés à votre site et vos besoins.",
-  "services.blockText2": "De la consultation initiale et des études de faisabilité aux options de financement et au suivi long terme, nous apportons une solution complète et durable.",
+  "services.blockText1": "Nous concevons, installons et entretenons des systèmes photovoltaïques et des infrastructures de recharge pour véhicules électriques, adaptés à votre site et vos objectifs.",
+  "services.blockText2": "De la consultation initiale et des études de faisabilité aux options de financement et au suivi à long terme, nous offrons une solution complète et durable.",
 
   "services.install.title": "Installation et montage",
-  "services.install.desc": "Installation clé en main de systèmes photovoltaïques sur toitures ou au sol, avec un rendement, une sécurité et une esthétique optimisés.",
+  "services.install.desc": "Installation clé en main de systèmes photovoltaïques en toiture ou au sol, alliant rendement, sécurité et esthétique.",
 
   "services.maintenance.title": "Maintenance et entretien",
-  "services.maintenance.desc": "Maintenance préventive et corrective, supervision et optimisation des performances pour garantir la pérennité de vos installations.",
+  "services.maintenance.desc": "Maintenance préventive et corrective, supervision et optimisation des performances pour protéger votre investissement.",
 
   "services.consult.title": "Conseil et planification",
-  "services.consult.desc": "Audits de site, études de faisabilité, dimensionnement et accompagnement administratif pour un projet fluide et conforme.",
+  "services.consult.desc": "Audits de site, études de faisabilité, dimensionnement et accompagnement administratif pour garantir un projet fluide et conforme.",
 
   "services.finance.title": "Financement",
-  "services.finance.desc": "Modèles de financement flexibles pour accélérer l’adoption et améliorer votre retour sur investissement.",
+  "services.finance.desc": "Solutions de financement flexibles pour accélérer vos projets et maximiser votre retour sur investissement.",
   "services.ctaQuote": "Demander un devis personnalisé",
   "services.ctaLearn": "En savoir plus sur nous"
 }
