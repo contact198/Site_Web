@@ -42,28 +42,8 @@
   "team.title": "Team",
   "team.ryad.name": "Ryad Mansouri",
   "team.ryad.role": "CEO / Site Manager",
-  "team.ryad.exp": "3 years of experience as a project manager.",
+  "team.ryad.exp": "3 years of experience as a site manager.",
   "team.sullivan.name": "Sullivan Armougom",
   "team.sullivan.role": "CEO / Engineer",
-  "team.sullivan.exp": "2 years of experience in renewable energy.",
-
-  "services.title": "Services",
-  "services.lead": "Power Link provides complete solar and EV charging solutions — from design and installation to long-term maintenance. Our expert team ensures performance, sustainability, and strong ROI in every project.",
-  "services.blockTitle": "Our Services",
-  "services.blockText1": "We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and objectives.",
-  "services.blockText2": "From initial consultation and feasibility studies to financing options and long-term service, we deliver complete value from start to finish.",
-
-  "services.install.title": "Installation and Mounting",
-  "services.install.desc": "Turn-key PV installation for rooftops and ground systems with optimized performance, safety, and visual harmony.",
-
-  "services.maintenance.title": "Maintenance and Care",
-  "services.maintenance.desc": "Preventive and corrective maintenance with monitoring and performance optimization to protect your investment.",
-
-  "services.consult.title": "Consultation and Planning",
-  "services.consult.desc": "On-site audits, feasibility studies, system sizing, and permit support to ensure smooth project execution.",
-
-  "services.finance.title": "Financing",
-  "services.finance.desc": "Flexible financing options to accelerate adoption and maximize return on investment.",
-  "services.ctaQuote": "Get a custom quote",
-  "services.ctaLearn": "Learn more about us"
+  "team.sullivan.exp": "2 years of experience in renewable energy."
 }
