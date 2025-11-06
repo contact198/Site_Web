@@ -15,6 +15,9 @@
   "cta.primary": "Explore our services",
 
   "home.value.title": "Why Power Link",
+  "home.value.perfTitle": "Performance",
+  "home.value.designTitle": "Design",
+  "home.value.relTitle": "Reliability",
   "home.value.perf": "Optimized yield with bankable components and precise sizing.",
   "home.value.design": "Aesthetic integration on rooftops and façades, clean cable paths.",
   "home.value.rel": "Monitoring, maintenance and strong warranties for peace of mind.",
@@ -24,6 +27,9 @@
   "home.projects.rooftop": "Commercial rooftop — 120 kWp",
   "home.projects.ev": "EV charging hub — 8 DC points",
   "home.projects.ground": "Ground-mount — 300 kWp",
+  "home.projects.rooftop.alt": "Rooftop PV array",
+  "home.projects.ev.alt": "EV charging canopy",
+  "home.projects.ground.alt": "Ground-mounted system",
 
   "home.cta.title": "Ready to start your project?",
   "home.cta.lead": "Get a custom quote or talk to our engineers.",
