@@ -15,6 +15,9 @@
   "cta.primary": "Découvrir nos services",
 
   "home.value.title": "Pourquoi Power Link",
+  "home.value.perfTitle": "Performance",
+  "home.value.designTitle": "Design",
+  "home.value.relTitle": "Fiabilité",
   "home.value.perf": "Rendement optimisé avec des composants fiables et un dimensionnement précis.",
   "home.value.design": "Intégration esthétique sur toitures et façades, chemins de câbles soignés.",
   "home.value.rel": "Suivi, maintenance et garanties solides pour une tranquillité d’esprit totale.",
@@ -24,6 +27,9 @@
   "home.projects.rooftop": "Toiture commerciale — 120 kWc",
   "home.projects.ev": "Station de recharge — 8 points DC",
   "home.projects.ground": "Installation au sol — 300 kWc",
+  "home.projects.rooftop.alt": "Champ PV en toiture",
+  "home.projects.ev.alt": "Auvent de recharge EV",
+  "home.projects.ground.alt": "Installation au sol",
 
   "home.cta.title": "Prêt à démarrer votre projet ?",
   "home.cta.lead": "Obtenez un devis personnalisé ou échangez avec nos ingénieurs.",
