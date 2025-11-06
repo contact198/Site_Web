@@ -1,7 +1,8 @@
 {
   "meta.title": "Power Link — clean, elegant energy",
-  "meta.desc": "PV systems and smart EV charging.",
+  "meta.desc": "High-performance solar and EV charging solutions.",
 
+  "nav.menu": "Menu",
   "nav.home": "Home",
   "nav.about": "About Us",
   "nav.services": "Services",
@@ -9,9 +10,24 @@
   "nav.contact": "Contact",
 
   "hero.title": "Power Link — clean energy that looks good and performs even better.",
+  "hero.slogan": "Pure energy. Smart design.",
   "hero.lead": "Photovoltaic systems and smart EV charging. From consulting and design to installation and long-term maintenance.",
-  "cta.discover": "Discover Power Link",
-  "cta.quote": "Get a quote",
+  "cta.primary": "Explore our services",
+
+  "home.value.title": "Why Power Link",
+  "home.value.perf": "Optimized yield with bankable components and precise sizing.",
+  "home.value.design": "Aesthetic integration on rooftops and façades, clean cable paths.",
+  "home.value.rel": "Monitoring, maintenance and strong warranties for peace of mind.",
+
+  "home.projects.title": "Featured Projects",
+  "home.projects.lead": "Selected installations demonstrating our focus on performance, safety, and finish quality.",
+  "home.projects.rooftop": "Commercial rooftop — 120 kWp",
+  "home.projects.ev": "EV charging hub — 8 DC points",
+  "home.projects.ground": "Ground-mount — 300 kWp",
+
+  "home.cta.title": "Ready to start your project?",
+  "home.cta.lead": "Get a custom quote or talk to our engineers.",
+  "home.cta.btn": "Contact us",
 
   "contact.title": "Contact Us",
   "contact.label.name": "Full name",
@@ -23,31 +39,31 @@
   "contact.send": "Send",
   "contact.success": "Thanks! Your message has been sent. Our team will get back to you as soon as possible.",
 
-  "team.title": "TEAM",
+  "team.title": "Team",
   "team.ryad.name": "Ryad Mansouri",
-  "team.ryad.role": "CEO / SITE MANAGER",
-  "team.ryad.exp": "3 years of experience as a site manager",
+  "team.ryad.role": "CEO / Site Manager",
+  "team.ryad.exp": "3 years of experience as a project manager.",
   "team.sullivan.name": "Sullivan Armougom",
-  "team.sullivan.role": "CEO / ENGINEER",
-  "team.sullivan.exp": "2 years of experience in renewable energy",
+  "team.sullivan.role": "CEO / Engineer",
+  "team.sullivan.exp": "2 years of experience in renewable energy.",
 
-  "services.title": "SERVICES",
-  "services.lead": "Power Link offers complete solar and charging solutions, from system design to installation and long-term maintenance. Our expert team ensures every project delivers maximum efficiency, sustainability, and return on investment.",
-  "services.blockTitle": "Our Service",
-  "services.blockText1": "We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and goals.",
-  "services.blockText2": "From initial consultation and feasibility to financing options and long-term care, we deliver end-to-end value.",
+  "services.title": "Services",
+  "services.lead": "Power Link provides complete solar and EV charging solutions — from design and installation to long-term maintenance. Our expert team ensures performance, sustainability, and strong ROI in every project.",
+  "services.blockTitle": "Our Services",
+  "services.blockText1": "We design, install and maintain solar PV systems and EV charging infrastructure tailored to your site and objectives.",
+  "services.blockText2": "From initial consultation and feasibility studies to financing options and long-term service, we deliver complete value from start to finish.",
 
   "services.install.title": "Installation and Mounting",
-  "services.install.desc": "Turn-key PV installation for rooftops and ground sites with optimized yield, safety, and aesthetics.",
+  "services.install.desc": "Turn-key PV installation for rooftops and ground systems with optimized performance, safety, and visual harmony.",
 
   "services.maintenance.title": "Maintenance and Care",
-  "services.maintenance.desc": "Preventive and corrective maintenance, monitoring, and performance tuning to protect your investment.",
+  "services.maintenance.desc": "Preventive and corrective maintenance with monitoring and performance optimization to protect your investment.",
 
   "services.consult.title": "Consultation and Planning",
-  "services.consult.desc": "Site audits, feasibility studies, system sizing, and permitting support for a smooth project journey.",
+  "services.consult.desc": "On-site audits, feasibility studies, system sizing, and permit support to ensure smooth project execution.",
 
   "services.finance.title": "Financing",
-  "services.finance.desc": "Flexible financing models to accelerate adoption and improve ROI.",
+  "services.finance.desc": "Flexible financing options to accelerate adoption and maximize return on investment.",
   "services.ctaQuote": "Get a custom quote",
   "services.ctaLearn": "Learn more about us"
 }
