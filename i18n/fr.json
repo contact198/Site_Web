@@ -45,25 +45,5 @@
   "team.ryad.exp": "3 ans d’expérience en gestion de projets photovoltaïques.",
   "team.sullivan.name": "Sullivan Armougom",
   "team.sullivan.role": "PDG / Ingénieur",
-  "team.sullivan.exp": "2 ans d’expérience dans les énergies renouvelables.",
-
-  "services.title": "Services",
-  "services.lead": "Power Link propose des solutions complètes pour le solaire et la recharge électrique, du design à la maintenance de long terme. Notre équipe garantit performance, durabilité et rentabilité sur chaque projet.",
-  "services.blockTitle": "Nos services",
-  "services.blockText1": "Nous concevons, installons et entretenons des systèmes photovoltaïques et des infrastructures de recharge pour véhicules électriques, adaptés à votre site et vos objectifs.",
-  "services.blockText2": "De la consultation initiale et des études de faisabilité aux options de financement et au suivi à long terme, nous offrons une solution complète et durable.",
-
-  "services.install.title": "Installation et montage",
-  "services.install.desc": "Installation clé en main de systèmes photovoltaïques en toiture ou au sol, alliant rendement, sécurité et esthétique.",
-
-  "services.maintenance.title": "Maintenance et entretien",
-  "services.maintenance.desc": "Maintenance préventive et corrective, supervision et optimisation des performances pour protéger votre investissement.",
-
-  "services.consult.title": "Conseil et planification",
-  "services.consult.desc": "Audits de site, études de faisabilité, dimensionnement et accompagnement administratif pour garantir un projet fluide et conforme.",
-
-  "services.finance.title": "Financement",
-  "services.finance.desc": "Solutions de financement flexibles pour accélérer vos projets et maximiser votre retour sur investissement.",
-  "services.ctaQuote": "Demander un devis personnalisé",
-  "services.ctaLearn": "En savoir plus sur nous"
+  "team.sullivan.exp": "2 ans d’expérience dans les énergies renouvelables."
 }
